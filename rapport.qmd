@@ -2,10 +2,10 @@
 title: "Titre qui énonce la question étudiée"
 subtitle: "Projet n° X — Data Science sous R (ESME, 2026-2027)"
 author:
-  - Prénom NOM
-  - Prénom NOM
-  - Prénom NOM
-  - Prénom NOM
+  - Chris Boupassaia
+  - Bertrand De Vertreuil
+  - Améziane Haouanoh
+  - Léonie Schmit
 date: today
 date-format: "D MMMM YYYY"
 lang: fr
