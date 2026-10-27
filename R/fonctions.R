@@ -57,3 +57,4 @@ lire_boutique_commandes <- function() {
 rmse <- function(observe, predit) {
   sqrt(mean((observe - predit)^2, na.rm = TRUE))
 }
+

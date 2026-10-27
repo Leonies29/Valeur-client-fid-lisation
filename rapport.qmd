@@ -99,7 +99,8 @@ Citez la source [par exemple, @yu2024].
 
 ```{r}
 #| label: chargement
-donnees <- charger_donnees(numero_projet)
+donnees <- charger_donnees(5
+)
 dim(donnees)
 glimpse(donnees)
 ```
