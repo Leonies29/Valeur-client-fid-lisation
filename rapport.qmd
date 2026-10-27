@@ -1,6 +1,6 @@
 ---
-title: "Titre qui énonce la question étudiée"
-subtitle: "Projet n° X — Data Science sous R (ESME, 2026-2027)"
+title: "Valeur client et fidélisation"
+subtitle: "Projet n° 5 — Data Science sous R (ESME, 2026-2027)"
 author:
   - Chris Boupassaia
   - Bertrand De Vertreuil
@@ -352,10 +352,10 @@ que vous feriez avec plus de temps ou de données (par exemple : un test A/B).
 
 | Membre | Contributions principales |
 |:-------|:--------------------------|
-| Prénom NOM | à compléter |
-| Prénom NOM | à compléter |
-| Prénom NOM | à compléter |
-| Prénom NOM | à compléter |
+| Chris Boupassaia | à compléter |
+| Bertrand De Vertreuil | à compléter |
+| Améziane Haouanoh | à compléter |
+| Léonie Schmit | à compléter |
 
 ## Environnement de calcul {.unnumbered}
 

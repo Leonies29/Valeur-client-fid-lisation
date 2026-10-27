@@ -1,17 +1,48 @@
-# Données du projet
+# Modèle de rapport de projet — Data Science sous R
 
-**Projet 5 (boutique en ligne)** : placez ici les fichiers CSV de la boutique,
-téléchargeables depuis le site des notes de cours (section « Les données du
-cours ») :
+Modèles pour les deux documents écrits du projet :
 
-- `boutique_clients.csv`
-- `boutique_commandes.csv`
-- `boutique_categories.csv`
-- `boutique_campagne.csv`
+- le **rapport technique**, en Quarto (`rapport.qmd`) ;
+- le **résumé exécutif** de 2 pages, en LaTeX (`resume-executif.tex`).
 
-Les autres projets utilisent des jeux de données de packages R, chargés
-automatiquement par `charger_donnees()` (fichier `R/fonctions.R`) : rien à
-placer ici.
+## Utilisation
 
-Si vous utilisez des données complémentaires, rangez-les dans ce dossier et ne
-les modifiez jamais à la main : toute transformation se fait dans le code.
+1. Copiez tout le dossier `modele-rapport` et renommez-le (par exemple
+   `projet-groupe-3`).
+2. Ouvrez `modele-rapport.Rproj` dans RStudio : le répertoire de travail est
+   alors le dossier du projet.
+3. Installez les packages nécessaires :
+   - pour tous : `install.packages(c("tidyverse", "knitr", "rmarkdown"))` ;
+   - projet 1 : `install.packages("datarium")` ;
+   - projets 2 et 6 : `install.packages("bayesm")` ;
+   - projets 3, 4 et 7 : `install.packages("ISLR")` ;
+   - projet 5 : placer les fichiers CSV dans `donnees/` (voir
+     `donnees/README.md`) ;
+   - selon les méthodes utilisées : `FactoMineR`, `factoextra`, `rpart`,
+     `randomForest`, `pROC`, `cluster`.
+4. Ouvrez `rapport.qmd`, indiquez le numéro de votre projet dans le bloc
+   `configuration`, puis cliquez sur **Render**.
+5. Rédigez section par section, en suivant les encadrés « Consigne », puis
+   supprimez-les.
+6. Pour le résumé exécutif, exportez le graphique principal depuis R
+   (`ggsave("figures/figure-cle.pdf", width = 7, height = 3.5)`), complétez
+   `resume-executif.tex` puis compilez-le avec pdfLaTeX : bouton
+   **Compile PDF** de RStudio, Overleaf, ou `pdflatex resume-executif.tex`. 
+
+## Contenu
+
+| Fichier | Rôle |
+|:--------|:-----|
+| `rapport.qmd` | le rapport (texte, code et résultats) |
+| `R/fonctions.R` | fonctions du projet ; `charger_donnees()` charge les données de chaque sujet |
+| `references.bib` | références bibliographiques citées dans le rapport |
+| `resume-executif.tex` | résumé exécutif (LaTeX, 2 pages au maximum) |
+| `figures/` | graphiques exportés pour le résumé exécutif |
+| `donnees/` | fichiers de données éventuels (projet 5) |
+
+## À rendre
+
+Le code, le fichier `rapport.html` produit (autonome, images comprises) et le fichier
+`rapport.qmd`, ainsi que le résumé exécutif en PDF
+(`resume-executif.pdf`). Le rapport doit se produire sans erreur, de bout en bout, sur un
+autre ordinateur.
