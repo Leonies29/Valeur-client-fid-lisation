@@ -53,7 +53,7 @@ bibliography: references.bib
 #| include: false
 
 # Numéro du projet (1 à 7, voir le document des projets)
-numero_projet <- 4
+numero_projet <- 5
 
 library(tidyverse)
 library(knitr)
@@ -75,96 +75,246 @@ Rédigez cette partie en dernier.
 
 # Contexte et question
 
-::: {.callout-note}
-## Consigne
+Une boutique en ligne généraliste vend des produits de six catégories : mode,
+maison, beauté, high-tech, sport et jardin. Comme beaucoup d'acteurs du commerce
+en ligne, elle fait face à deux difficultés. D'une part, une partie de ses
+clients cesse d'acheter sans prévenir : l'attrition n'est jamais déclarée, on
+la constate seulement par l'absence de nouvelles commandes. D'autre part, ses
+actions de fidélisation (remises, relances par e-mail, offres promotionnelles)
+sont envoyées largement, alors qu'elles ont un coût et que tous les clients ne
+rapportent pas autant. Les taux de marge vont en effet de 18 % pour le
+high-tech à 60 % pour la beauté : à chiffre d'affaires égal, deux clients
+peuvent avoir une valeur très différente pour l'entreprise.
 
-- Présentez la situation et le **problème marketing**.
-- Formulez une **question précise**, à laquelle les données peuvent répondre.
-- Indiquez la **décision** que l'analyse doit éclairer et le **critère de
-  succès** (par exemple : « prédire la souscription mieux que le ciblage
-  actuel », « classer les leviers de satisfaction »).
-:::
+L'équipe marketing souhaite donc mieux cibler ses efforts de rétention : agir
+en priorité sur les clients qui risquent de partir et qui ont une forte
+valeur, plutôt que sur l'ensemble de la base.
+
+**Question.** À partir du comportement d'achat observé de janvier à septembre
+2025, peut-on prédire quels clients ne repasseront pas commande au dernier
+trimestre 2025 ? Et parmi eux, quels clients combinent une forte marge et un
+fort risque de départ ?
+
+**Décision éclairée.** Choisir les clients à cibler en priorité par une
+campagne de rétention et, grâce au test A/B mené par la boutique, la version de
+message à leur adresser.
+
+**Critère de succès.** Le modèle retenu doit prédire l'attrition mieux que
+deux références : la prédiction de la classe majoritaire, et une règle métier
+simple (« client sans achat depuis plus de 90 jours »). La performance est
+mesurée par l'AUC et la sensibilité sur un jeu de test non utilisé pour
+l'apprentissage.
+
+**Définition de l'attrition.** Les données ne contiennent pas de variable
+d'attrition : nous la construisons. L'année 2025 est découpée en deux périodes.
+
+- *Période d'observation* (1^er^ janvier – 30 septembre 2025) : on y calcule
+  les indicateurs de comportement de chaque client (récence, fréquence,
+  montant, marge, usage des promotions...).
+- *Période cible* (1^er^ octobre – 31 décembre 2025) : un client actif sur la
+  période d'observation est dit en attrition s'il n'y passe aucune
+  commande.
+
+Ce découpage garantit que les variables explicatives sont toutes antérieures à
+la période où l'on mesure le résultat, comme ce serait le cas en situation
+réelle de prévision.
 
 # Données
 
 ## Origine et contenu
 
-::: {.callout-note}
-## Consigne
-
-D'où viennent les données ? Qui les a collectées, comment, quand, dans quel
-but ? Que représente une ligne ? Les données sont-elles réelles ou simulées ?
-Citez la source [par exemple, @yu2024].
-:::
-
 ```{r}
 #| label: chargement
-donnees <- charger_donnees(5
-)
-dim(donnees)
-glimpse(donnees)
+donnees    <- charger_donnees(5)
+clients    <- lire_boutique("clients") |>
+  mutate(date_inscription = as.Date(date_inscription))
+categories <- lire_boutique("categories")
+campagne   <- lire_boutique("campagne")
+```
+
+```{r}
+#| label: chiffres-donnees
+#| include: false
+n_clients      <- nrow(clients)
+n_commandes    <- nrow(donnees)
+n_acheteurs    <- n_distinct(donnees$client_id)
+n_campagne     <- nrow(campagne)
+date_min       <- format(min(donnees$date), "%d/%m/%Y")
+date_max       <- format(max(donnees$date), "%d/%m/%Y")
+inscr_min      <- format(min(clients$date_inscription), "%Y")
+inscr_max      <- format(max(clients$date_inscription), "%Y")
+ca_total       <- round(sum(donnees$montant))
+panier_median  <- round(median(donnees$montant), 2)
+```
+
+Les données décrivent la base clients et l'historique de commandes d'une
+boutique en ligne fictive. Elles sont simulées et ont été fournies dans le
+cadre du cours, au chapitre 3 (« Manipulation des données avec R »), sous la
+forme de quatre fichiers CSV (dossier `donnees/`). Nos conclusions illustrent
+donc une démarche d'analyse plutôt qu'elles ne décrivent une entreprise réelle.
+
+Les quatre tables sont reliées par l'identifiant client (`client_id`) et par
+la catégorie de produits :
+
+- **clients** : `r n_clients` clients, une ligne par client, avec leurs
+  caractéristiques (âge, région, canal d'acquisition, date d'inscription entre
+  `r inscr_min` et `r inscr_max`, abonnement à la newsletter) ;
+- **commandes** : `r n_commandes` commandes passées entre le `r date_min` et le
+  `r date_max`, une ligne par commande (date, catégorie, nombre d'articles,
+  usage d'une promotion, montant). Elles ont été passées par `r n_acheteurs`
+  clients différents, pour un chiffre d'affaires total de `r ca_total` € et un
+  panier médian de `r panier_median` € ;
+- **categories** : les six catégories de produits, avec leur taux de marge et
+  leur univers (Personne, Habitat, Technologie, Loisirs) ;
+- **campagne** : `r n_campagne` clients ayant reçu une campagne d'e-mailing
+  testée en deux versions (test A/B), avec les étapes de l'entonnoir :
+  ouverture, clic, achat.
+
+La table de travail fournie par `charger_donnees()` réunit commandes et
+clients : une ligne y représente une commande. Pour répondre à la
+question, nous construirons ensuite une table où une ligne représente un
+client (section « Préparation des données »).
+
+```{r}
+#| label: tbl-tables
+#| tbl-cap: "Dimensions des tables"
+tibble(
+  Table = c("commandes + clients (charger_donnees)", "clients",
+            "categories", "campagne"),
+  `Une ligne =` = c("une commande", "un client", "une catégorie",
+                    "un client ciblé par la campagne"),
+  Lignes = c(nrow(donnees), nrow(clients), nrow(categories), nrow(campagne)),
+  Colonnes = c(ncol(donnees), ncol(clients), ncol(categories), ncol(campagne))
+) |> kable()
 ```
 
 ## Dictionnaire des variables
 
-::: {.callout-note}
-## Consigne
-
-Complétez la colonne *Description* : signification de chaque variable, unité,
-modalités. Pour un jeu de données très large, ne détaillez que les variables
-utilisées et décrivez les autres par groupes.
-:::
-
 ```{r}
 #| label: tbl-dictionnaire
-#| tbl-cap: "Variables du jeu de données"
-tibble(
-  Variable = names(donnees),
-  Type = map_chr(donnees, \(x) class(x)[1]),
-  Description = "À compléter"
-) |>
-  head(25) |>
-  kable()
+#| tbl-cap: "Variables des quatre tables"
+tribble(
+  ~Table, ~Variable, ~Type, ~Description,
+  "clients", "client_id", "texte", "Identifiant du client (C0001 à C2000), clé de jointure",
+  "clients", "age", "entier", "Âge en années ; valeurs manquantes ; minimum à 18 ans",
+  "clients", "region", "qualitative", "Région de résidence (7 régions et « Autres régions »)",
+  "clients", "canal_acquisition", "qualitative", "Canal par lequel le client est arrivé : Direct, Email, Moteur de recherche, Réseaux sociaux, Affiliation",
+  "clients", "date_inscription", "date", "Date de création du compte",
+  "clients", "newsletter", "qualitative", "Abonnement à la newsletter (Oui / Non)",
+  "commandes", "commande_id", "texte", "Identifiant de la commande",
+  "commandes", "date", "date", "Date de la commande (année 2025)",
+  "commandes", "categorie", "qualitative", "Catégorie de produits : Mode, Maison, Beauté, High-tech, Sport, Jardin",
+  "commandes", "nb_articles", "entier", "Nombre d'articles dans la commande",
+  "commandes", "promo", "logique", "Commande passée avec une promotion",
+  "commandes", "montant", "numérique", "Montant de la commande, en euros",
+  "categories", "taux_marge", "numérique", "Part du montant conservée en marge (0,18 à 0,60)",
+  "categories", "univers", "qualitative", "Regroupement des catégories : Personne, Habitat, Technologie, Loisirs",
+  "campagne", "version", "qualitative", "Version du message reçue (A ou B)",
+  "campagne", "ouvert", "logique", "Le client a ouvert l'e-mail",
+  "campagne", "clic", "logique", "Le client a cliqué sur un lien de l'e-mail",
+  "campagne", "achat", "logique", "Le client a acheté à la suite de l'e-mail"
+) |> kable()
+```
+
+```{r}
+#| label: tbl-categories
+#| tbl-cap: "Catégories de produits et taux de marge"
+categories |>
+  arrange(desc(taux_marge)) |>
+  mutate(taux_marge = scales::percent(taux_marge)) |>
+  kable(col.names = c("Catégorie", "Taux de marge", "Univers"))
 ```
 
 ## Qualité des données
 
-::: {.callout-note}
-## Consigne
-
-Valeurs manquantes, doublons, valeurs aberrantes ou incohérentes,
-représentativité. Pour chaque problème : comment le traitez-vous, et
-pourquoi ?
-:::
-
 ```{r}
-#| label: tbl-qualite
-#| tbl-cap: "Valeurs manquantes par variable (variables concernées uniquement)"
-manquants <- tibble(
-  Variable = names(donnees),
-  `Valeurs manquantes` = colSums(is.na(donnees)),
-  `Part (%)` = round(100 * colMeans(is.na(donnees)), 1)
-) |>
-  filter(`Valeurs manquantes` > 0)
-
-if (nrow(manquants) == 0) {
-  tibble(Résultat = "Aucune valeur manquante") |> kable()
-} else {
-  kable(manquants)
-}
+#| label: tbl-controles
+#| tbl-cap: "Contrôles de qualité et de cohérence"
+controles <- tibble(
+  Contrôle = c("Âges manquants (clients)",
+               "Âges égaux à 18 ans (clients)",
+               "Commandes en double (identifiant)",
+               "Commandes sans client connu",
+               "Commandes antérieures à l'inscription",
+               "Clients sans aucune commande en 2025",
+               "Incohérences de l'entonnoir (campagne)"),
+  Nombre = c(sum(is.na(clients$age)),
+             sum(clients$age == 18, na.rm = TRUE),
+             sum(duplicated(donnees$commande_id)),
+             sum(is.na(donnees$region)),
+             sum(donnees$date < donnees$date_inscription, na.rm = TRUE),
+             sum(!clients$client_id %in% donnees$client_id),
+             sum((campagne$clic & !campagne$ouvert) |
+                 (campagne$achat & !campagne$clic)))
+)
+kable(controles)
 ```
 
-Nombre de lignes en double : `r sum(duplicated(donnees))`.
+```{r}
+#| label: fig-montants
+#| fig-cap: "Les montants sont asymétriques, avec quelques commandes élevées, surtout en maison et high-tech"
+ggplot(donnees, aes(x = reorder(categorie, montant, median), y = montant)) +
+  geom_boxplot(fill = "steelblue", alpha = 0.4) +
+  labs(x = NULL, y = "Montant de la commande (€)")
+```
+
+Les contrôles du @tbl-controles appellent les traitements suivants.
+
+- **Âges manquants** (`r controles$Nombre[1]` clients). Supprimer ces clients
+  réduirait l'échantillon pour une seule variable. Nous les conservons :
+  l'âge manquant est remplacé par la médiane et un indicateur `age_manquant`
+  est ajouté, pour que le modèle puisse détecter un éventuel comportement
+  propre à ces clients. L'effet de ce choix est testé en section
+  « Évaluation ».
+- **Accumulation à 18 ans** (`r controles$Nombre[2]` clients). Elle suggère un
+  plancher de saisie (âge minimum requis à l'inscription) plutôt que des
+  clients ayant tous exactement 18 ans. Nous gardons la variable, mais
+  l'interprétons avec prudence pour les plus jeunes.
+- **Clients sans commande en 2025** (`r controles$Nombre[6]` clients). Ils
+  n'ont aucun comportement d'achat à analyser ; une partie s'est d'ailleurs
+  inscrite en fin d'année. Ils sont exclus de l'étude de l'attrition, qui
+  porte par définition sur les clients actifs pendant la période
+  d'observation.
+- **Montants élevés** (@fig-montants). Les commandes les plus chères restent
+  plausibles pour un panier de plusieurs articles en maison ou high-tech. Il
+  s'agit de valeurs extrêmes, pas d'erreurs : nous les conservons, car ce sont
+  justement elles qui distinguent les clients à forte valeur.
+- [À COMPLÉTER selon le résultat : doublons, commandes sans client, commandes
+  antérieures à l'inscription et incohérences de l'entonnoir. Si un nombre est
+  nul, l'indiquer en une phrase ; sinon, décrire le traitement retenu.]
+
+**Représentativité.** Les commandes couvrent une seule année (2025). Une
+saisonnalité forte, par exemple les achats de fin d'année, peut influencer la
+période cible (octobre à décembre). La table `campagne` ne porte que sur une
+partie des clients et n'est pas datée : on ne peut pas la situer par rapport
+aux périodes d'observation et cible. Enfin, la campagne compte peu d'achats,
+ce qui limite la précision de la comparaison entre les versions A et B.
 
 ## Éthique et cadre légal
 
-::: {.callout-note}
-## Consigne
+Les données décrivent des personnes physiques : ce sont des données
+personnelles au sens du RGPD. Elles sont pseudonymisées (un identifiant
+remplace le nom et l'adresse), mais pas anonymes : l'âge, la région et la date
+d'inscription, combinés à l'historique d'achats, pourraient permettre de
+réidentifier un client si la table était croisée avec d'autres sources.
 
-Les données décrivent-elles des personnes ? Sont-elles identifiantes ? Un
-usage de vos résultats pourrait-il être discriminatoire ou intrusif
-(ciblage, prix, exclusion) ? Quelles précautions proposez-vous ?
-:::
+Les usages possibles de nos résultats posent plusieurs questions.
+
+- **Ciblage et traitement différencié.** Réserver des remises aux clients
+  jugés « précieux » revient à proposer des prix différents selon le profil.
+  C'est légal en France si les critères sont commerciaux (historique d'achat),
+  mais l'âge ou la région ne doivent pas devenir des critères d'exclusion.
+- **Prospection par e-mail.** Une campagne de rétention par e-mail suppose le
+  consentement des clients (variable `newsletter`) ou un lien commercial
+  existant, avec une possibilité simple de désinscription.
+- **Profilage automatisé.** Un score d'attrition est un profilage. Il doit
+  servir à orienter des offres, pas à fonder seul une décision défavorable
+  pour un client.
+
+Précautions retenues : nous n'utilisons que des variables nécessaires à la
+question (minimisation) ; nous vérifions que les recommandations ne reposent
+pas principalement sur l'âge ou la région ; les résultats sont présentés de
+façon agrégée, par segments, et jamais par client nominatif.
 
 # Préparation des données
 
