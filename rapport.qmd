@@ -580,7 +580,7 @@ que vous feriez avec plus de temps ou de données (par exemple : un test A/B).
 
 | Membre | Contributions principales |
 |:-------|:--------------------------|
-| Chris Boupassaia | à compléter |
+| Chris Boupassia | à compléter |
 | Bertrand De Vertreuil | à compléter |
 | Améziane Haouanoh | à compléter |
 | Léonie Schmit | à compléter |
