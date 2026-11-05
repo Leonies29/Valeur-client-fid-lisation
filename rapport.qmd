@@ -168,79 +168,306 @@ usage de vos résultats pourrait-il être discriminatoire ou intrusif
 
 # Préparation des données
 
-::: {.callout-note}
-## Consigne
-
-Décrivez et justifiez chaque transformation : recodages, variables créées,
-traitement des valeurs manquantes, filtres. Ces choix peuvent influencer les
-résultats : notez-les pour en tester l'effet (section « Évaluation »).
-:::
+Les données arrivent au niveau de la commande, alors que les questions portent sur le client. La préparation consiste à construire une table d'analyse comptant une ligne par client, à partir des quatre fichiers de la boutique.
 
 ```{r}
-#| label: preparation
-donnees_propres <- donnees
-# Exemple : donnees_propres <- donnees |> mutate(...) |> filter(...)
+#| label: preparation-chargement
+clients    <- lire_boutique("clients") |>
+  mutate(date_inscription = as.Date(date_inscription))
+categories <- lire_boutique("categories")
+campagne   <- lire_boutique("campagne")
+commandes  <- lire_boutique("commandes") |>
+  mutate(date = as.Date(date))
+
+date_reference <- as.Date("2025-12-31")   # fin de la période observée
+fr <- function(x, d = 2) format(round(x, d), decimal.mark = ",")  # nombres au format français
 ```
 
-**Découpage entraînement / test.** Pour un objectif de prédiction, réservez
-un jeu de test **avant** toute exploration, avec un découpage adapté
-(aléatoire, temporel ou par groupes).
+## Marge de chaque commande
+
+Le chiffre d'affaires ne mesure pas ce qu'un client rapporte : une commande High-tech de 100 € dégage `r 100 * categories$taux_marge[categories$categorie == "High-tech"]` € de marge, une commande Beauté du même montant en dégage `r 100 * categories$taux_marge[categories$categorie == "Beauté"]` €. Chaque commande est donc reliée au taux de marge de sa catégorie.
+
+```{r}
+#| label: preparation-marge
+commandes <- commandes |>
+  left_join(categories, by = "categorie") |>
+  mutate(marge = montant * taux_marge)
+
+stopifnot(!anyNA(commandes$taux_marge))   # toutes les catégories ont un taux
+```
+
+Les montants des commandes en promotion sont environ deux fois plus faibles à nombre d'articles égal : ils sont donc déjà nets de la remise. Appliquer le taux de marge habituel à un prix remisé suppose que la remise réduit le coût dans la même proportion, ce qui surestime la marge des commandes en promotion. Faute de connaître les coûts d'achat, cette approximation est conservée et signalée dans les limites. La catégorie Jardin figure dans la table des taux de marge mais n'a aucune commande en 2025.
+
+## Table client
+
+```{r}
+#| label: preparation-table-client
+par_client <- commandes |>
+  group_by(client_id) |>
+  summarise(
+    # calculée en premier, avant que `marge` ne soit remplacée par son total
+    categorie_principale = names(which.max(tapply(marge, categorie, sum))),
+    recence        = as.numeric(date_reference - max(date)),  # jours depuis le dernier achat
+    frequence      = n(),                                     # nombre de commandes
+    ca             = sum(montant),                            # chiffre d'affaires (€)
+    marge          = sum(marge),                              # marge générée (€)
+    panier_moyen   = mean(montant),
+    part_promo     = mean(promo),                             # part des commandes en promotion
+    nb_categories  = n_distinct(categorie),
+    .groups = "drop"
+  )
+
+table_client <- clients |>
+  left_join(par_client, by = "client_id") |>
+  left_join(select(campagne, client_id, version_ab = version), by = "client_id") |>
+  mutate(
+    acheteur   = !is.na(frequence),
+    frequence  = replace_na(frequence, 0L),
+    ca         = replace_na(ca, 0),
+    marge      = replace_na(marge, 0),
+    anciennete = as.numeric(date_reference - date_inscription) / 365.25,  # en années
+    tranche_age = cut(age, breaks = c(17, 25, 35, 45, 55, Inf),
+                      labels = c("18-25", "26-35", "36-45", "46-55", "56 et +")) |>
+      fct_na_value_to_level("Non renseigné"),
+    across(c(region, canal_acquisition, newsletter, categorie_principale), as.factor)
+  )
+```
+
+Trois choix conditionnent la suite.
+
+- **Clients sans commande.** `r sum(!table_client$acheteur)` clients inscrits n'ont rien acheté en 2025. Leur récence n'est pas définie et ils ne peuvent pas « partir » au sens retenu ci-dessous. Ils restent dans `table_client` (indicateur `acheteur`) mais sont exclus de l'analyse de la valeur et de l'attrition, qui porte sur les `r sum(table_client$acheteur)` acheteurs. Parmi ces clients sans commande, un quart s'est inscrit après le `r format(quantile(table_client$date_inscription[!table_client$acheteur], 0.75, type = 1), "%d/%m/%Y")` ; les autres sont des inscrits inactifs depuis au moins un an, une cible de réactivation distincte.
+- **Âge manquant.** L'âge n'est pas renseigné pour `r sum(is.na(table_client$age))` clients (`r round(100 * mean(is.na(table_client$age)), 1)` %). Ces valeurs ne sont pas imputées : la tranche « Non renseigné » les conserve pour l'exploration. Un modèle qui n'accepte pas les valeurs manquantes devra les imputer, par exemple par la médiane.
+- **Montants en euros, ancienneté en années** au 31/12/2025.
+
+## Définition de l'attrition
+
+Aucun client ne résilie : un client perdu est un client qui cesse de commander. Le seuil d'inactivité est fixé à partir du délai observé entre deux commandes successives d'un même client.
+
+```{r}
+#| label: preparation-seuil
+delais <- commandes |>
+  arrange(client_id, date) |>
+  group_by(client_id) |>
+  mutate(delai = as.numeric(date - lag(date))) |>
+  ungroup() |>
+  filter(!is.na(delai)) |>
+  pull(delai)
+
+seuil_attrition <- unname(quantile(delais, 0.9))
+quantile(delais, c(0.5, 0.75, 0.9))
+```
+
+Neuf réachats sur dix ont lieu moins de `r seuil_attrition` jours après la commande précédente. Un client sans commande depuis plus de `r seuil_attrition` jours au 31/12/2025 est donc considéré comme perdu. Ce seuil est un choix : la section « Évaluation » doit vérifier que les conclusions tiennent avec un seuil de 90 ou de 120 jours.
+
+```{r}
+#| label: preparation-attrition-rfm
+acheteurs <- table_client |>
+  filter(acheteur) |>
+  mutate(
+    perdu   = factor(recence > seuil_attrition, levels = c(FALSE, TRUE),
+                     labels = c("Actif", "Perdu")),
+    score_R = ntile(-recence, 5),   # 5 = achat le plus récent
+    score_F = ntile(frequence, 5),
+    score_M = ntile(marge, 5),
+    score_RFM = score_R + score_F + score_M
+  )
+
+saveRDS(acheteurs, "donnees/table_client.rds")
+count(acheteurs, perdu) |> mutate(part = round(100 * n / sum(n), 1))
+```
+
+La variable `perdu` étant définie à partir de la récence, la récence et le score R ne peuvent pas servir de variables explicatives dans un modèle d'attrition : le modèle retrouverait la définition au lieu de l'expliquer.
+
+**Découpage entraînement / test.** Le découpage se fait au niveau du client, avant toute exploration : 70 % des acheteurs pour l'entraînement et l'exploration, 30 % réservés à l'évaluation des modèles.
 
 ```{r}
 #| label: decoupage
-indices_train <- sample(nrow(donnees_propres), size = round(0.7 * nrow(donnees_propres)))
-train <- donnees_propres[indices_train, ]
-test  <- donnees_propres[-indices_train, ]
+set.seed(2026)
+indices_train <- sample(nrow(acheteurs), size = round(0.7 * nrow(acheteurs)))
+train <- acheteurs[indices_train, ]
+test  <- acheteurs[-indices_train, ]
 c(entrainement = nrow(train), test = nrow(test))
 ```
 
 # Exploration
 
-::: {.callout-note}
-## Consigne
+L'exploration porte sur le jeu d'entraînement (`r nrow(train)` clients), sauf le test A/B, analysé sur l'ensemble de ses participants.
 
-Analyses univariées puis bivariées, **sur le jeu d'entraînement**, orientées
-vers la question. Chaque graphique a un titre qui énonce son message, des axes
-avec unités, et il est **commenté** dans le texte (par exemple « la
-@fig-distributions montre que... »). Gardez les graphiques utiles, pas tous
-ceux que vous avez produits.
-:::
+## Concentration de la valeur
 
 ```{r}
-#| label: fig-distributions
-#| fig-cap: "Distribution des variables quantitatives (12 premières au plus)"
-#| fig-height: 6
-quantitatives <- train |> select(where(is.numeric))
-if (ncol(quantitatives) > 0) {
-  quantitatives |>
-    select(1:min(12, ncol(quantitatives))) |>
-    pivot_longer(everything(), names_to = "variable", values_to = "valeur") |>
-    ggplot(aes(x = valeur)) +
-    geom_histogram(bins = 30, fill = "steelblue", color = "white") +
-    facet_wrap(vars(variable), scales = "free") +
-    labs(x = NULL, y = "Effectif")
-}
+#| label: fig-pareto
+#| fig-cap: "Part cumulée de la marge selon la part des clients, classés du plus au moins rentable"
+pareto <- train |>
+  arrange(desc(marge)) |>
+  mutate(part_clients = row_number() / n(),
+         part_marge   = cumsum(marge) / sum(marge))
+part_top20 <- pareto$part_marge[round(0.2 * nrow(pareto))]
+
+ggplot(pareto, aes(part_clients, part_marge)) +
+  geom_line(linewidth = 1, colour = "steelblue") +
+  geom_abline(linetype = "dashed", colour = "grey60") +
+  annotate("segment", x = 0.2, xend = 0.2, y = 0, yend = part_top20, linetype = "dotted") +
+  annotate("text", x = 0.22, y = part_top20 - 0.05, hjust = 0,
+           label = paste0("20 % des clients = ", round(100 * part_top20), " % de la marge")) +
+  scale_x_continuous(labels = scales::percent) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(x = "Part des clients", y = "Part cumulée de la marge 2025")
 ```
+
+La @fig-pareto montre une valeur concentrée : les 20 % de clients les plus rentables génèrent `r round(100 * part_top20)` % de la marge. Perdre l'un d'eux coûte beaucoup plus que perdre un client moyen, ce qui justifie de croiser valeur et risque d'attrition plutôt que de traiter tous les clients de la même façon.
+
+```{r}
+#| label: fig-distributions-rfm
+#| fig-cap: "Distribution de la récence, de la fréquence et de la marge par client"
+#| fig-height: 3.5
+train |>
+  select(`Récence (jours)` = recence, `Fréquence (commandes)` = frequence,
+         `Marge 2025 (€, échelle log)` = marge) |>
+  mutate(`Marge 2025 (€, échelle log)` = log10(`Marge 2025 (€, échelle log)`)) |>
+  pivot_longer(everything()) |>
+  ggplot(aes(value)) +
+  geom_histogram(bins = 30, fill = "steelblue", colour = "white") +
+  facet_wrap(vars(name), scales = "free") +
+  labs(x = NULL, y = "Nombre de clients")
+```
+
+Les trois distributions sont très asymétriques (@fig-distributions-rfm). La médiane de la récence est de `r median(train$recence)` jours mais `r round(100 * mean(train$perdu == "Perdu"))` % des clients dépassent le seuil de `r seuil_attrition` jours. Passée en logarithme, la marge se concentre entre 30 et 200 € avec un second regroupement vers 300-400 €, qui signale un groupe distinct de clients très rentables. L'échelle logarithmique et la médiane sont retenues pour décrire et modéliser la valeur.
+
+## Facteurs associés à la valeur
+
+```{r}
+#| label: fig-marge-canal
+#| fig-cap: "Marge 2025 par client selon le canal d'acquisition et l'abonnement à la newsletter"
+#| fig-height: 4
+train |>
+  ggplot(aes(fct_reorder(canal_acquisition, marge, median), marge, fill = newsletter)) +
+  geom_boxplot(outlier.alpha = 0.3) +
+  scale_y_log10(labels = scales::label_number(suffix = " €")) +
+  coord_flip() +
+  labs(x = NULL, y = "Marge 2025 (échelle log)", fill = "Newsletter")
+```
+
+```{r}
+#| label: tbl-canal
+#| tbl-cap: "Valeur et attrition par canal d'acquisition et selon la newsletter"
+bind_rows(
+  train |> group_by(Groupe = paste("Canal :", canal_acquisition)),
+  train |> group_by(Groupe = paste("Newsletter :", newsletter))
+) |>
+  summarise(Clients = n(),
+            `Marge médiane (€)` = round(median(marge)),
+            `Commandes (médiane)` = median(frequence),
+            `Perdus (%)` = round(100 * mean(perdu == "Perdu")),
+            .groups = "drop") |>
+  kable()
+```
+
+La @fig-marge-canal et le @tbl-canal font apparaître deux écarts nets. Les clients venus des moteurs de recherche rapportent le moins et sont les plus nombreux à partir. Les clients venus en direct sont les plus rentables, mais près d'un sur quatre est perdu : c'est le segment où la perte de marge est la plus coûteuse. L'email combine une marge élevée et l'attrition la plus faible. Dans chaque canal, les abonnés à la newsletter ont une marge médiane plus élevée, et sur l'ensemble des clients ils partent deux fois moins que les non-abonnés. Ces écarts sont des associations : la newsletter attire peut-être des clients déjà fidèles plutôt qu'elle ne les fidélise. La modélisation devra tester si ces effets tiennent une fois les autres variables prises en compte.
+
+```{r}
+#| label: fig-age-promo
+#| fig-cap: "Marge 2025 selon l'âge et selon la part des commandes passées en promotion"
+#| fig-height: 3.5
+train |>
+  select(client_id, marge, `Âge (années)` = age, `Part des commandes en promotion` = part_promo) |>
+  pivot_longer(-c(client_id, marge)) |>
+  filter(!is.na(value)) |>
+  ggplot(aes(value, marge)) +
+  geom_point(alpha = 0.25) +
+  geom_smooth(method = "loess", formula = y ~ x, colour = "firebrick") +
+  scale_y_log10() +
+  facet_wrap(vars(name), scales = "free_x") +
+  labs(x = NULL, y = "Marge 2025 (€, échelle log)")
+```
+
+```{r}
+#| label: cor-promo
+habitues <- train |> filter(frequence >= 5)
+cor_age         <- cor(train$age, log(train$marge), use = "complete.obs")
+cor_promo       <- cor(train$part_promo, log(train$marge))
+cor_promo_hab   <- cor(habitues$part_promo, log(habitues$marge))
+```
+
+La marge augmente légèrement avec l'âge (corrélation de `r fr(cor_age)` avec le logarithme de la marge). Le lien avec la part d'achats en promotion paraît faible sur l'ensemble des clients (`r fr(cor_promo)`) et la courbe n'est pas monotone (@fig-age-promo). Cette forme vient des clients à une ou deux commandes : leur part de promotion vaut mécaniquement 0, 0,5 ou 1, et leur marge est faible parce qu'ils achètent peu. Parmi les `r nrow(habitues)` clients d'au moins cinq commandes, la corrélation atteint `r fr(cor_promo_hab)` : à fréquence comparable, plus un client achète en promotion, moins il rapporte. La fréquence joue ici le rôle de variable de confusion, et la part de promotion ne doit être interprétée qu'à fréquence donnée. La marge des commandes en promotion étant de plus surestimée, l'effet réel est probablement plus marqué.
+
+```{r}
+#| label: fig-categories
+#| fig-cap: "Chiffre d'affaires et marge par catégorie (clients d'entraînement)"
+#| fig-height: 3.5
+commandes |>
+  filter(client_id %in% train$client_id) |>
+  group_by(categorie) |>
+  summarise(`Chiffre d'affaires` = sum(montant), Marge = sum(marge)) |>
+  pivot_longer(-categorie) |>
+  ggplot(aes(fct_reorder(categorie, value, max), value / 1000, fill = name)) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  labs(x = NULL, y = "Milliers d'euros", fill = NULL)
+```
+
+Le High-tech est la première catégorie en chiffre d'affaires mais l'une des dernières en marge, à cause de son taux de `r round(100 * categories$taux_marge[categories$categorie == "High-tech"])` % (@fig-categories). Classer les clients au chiffre d'affaires surévaluerait les acheteurs de High-tech ; la marge est la mesure de valeur retenue.
 
 ```{r}
 #| label: fig-correlations
-#| fig-cap: "Corrélations entre les variables quantitatives (12 premières au plus)"
-#| fig-height: 5.5
-if (ncol(quantitatives) >= 2) {
-  quantitatives |>
-    select(1:min(12, ncol(quantitatives))) |>
-    cor(use = "pairwise.complete.obs") |>
-    as.data.frame() |>
-    rownames_to_column("variable_1") |>
-    pivot_longer(-variable_1, names_to = "variable_2", values_to = "correlation") |>
-    ggplot(aes(variable_1, variable_2, fill = correlation)) +
-    geom_tile() +
-    geom_text(aes(label = round(correlation, 2)), size = 2.5) +
-    scale_fill_gradient2(limits = c(-1, 1)) +
-    labs(x = NULL, y = NULL, fill = "Corrélation") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))
-}
+#| fig-cap: "Corrélations entre les indicateurs client"
+#| fig-height: 5
+train |>
+  select(recence, frequence, marge, ca, panier_moyen, part_promo, nb_categories, age, anciennete) |>
+  cor(use = "pairwise.complete.obs") |>
+  as.data.frame() |>
+  rownames_to_column("variable_1") |>
+  pivot_longer(-variable_1, names_to = "variable_2", values_to = "correlation") |>
+  ggplot(aes(variable_1, variable_2, fill = correlation)) +
+  geom_tile() +
+  geom_text(aes(label = round(correlation, 2)), size = 2.5) +
+  scale_fill_gradient2(limits = c(-1, 1)) +
+  labs(x = NULL, y = NULL, fill = "Corrélation") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+
+La marge et le chiffre d'affaires sont presque redondants (corrélation de `r fr(cor(train$marge, train$ca))`), de même que la fréquence et le nombre de catégories achetées (`r fr(cor(train$frequence, train$nb_categories))`). Un modèle ne doit pas les utiliser ensemble comme variables explicatives (@fig-correlations). La marge suit beaucoup plus la fréquence (`r fr(cor(train$marge, train$frequence))`) que le panier moyen (`r fr(cor(train$marge, train$panier_moyen))`) : un client rentable est d'abord un client qui revient souvent, ce qui place la fidélisation au cœur de la création de valeur.
+
+## Test A/B d'emailing
+
+```{r}
+#| label: tbl-ab-equilibre
+#| tbl-cap: "Comparabilité des deux groupes du test A/B"
+participants_ab <- table_client |> filter(!is.na(version_ab))
+
+participants_ab |>
+  group_by(Version = version_ab) |>
+  summarise(Clients = n(),
+            `Âge moyen` = round(mean(age, na.rm = TRUE), 1),
+            `Ancienneté moyenne (ans)` = round(mean(anciennete), 1),
+            `Acheteurs 2025 (%)` = round(100 * mean(acheteur)),
+            `Commandes 2025 (moyenne)` = round(mean(frequence), 1),
+            `Venus par moteur de recherche (%)` = round(100 * mean(canal_acquisition == "Moteur de recherche"))) |>
+  kable()
+```
+
+```{r}
+#| label: tbl-ab-taux
+#| tbl-cap: "Taux d'ouverture, de clic et d'achat par version (descriptif)"
+campagne |>
+  group_by(Version = version) |>
+  summarise(Envois = n(),
+            Achats = sum(achat),
+            `Ouverture (%)` = round(100 * mean(ouvert), 1),
+            `Clic (%)` = round(100 * mean(clic), 1),
+            `Achat (%)` = round(100 * mean(achat), 1)) |>
+  kable()
+```
+
+Les `r nrow(campagne)` participants du test sont tous abonnés à la newsletter : le résultat ne pourra pas être étendu aux non-abonnés. Les deux groupes sont proches en âge, en ancienneté et en activité d'achat (@tbl-ab-equilibre), ce qui est compatible avec un tirage aléatoire. La version B obtient de meilleurs taux à chaque étape (@tbl-ab-taux), mais avec `r sum(campagne$achat)` achats au total, l'écart doit être confirmé par un test du χ² en section « Modélisation » avant d'en tirer une recommandation.
+
+## Pistes pour la modélisation
+
+- Mesurer la valeur par la **marge**, en logarithme pour une régression.
+- Pour expliquer la valeur, utiliser les caractéristiques du client (canal d'acquisition, newsletter, âge, ancienneté, catégorie principale) et non la fréquence ou le chiffre d'affaires, dont la marge est directement issue.
+- Introduire la part de promotion avec la fréquence, jamais seule.
+- Modèle d'attrition : cible `perdu`, sans la récence ni le score R parmi les variables explicatives.
+- Test A/B : test du χ² sur le taux d'achat, en tenant compte du faible nombre d'achats.
 
 # Modélisation
 
@@ -353,7 +580,7 @@ que vous feriez avec plus de temps ou de données (par exemple : un test A/B).
 
 | Membre | Contributions principales |
 |:-------|:--------------------------|
-| Chris Boupassaia | à compléter |
+| Chris Boupassia | à compléter |
 | Bertrand De Vertreuil | à compléter |
 | Améziane Haouanoh | à compléter |
 | Léonie Schmit | à compléter |
