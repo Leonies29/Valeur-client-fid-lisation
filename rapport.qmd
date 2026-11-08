@@ -907,26 +907,88 @@ Enfin, toutes les données viennent de l'année 2025. Le dernier trimestre conti
 
 # Résultats et recommandations
 
-::: callout-note
-## Consigne
+## Principaux résultats
 
-Le message principal en une phrase, puis des recommandations **concrètes, chiffrées et réalisables** pour l'équipe marketing, avec leur effet attendu. Exportez le graphique qui porte le message principal : il sera repris dans le résumé exécutif.
-:::
+Notre objectif était de repérer les clients qui risquent de ne plus acheter sur le site, afin de proposer des actions de fidélisation plus adaptées.
+
+Après avoir comparé plusieurs modèles, nous avons retenu la régression logistique, car elle donne les meilleurs résultats sur notre jeu de test. Elle obtient une AUC de 0,838, contre 0,829 pour la forêt aléatoire et 0,774 pour l'arbre de décision.
+
+Nous avons également testé différents seuils pour identifier les clients à risque. Avec un seuil de 0,3, le modèle arrive à détecter 75 % des clients qui ne repassent pas commande, tout en reconnaissant correctement 76 % de ceux qui continuent d'acheter.
+
+Nous avons ensuite croisé le risque de départ avec la valeur des clients. Cela nous a permis d'identifier 35 clients à forte valeur et à risque élevé dans le jeu de test. Parmi eux, 49 % n'ont effectivement pas repassé commande au dernier trimestre, contre seulement 8 % des clients à forte valeur et à risque faible.
+
+Ces résultats montrent qu'il serait plus intéressant pour la boutique de cibler certains clients plutôt que d'envoyer les mêmes offres à tout le monde.
+
+## Recommandations
+
+La première recommandation serait de contacter en priorité les clients qui ont une forte valeur pour la boutique et un risque élevé de ne plus acheter. Ce sont les clients pour lesquels une action de fidélisation pourrait être la plus intéressante.
+
+Nous proposons également d'adapter les messages selon les habitudes d'achat. Par exemple, un client qui commande rarement pourrait recevoir un rappel ou une recommandation de produits correspondant à ses précédents achats. Pour les clients les plus importants, la boutique pourrait envisager une remise personnalisée, à condition que celle-ci reste rentable.
+
+Concernant le test A/B, nous avons constaté que la version B de l'email obtenait un meilleur taux d'ouverture que la version A. La différence est significative (p = 0,013). En revanche, nous n'avons pas trouvé de différence significative sur les achats (p = 0,29). Il faudrait donc refaire un test avant d'affirmer que la version B permet de vendre davantage.
+
+Enfin, nous recommandons de commencer par une petite campagne de fidélisation et de comparer les résultats avec un groupe de clients qui ne reçoit pas d'offre. Cela permettrait de vérifier si la campagne augmente réellement les achats et si les gains sont supérieurs aux coûts.
 
 ```{r}
-#| label: figure-cle
-#| eval: false
-# Exemple : enregistrer le graphique principal pour le résumé exécutif
-ggsave("figures/figure-cle.pdf", plot = graphique_principal, width = 7, height = 3.5)
+#| label: fig-resultats
+#| fig-cap: "Taux d'attrition des clients à forte valeur selon le risque"
+
+# Garder les clients à forte valeur
+graphique_principal <- croisement %>%
+  filter(Valeur == "Forte valeur") %>%
+  ggplot(aes(x = Risque, y = partis, fill = Risque)) +
+  geom_col(width = 0.6) +
+  geom_text(aes(label = paste0(partis, " %")),
+            vjust = -0.5, size = 5) +
+  labs(
+    title = "Attrition des clients à forte valeur",
+    subtitle = "Résultats sur le jeu de test",
+    x = "Niveau de risque",
+    y = "Clients sans nouvel achat (%)"
+  ) +
+  ylim(0, 60) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+graphique_principal
+
+# Exporter le graphique
+ggsave("figures/figure-cle.pdf",
+       plot = graphique_principal,
+       width = 7, height = 4)
 ```
+
+Ce graphique montre une différence importante entre les clients à forte valeur. Parmi ceux que notre modèle considère comme étant à risque élevé, 49 % n'ont pas repassé commande au dernier trimestre, contre seulement 8 % pour ceux à risque faible.
+
+Cela confirme l'intérêt de notre modèle pour repérer les clients à surveiller. La boutique pourrait donc concentrer ses actions de fidélisation sur les clients à forte valeur présentant un risque élevé de départ.
 
 # Limites et perspectives
 
-::: callout-note
-## Consigne
+## Limites de notre étude
 
-Limites des données (représentativité, variables manquantes, données simulées), des méthodes (associations et non causalité, hypothèses), et ce que vous feriez avec plus de temps ou de données (par exemple : un test A/B).
-:::
+Même si nous avons obtenu des résultats intéressants, notre étude présente plusieurs limites.
+
+Tout d'abord, nous avons utilisé des données simulées qui ne représentent pas forcément le comportement de vrais clients. De plus, les données concernent uniquement l'année 2025, ce qui ne permet pas de savoir si les résultats seraient les mêmes sur plusieurs années.
+
+Ensuite, nous avons considéré qu'un client était en attrition lorsqu'il ne passait aucune commande entre octobre et décembre 2025. Cependant, un client qui n'achète rien pendant trois mois n'a pas forcément quitté la boutique. Il peut simplement avoir des habitudes d'achat moins régulières.
+
+Une autre limite concerne le calcul de la valeur des clients. Nous avons utilisé les marges estimées à partir de leurs commandes, mais celles-ci peuvent être moins précises lorsque des promotions sont appliquées.
+
+Enfin, notre modèle n'est pas parfait. Avec le seuil de 0,3, il ne détecte pas environ 25 % des clients qui cessent d'acheter. Il peut aussi considérer certains clients comme étant à risque alors qu'ils continueront finalement à commander.
+
+Il faut également garder à l'esprit que les relations observées dans les données ne prouvent pas forcément qu'un facteur provoque directement le départ d'un client.
+
+## Perspectives d'amélioration
+
+Pour améliorer notre travail, nous pourrions commencer par utiliser des données sur plusieurs années. Cela permettrait de mieux prendre en compte les périodes particulières, comme les fêtes de fin d'année ou les soldes.
+
+Nous pourrions aussi ajouter d'autres informations, par exemple les retours de produits, les avis des clients, les délais de livraison ou les échanges avec le service client. Ces données pourraient aider à mieux comprendre pourquoi certains clients arrêtent de commander.
+
+Il serait également intéressant de mieux estimer la valeur future des clients, plutôt que de se baser uniquement sur leurs achats passés.
+
+Enfin, nous pourrions réaliser une nouvelle campagne de test A/B sur davantage de clients pour vérifier quelles offres donnent réellement envie de racheter.
+
+Si ce type de ciblage était utilisé dans une vraie entreprise, il faudrait aussi faire attention à la protection des données personnelles et au respect du RGPD.
 
 # Annexes {.unnumbered}
 
@@ -936,7 +998,7 @@ Limites des données (représentativité, variables manquantes, données simulé
 |:----------------------|:------------------------------|
 | Chris Boupassaia      | à compléter                   |
 | Bertrand De Vertreuil | à compléter                   |
-| Améziane Haouanoh     | à compléter                   |
+| Améziane Haouanoh     | Résultats, recommandations, limites et perspectives |
 | Léonie Schmit         | Contexte, Question et Données |
 
 ## Environnement de calcul {.unnumbered}

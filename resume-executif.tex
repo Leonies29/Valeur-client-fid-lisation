@@ -1,29 +1,10 @@
-% =============================================================================
-% Résumé exécutif — Projet Data Science sous R (ESME, 2026-2027)
-%
-% Document de 2 pages au maximum, destiné à un public NON technique
-% (direction marketing) : pas de code, pas de jargon statistique, des chiffres
-% utiles à la décision.
-%
-% Mode d'emploi :
-%   1. Remplacez chaque [À compléter] et supprimez les commentaires de consigne.
-%   2. Exportez depuis R le graphique qui porte votre message principal :
-%        ggsave("figures/figure-cle.pdf", width = 7, height = 3.5)
-%      Tant que ce fichier n'existe pas, un cadre de remplacement s'affiche.
-%   3. Compilez avec pdfLaTeX (RStudio : bouton « Compile PDF » ; ou Overleaf ;
-%      ou en ligne de commande : pdflatex resume-executif.tex).
-%   4. Vérifiez que le document tient en 2 pages : sinon, un avertissement
-%      s'affiche en bas de la dernière page.
-% =============================================================================
-
-\documentclass[11pt, a4paper]{article}
-
+\documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
 \usepackage{lmodern}
 \usepackage{microtype}
-\usepackage[margin=2cm, top=1.6cm, bottom=1.8cm]{geometry}
+\usepackage[margin=2cm,top=1.6cm,bottom=1.7cm]{geometry}
 \usepackage[table]{xcolor}
 \usepackage{graphicx}
 \usepackage{booktabs}
@@ -32,148 +13,80 @@
 \usepackage[most]{tcolorbox}
 \usepackage{titlesec}
 \usepackage[hidelinks]{hyperref}
-
-% ----------------------------------------------------------------------------
-% Informations à compléter
-% ----------------------------------------------------------------------------
 \newcommand{\numeroprojet}{5}
-\newcommand{\titreprojet}{[Valeur client et fidélisation]}
+\newcommand{\titreprojet}{Valeur client et fidélisation : mieux cibler les clients à risque}
 \newcommand{\membres}{Chris Boupassaia, Bertrand De Vertreuil, Améziane Haouanoh, Léonie Schmit}
-\newcommand{\groupe}{Groupe 3}
-
-% ----------------------------------------------------------------------------
-% Mise en forme (inutile de modifier)
-% ----------------------------------------------------------------------------
+\newcommand{\groupe}{Groupe 5}
 \definecolor{principal}{HTML}{1565C0}
 \definecolor{fondencadre}{HTML}{E8F1FB}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{0.45em}
-\setlist{nosep, leftmargin=1.4em}
+\setlength{\parskip}{0.38em}
+\setlist{nosep,leftmargin=1.3em,topsep=2pt}
 \titleformat{\section}{\large\bfseries\color{principal}}{}{0em}{}
-\titlespacing*{\section}{0pt}{0.9em}{0.3em}
+\titlespacing*{\section}{0pt}{0.7em}{0.2em}
 \pagestyle{plain}
-
-\newtcolorbox{enbref}{enhanced, colback=fondencadre, colframe=principal,
-  boxrule=0pt, leftrule=4pt, arc=2pt, left=8pt, right=8pt, top=4pt, bottom=5pt,
-  title={En bref}, fonttitle=\bfseries, coltitle=principal,
-  colbacktitle=fondencadre, toptitle=3pt, bottomtitle=0pt}
-
-% Signale un dépassement de la limite de 2 pages en bas de la dernière page
-\AtEndDocument{%
-  \ifnum\value{page}>2
-    \par\vfill
-    \begin{center}\color{red}\bfseries
-      Attention : le résumé exécutif dépasse 2 pages (\thepage{} pages).
-    \end{center}
-    \typeout{ATTENTION : le resume executif depasse 2 pages.}
-  \fi}
-
+\newtcolorbox{enbref}{enhanced,colback=fondencadre,colframe=principal,boxrule=0pt,leftrule=4pt,arc=2pt,left=8pt,right=8pt,top=4pt,bottom=5pt,title={En bref},fonttitle=\bfseries,coltitle=principal,colbacktitle=fondencadre,toptitle=3pt,bottomtitle=0pt}
+\AtEndDocument{\ifnum\value{page}>2 \par\vfill\begin{center}\color{red}\bfseries Attention : le résumé exécutif dépasse 2 pages.\end{center}\fi}
 \begin{document}
-
-% ----------------------------------------------------------------------------
-% En-tête
-% ----------------------------------------------------------------------------
-{\small\color{gray} Data Science sous R — ESME, Ingé3 2026-2027 \hfill
- Projet n°\,\numeroprojet{} — \groupe}
-
-\vspace{0.4em}
+{\small\color{gray} Data Science sous R — ESME, Ingé3 2026-2027 \hfill Projet n\textsuperscript{o}\,\numeroprojet{} — \groupe}
+\vspace{0.35em}
 {\LARGE\bfseries\color{principal} \titreprojet\par}
-\vspace{0.3em}
-{\small \membres{} \hfill \today}
-
 \vspace{0.2em}
-\rule{\linewidth}{0.4pt}
+{\small \membres{} \hfill 8 novembre 2026}
+\vspace{0.12em}\rule{\linewidth}{0.4pt}
 
-% ----------------------------------------------------------------------------
 \begin{enbref}
-% Consigne : les trois messages à retenir si le lecteur ne lit que cet encadré.
-% Une phrase chacun, avec un chiffre.
 \begin{itemize}
-  \item \textbf{[Constat principal]} : [À compléter, avec un chiffre clé].
-  \item \textbf{[Deuxième résultat]} : [À compléter].
-  \item \textbf{[Recommandation principale]} : [À compléter, avec l'effet attendu].
+\item \textbf{Un enjeu réel de fidélisation :} parmi les 1\,539 clients ayant acheté de janvier à septembre 2025, 26,8\,\% n'ont pas commandé au dernier trimestre.
+\item \textbf{Un ciblage plus précis :} notre meilleur modèle distingue assez bien les clients à risque (score AUC de 0,838 sur le jeu de test).
+\item \textbf{Une priorité :} contacter d'abord les clients à forte valeur et à risque élevé ; 49\,\% d'entre eux n'ont pas racheté, contre 8\,\% des clients à forte valeur et à risque faible dans le jeu de test.
 \end{itemize}
 \end{enbref}
 
-% ----------------------------------------------------------------------------
 \section{Le contexte et la question}
-% Consigne : 3 à 4 phrases. Quel problème marketing ? Quelle décision doit être
-% prise ? Quelle question précise avons-nous étudiée ?
-[À compléter : situation de l'entreprise, enjeu, question posée et décision
-que l'analyse doit éclairer.]
+La boutique en ligne vend des produits dont les marges varient fortement selon les catégories. Envoyer la même promotion à tous les clients peut coûter cher, sans aider à retenir les plus intéressants. Nous avons cherché à savoir si leurs achats de janvier à septembre 2025 permettaient de repérer ceux qui ne commanderaient plus entre octobre et décembre. Le but est d'aider le marketing à choisir qui relancer en priorité.
 
-% ----------------------------------------------------------------------------
 \section{Ce que nous avons fait}
-% Consigne : en langage courant, sans nom de méthode ni de package. Par exemple
-% « nous avons comparé les ventes de 400 magasins » plutôt que « régression
-% linéaire multiple ». Précisez la source et la taille des données.
 \begin{itemize}
-  \item \textbf{Données :} [À compléter : quoi, combien, quelle période, quelle
-        source ; réelles ou simulées].
-  \item \textbf{Démarche :} [À compléter : ce que nous avons comparé, mesuré ou
-        prédit, en une ou deux phrases].
-  \item \textbf{Fiabilité :} [À compléter : par exemple « vérifié sur des clients
-        non utilisés pour construire le modèle »].
+\item \textbf{Données :} historique d'achats et profils de clients d'une boutique fictive, avec des données simulées sur l'année 2025 ; 1\,539 clients ont commandé pendant la période étudiée.
+\item \textbf{Démarche :} nous avons comparé les habitudes d'achat, estimé le risque de non-réachat, puis croisé ce risque avec la marge apportée par chaque client. Nous avons également étudié les résultats de deux versions d'un e-mail commercial.
+\item \textbf{Vérification :} les performances ont été mesurées sur des clients non utilisés pour construire les modèles. Nous avons aussi testé la stabilité des résultats.
 \end{itemize}
 
-% ----------------------------------------------------------------------------
 \section{Les principaux résultats}
-% Consigne : 3 à 4 résultats, du plus important au moins important, chacun
-% chiffré et traduit en conséquence pour l'entreprise.
 \begin{enumerate}
-  \item \textbf{[Résultat 1].} [À compléter : chiffre clé et ce qu'il signifie
-        pour l'entreprise.]
-  \item \textbf{[Résultat 2].} [À compléter.]
-  \item \textbf{[Résultat 3].} [À compléter.]
+\item \textbf{Le risque peut être anticipé.} Le modèle retenu obtient un score de 0,838 sur 1 pour distinguer les clients qui rachètent de ceux qui ne rachètent pas. D'autres découpages donnent des scores autour de 0,80 : il faut donc rester prudent.
+\item \textbf{Un seuil de 30\,\% permet de repérer davantage de départs.} À ce seuil, le modèle repère 75\,\% des clients sans nouvel achat et identifie correctement 76\,\% des clients qui rachètent.
+\item \textbf{La valeur client aide à fixer la priorité.} Sur le jeu de test, 35 clients cumulent forte marge historique et risque élevé. Dans ce groupe, 49\,\% n'ont pas racheté, contre 8\,\% parmi les clients à forte valeur et à faible risque.
 \end{enumerate}
 
-% Consigne : UN graphique, celui qui porte le message principal. Son titre
-% énonce le message ; les axes ont des unités ; une phrase le commente.
-\begin{figure}[h]
-  \centering
-  \IfFileExists{figures/figure-cle.pdf}{%
-    \includegraphics[width=0.85\linewidth]{figures/figure-cle.pdf}%
-  }{%
-    \fbox{\parbox[c][4cm][c]{0.8\linewidth}{\centering\color{gray}
-      Graphique principal à exporter depuis R :\\[0.3em]
-      \texttt{ggsave("figures/figure-cle.pdf", width = 7, height = 3.5)}}}%
-  }
-  \caption{[À compléter : le message du graphique en une phrase.]}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.90\linewidth]{figures/figure-cle.pdf}
+\caption{Part de clients sans nouvel achat dans le jeu de test, parmi les clients à forte valeur.}
 \end{figure}
 
-% ----------------------------------------------------------------------------
 \section{Nos recommandations}
-% Consigne : des actions concrètes et réalisables, avec leur effet attendu
-% (chiffré si possible), leur coût ou leur difficulté, et une priorité.
 \begin{center}
 \rowcolors{2}{fondencadre}{white}
-\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}X
-                             >{\raggedright\arraybackslash}p{4.2cm}
-                             >{\centering\arraybackslash}p{1.8cm}}
-  \toprule
-  \textbf{Action recommandée} & \textbf{Effet attendu} & \textbf{Priorité} \\
-  \midrule
-  % Ne commencez pas une ligne du tableau par « [ » : LaTeX le lirait comme
-  % un argument de la commande précédente (\\ ou \midrule).
-  Action 1 : à compléter & Effet attendu : à compléter & Haute \\
-  Action 2 : à compléter & Effet attendu : à compléter & Moyenne \\
-  Action 3 : à compléter & Effet attendu : à compléter & Basse \\
-  \bottomrule
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{4.1cm} >{\centering\arraybackslash}p{1.5cm}}
+\toprule
+\textbf{Action} & \textbf{Effet recherché} & \textbf{Priorité}\\
+\midrule
+Relancer les clients à forte valeur dont le risque estimé dépasse 30\,\%. & Concentrer les offres sur les clients dont le départ serait le plus coûteux. & Haute\\
+Personnaliser les messages selon les achats passés, sans remise systématique. & Encourager le réachat tout en préservant la marge. & Haute\\
+Tester la campagne sur un petit groupe, avec un groupe témoin. & Mesurer les achats réellement gagnés et le coût des offres. & Haute\\
+\bottomrule
 \end{tabularx}
 \end{center}
 
-% ----------------------------------------------------------------------------
+\textbf{Concernant les e-mails :} la version B obtient davantage d'ouvertures (différence significative), mais l'écart sur les achats n'est pas concluant : seulement 20 achats ont été observés au total. Il serait donc prématuré d'affirmer qu'elle augmente les ventes.
+
 \section{Limites et prochaines étapes}
-% Consigne : soyez honnêtes sur ce que l'analyse ne permet pas de conclure
-% (données, association et non causalité...) et proposez la suite : données à
-% collecter, test A/B pour confirmer un effet, suivi d'indicateurs.
 \begin{itemize}
-  \item \textbf{Limites :} [À compléter.]
-  \item \textbf{Prochaines étapes :} [À compléter.]
+\item \textbf{Limites :} les données sont simulées et portent sur une seule année. Trois mois sans achat ne signifient pas forcément la perte définitive d'un client. Les marges sont estimées, notamment pour les ventes avec promotion, et le modèle peut se tromper. Les résultats observés ne prouvent pas qu'une relance sera efficace.
+\item \textbf{Suite proposée :} utiliser plusieurs années d'achats, améliorer le calcul des marges et lancer un test de fidélisation avec groupe témoin. Suivre les taux de réachat, la marge supplémentaire et le coût des offres avant toute généralisation.
 \end{itemize}
-
 \vfill
-{\small\color{gray} Le détail des analyses figure dans le rapport technique du
-groupe.}
-
+{\small\color{gray} Les calculs détaillés figurent dans le rapport technique du groupe. Les chiffres de ciblage présentés ici portent sur le jeu de test.}
 \end{document}
