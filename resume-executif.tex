@@ -4,9 +4,10 @@
 \usepackage[french]{babel}
 \usepackage{lmodern}
 \usepackage{microtype}
-\usepackage[margin=2cm,top=1.6cm,bottom=1.7cm]{geometry}
+\usepackage[margin=2cm,top=1.45cm,bottom=1.4cm]{geometry}
 \usepackage[table]{xcolor}
 \usepackage{graphicx}
+\usepackage{needspace}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{enumitem}
@@ -17,23 +18,25 @@
 \newcommand{\titreprojet}{Valeur client et fidélisation : mieux cibler les clients à risque}
 \newcommand{\membres}{Chris Boupassaia, Bertrand De Vertreuil, Améziane Haouanoh, Léonie Schmit}
 \newcommand{\groupe}{Groupe 5}
-\definecolor{principal}{HTML}{1565C0}
-\definecolor{fondencadre}{HTML}{E8F1FB}
+\definecolor{principal}{HTML}{202020}
+\definecolor{fondencadre}{HTML}{F4F4F4}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{0.38em}
+\setlength{\parskip}{0.22em}
 \setlist{nosep,leftmargin=1.3em,topsep=2pt}
-\titleformat{\section}{\large\bfseries\color{principal}}{}{0em}{}
-\titlespacing*{\section}{0pt}{0.7em}{0.2em}
+\titleformat{\section}{\large\bfseries\color{black}}{}{0em}{}
+\titlespacing*{\section}{0pt}{0.45em}{0.12em}
 \pagestyle{plain}
 \newtcolorbox{enbref}{enhanced,colback=fondencadre,colframe=principal,boxrule=0pt,leftrule=4pt,arc=2pt,left=8pt,right=8pt,top=4pt,bottom=5pt,title={En bref},fonttitle=\bfseries,coltitle=principal,colbacktitle=fondencadre,toptitle=3pt,bottomtitle=0pt}
 \AtEndDocument{\ifnum\value{page}>2 \par\vfill\begin{center}\color{red}\bfseries Attention : le résumé exécutif dépasse 2 pages.\end{center}\fi}
 \begin{document}
-{\small\color{gray} Data Science sous R — ESME, Ingé3 2026-2027 \hfill Projet n\textsuperscript{o}\,\numeroprojet{} — \groupe}
-\vspace{0.35em}
-{\LARGE\bfseries\color{principal} \titreprojet\par}
-\vspace{0.2em}
-{\small \membres{} \hfill 8 novembre 2026}
-\vspace{0.12em}\rule{\linewidth}{0.4pt}
+\noindent{\small\color{black!65}Data Science sous R — ESME, Ingé3 2026-2027\hfill Projet n\textsuperscript{o}\,\numeroprojet{} — \groupe}\par
+\vspace{0.4em}
+{\Large\bfseries\color{black}Valeur client et fidélisation\par}
+\vspace{0.12em}
+{\large\bfseries\color{black}Mieux cibler les clients à risque\par}
+\vspace{0.25em}
+{\small \membres{}\hfill 8 novembre 2026\par}
+\vspace{0.25em}\noindent\rule{\linewidth}{0.4pt}
 
 \begin{enbref}
 \begin{itemize}
@@ -80,6 +83,7 @@ Tester la campagne sur un petit groupe, avec un groupe témoin. & Mesurer les ac
 \end{tabularx}
 \end{center}
 
+\Needspace{5\baselineskip}
 \textbf{Concernant les e-mails :} la version B obtient davantage d'ouvertures (différence significative), mais l'écart sur les achats n'est pas concluant : seulement 20 achats ont été observés au total. Il serait donc prématuré d'affirmer qu'elle augmente les ventes.
 
 \section{Limites et prochaines étapes}
@@ -87,6 +91,5 @@ Tester la campagne sur un petit groupe, avec un groupe témoin. & Mesurer les ac
 \item \textbf{Limites :} les données sont simulées et portent sur une seule année. Trois mois sans achat ne signifient pas forcément la perte définitive d'un client. Les marges sont estimées, notamment pour les ventes avec promotion, et le modèle peut se tromper. Les résultats observés ne prouvent pas qu'une relance sera efficace.
 \item \textbf{Suite proposée :} utiliser plusieurs années d'achats, améliorer le calcul des marges et lancer un test de fidélisation avec groupe témoin. Suivre les taux de réachat, la marge supplémentaire et le coût des offres avant toute généralisation.
 \end{itemize}
-\vfill
-{\small\color{gray} Les calculs détaillés figurent dans le rapport technique du groupe. Les chiffres de ciblage présentés ici portent sur le jeu de test.}
+
 \end{document}
