@@ -533,10 +533,9 @@ Les `r nrow(campagne)` participants du test sont tous abonnés à la newsletter 
 
 # Modélisation
 
-La modélisation répond aux trois questions du projet, en suivant les pistes de la section « Exploration » : ce qui explique la valeur d'un client, quels clients risquent de partir, et ce que montre le test A/B. Tous les modèles sont ajustés sur le jeu d'entraînement défini en section « Préparation des données ». Le jeu de test ne sert qu'à la section « Évaluation ».
+Dans cette partie, on cherche à répondre aux questions de la partie 1 : ce qui explique la valeur d'un client, quels clients risquent de partir, et ce que montre le test A/B. Les modèles sont construits sur le jeu d'entraînement de la partie 3. Le jeu de test sert uniquement dans la partie 6.
 
 ```{r}
-#| label: modele-packages
 library(rpart)
 library(randomForest)
 library(ROCR)
@@ -544,95 +543,69 @@ library(ROCR)
 
 ## Valeur client
 
-La valeur est mesurée par la marge 2025 du client, en logarithme car sa distribution est très asymétrique (@fig-distributions-rfm). Les variables explicatives sont les caractéristiques du client : canal d'acquisition, newsletter, tranche d'âge, ancienneté et catégorie principale. La fréquence et le chiffre d'affaires ne sont pas utilisés ici, car la marge en est directement issue.
+On mesure la valeur d'un client par sa marge 2025. On utilise le logarithme de la marge car sa distribution est très asymétrique. Pour l'expliquer, on prend les caractéristiques du client : canal d'acquisition, newsletter, tranche d'âge, ancienneté et catégorie principale. On ne prend pas la fréquence ni le chiffre d'affaires, car la marge est calculée directement à partir d'eux.
 
-### Modèle de référence
+On commence par un modèle de référence très simple : on prédit la même valeur pour tous les clients, la moyenne du logarithme de la marge.
 
 ```{r}
-#| label: valeur-reference
 reference_valeur <- mean(log(train$marge))
 exp(reference_valeur)
 ```
 
-Sans modèle, on prédit la même valeur pour tous les clients : la moyenne du logarithme de la marge, soit une marge d'environ `r round(exp(reference_valeur))` €. Les modèles suivants doivent faire mieux que cette prédiction.
+Cela correspond à une marge d'environ 86 € par client.
 
-### Régression linéaire
+On fait ensuite une régression linéaire.
 
 ```{r}
-#| label: valeur-regression
 reg_valeur <- lm(log(marge) ~ canal_acquisition + newsletter + tranche_age +
                    anciennete + categorie_principale, data = train)
 summary(reg_valeur)
-
-effets <- round(100 * (exp(coef(reg_valeur)) - 1))
 ```
 
-La variable expliquée étant en logarithme, un coefficient $\beta$ se lit comme une variation de la marge de $100 \times (e^{\beta} - 1)$ %, toutes choses égales par ailleurs. Les modalités de référence sont l'affiliation pour le canal, 18-25 ans pour l'âge et la beauté pour la catégorie principale.
+Comme la marge est en logarithme, on transforme chaque coefficient en pourcentage de variation de la marge. Les modalités de référence sont l'affiliation pour le canal, 18-25 ans pour l'âge et la beauté pour la catégorie principale.
 
-- **Newsletter** : à profil égal, un abonné a une marge supérieure de `r effets["newsletterOui"]` % à celle d'un non-abonné.
-- **Canal** : les clients arrivés en direct (`r effets["canal_acquisitionDirect"]` %) et par email (`r effets["canal_acquisitionEmail"]` %) rapportent plus que ceux venus par affiliation. Les moteurs de recherche et les réseaux sociaux ne se distinguent pas de l'affiliation.
-- **Âge** : seuls les 46-55 ans (`r effets["tranche_age46-55"]` %) et les 56 ans et plus (`r effets["tranche_age56 et +"]` %) ont une marge nettement plus élevée que les 18-25 ans.
-- **Ancienneté** : chaque année d'ancienneté supplémentaire est associée à une marge plus élevée de `r effets["anciennete"]` %.
-- **Catégorie principale** : les clients surtout acheteurs de high-tech (`r effets["categorie_principaleHigh-tech"]` %) et de sport (`r effets["categorie_principaleSport"]` %) rapportent beaucoup moins que les clients beauté, ce qui s'explique par les taux de marge de ces catégories.
+À profil égal, un client abonné à la newsletter a une marge plus élevée de 45 % qu'un non-abonné. Les clients arrivés en direct ont une marge plus élevée de 54 % et ceux arrivés par email de 56 % par rapport à l'affiliation. Les moteurs de recherche et les réseaux sociaux ne sont pas différents de l'affiliation. Les clients de 46-55 ans et de 56 ans et plus rapportent plus que les 18-25 ans, et chaque année d'ancienneté ajoute environ 14 % de marge. Enfin, les clients qui achètent surtout du high-tech (-72 %) ou du sport (-52 %) rapportent beaucoup moins, ce qui vient des taux de marge plus faibles de ces catégories.
 
-Le modèle explique `r round(100 * summary(reg_valeur)$r.squared)` % de la variance du logarithme de la marge. Les caractéristiques du client n'expliquent donc qu'une partie de sa valeur : le reste dépend surtout de son comportement d'achat.
+Le R² est de 29 %. Les caractéristiques du client n'expliquent donc qu'une partie de sa valeur.
 
-### Analyse de la variance selon le canal
-
-On teste l'hypothèse $H_0$ : « la marge moyenne (en logarithme) est la même pour les cinq canaux » contre $H_1$ : « au moins un canal a une marge moyenne différente ».
+On fait aussi une ANOVA pour savoir si la marge moyenne change selon le canal d'acquisition. L'hypothèse H0 est que la marge moyenne est la même pour les cinq canaux.
 
 ```{r}
-#| label: valeur-anova
 anova_canal <- aov(log(marge) ~ canal_acquisition, data = train)
 summary(anova_canal)
 TukeyHSD(anova_canal)
 ```
 
-La p-value de la table d'ANOVA est très inférieure à 5 % : on rejette $H_0$, la marge dépend du canal d'acquisition. Les comparaisons deux à deux de Tukey montrent deux groupes de canaux. Le direct et l'email ne diffèrent pas entre eux, mais ont tous les deux une marge plus élevée que l'affiliation, les moteurs de recherche et les réseaux sociaux. Ces trois derniers canaux ne diffèrent pas significativement entre eux. Le test suppose des résidus de loi normale et des variances proches entre les groupes : le passage au logarithme rend la distribution de la marge beaucoup plus symétrique, et les effectifs par canal sont grands (plus de 150 clients), ce qui rend le test assez robuste.
+La p-value est très inférieure à 5 %, on rejette H0 : la marge dépend du canal. Le test de Tukey montre que le direct et l'email ont une marge plus élevée que les trois autres canaux, et qu'il n'y a pas de différence entre le direct et l'email. L'ANOVA suppose des résidus à peu près normaux et des variances proches entre les groupes. Le passage au logarithme rend la marge plus symétrique et chaque canal compte plus de 150 clients, donc le test reste fiable.
 
-### Effet des promotions à fréquence égale
-
-L'exploration a montré que la part de promotions ne doit être interprétée qu'à fréquence donnée. On ajoute donc la fréquence et la part de promotions au modèle précédent, puis on compare les deux modèles.
+Dans la partie 4, on a vu que la part de promotions doit être regardée à fréquence égale. On ajoute donc la fréquence et la part de promotions au modèle, et on compare les deux modèles.
 
 ```{r}
-#| label: valeur-promo
 reg_promo <- lm(log(marge) ~ canal_acquisition + newsletter + tranche_age +
                   anciennete + categorie_principale + frequence + part_promo,
                 data = train)
 summary(reg_promo)$coefficients[c("frequence", "part_promo"), ]
 anova(reg_valeur, reg_promo)
-
-effet_promo <- round(100 * (exp(coef(reg_promo)["part_promo"]) - 1))
 ```
 
-L'ajout des deux variables améliore très nettement le modèle (test de Fisher, p-value inférieure à 0,001). À fréquence égale, un client qui achète toujours en promotion a une marge inférieure de `r abs(effet_promo)` % à celle d'un client qui n'achète jamais en promotion. Les promotions font donc revenir des clients, mais chaque achat en promotion rapporte moins. Ce modèle sert à mesurer l'effet des promotions : il ne sert pas à prédire la valeur, puisque la fréquence est presque la marge elle-même.
+Le second modèle est nettement meilleur. À fréquence égale, un client qui achète toujours en promotion a une marge plus faible de 26 % qu'un client qui n'achète jamais en promotion. Les promotions font revenir les clients, mais chaque achat rapporte moins. Ce modèle sert seulement à mesurer l'effet des promotions, pas à prédire la valeur, car la fréquence est presque la marge elle-même.
 
-### Forêt aléatoire
-
-Pour comparer avec une méthode non linéaire, on ajuste une forêt aléatoire avec les mêmes variables que la régression.
+Pour finir, on compare avec une forêt aléatoire qui utilise les mêmes variables que la première régression.
 
 ```{r}
-#| label: fig-foret-valeur
-#| fig-cap: "Importance des variables dans la forêt aléatoire de la valeur client"
 foret_valeur <- randomForest(log(marge) ~ canal_acquisition + newsletter + tranche_age +
                                anciennete + categorie_principale,
                              data = train, importance = TRUE)
 varImpPlot(foret_valeur, type = 1, scale = FALSE, main = "Importance des variables (valeur)")
 ```
 
-La @fig-foret-valeur montre que la catégorie principale, l'ancienneté et la newsletter sont les variables les plus importantes, ce qui rejoint les résultats de la régression. Les performances des deux modèles sont comparées en section « Évaluation ».
+Les variables les plus importantes sont la catégorie principale, l'ancienneté et la newsletter, comme dans la régression.
 
 ## Attrition
 
-### Construction de la variable à prédire
-
-La variable `perdu` de la section « Préparation des données » est définie à partir de la récence au 31/12/2025. Elle est utile pour décrire les clients, mais elle ne convient pas pour prédire : la récence au 31/12 contient déjà la réponse, et la fréquence est calculée en partie sur la période où le client a arrêté d'acheter. Pour la modélisation, nous suivons donc la définition de la section « Contexte et question » :
-
-- les indicateurs de chaque client sont calculés sur la période d'observation, du 1^er^ janvier au 30 septembre 2025 ;
-- un client actif pendant cette période est en attrition s'il ne passe aucune commande du 1^er^ octobre au 31 décembre 2025.
+La variable perdu de la partie 3 est définie avec la récence au 31 décembre. Elle est utile pour décrire les clients, mais pas pour prédire, car elle contient déjà la réponse. Pour la modélisation, on reprend donc la définition de la partie 1. Les indicateurs de chaque client sont calculés du 1er janvier au 30 septembre 2025, et un client est en attrition s'il ne passe aucune commande entre le 1er octobre et le 31 décembre 2025.
 
 ```{r}
-#| label: attrition-construction
 construire_table_attrition <- function(date_coupure) {
   observation <- commandes |> filter(date <= date_coupure)
   clients_revenus <- commandes |>
@@ -673,88 +646,65 @@ count(table_attrition, attrition) |> mutate(part = round(100 * n / sum(n), 1))
 c(entrainement = nrow(train_attrition), test = nrow(test_attrition))
 ```
 
-`r nrow(table_attrition)` clients ont commandé entre janvier et septembre, et `r fr(100 * mean(table_attrition$attrition == "Oui"), 1)` % d'entre eux n'ont rien commandé au dernier trimestre. Chaque client garde le jeu (entraînement ou test) qui lui a été attribué en section « Préparation des données » : les clients du jeu de test n'ont donc servi ni à l'exploration ni à l'apprentissage.
+1539 clients ont commandé entre janvier et septembre, et 26,8 % d'entre eux n'ont rien commandé au dernier trimestre. Chaque client reste dans le même jeu (entraînement ou test) que dans la partie 3, donc les clients du test n'ont pas servi à construire les modèles.
 
-Les variables explicatives sont la récence, la fréquence, le panier moyen et la part de promotions sur janvier-septembre, ainsi que le canal, la newsletter, la tranche d'âge, l'ancienneté au 30/09 et la catégorie principale. Cette fois, la récence peut être utilisée, car elle est mesurée avant la période cible. La marge et le chiffre d'affaires ne sont pas utilisés, car ils sont presque redondants avec la fréquence et le panier moyen (@fig-correlations).
+Les variables utilisées sont la récence, la fréquence, le panier moyen et la part de promotions entre janvier et septembre, ainsi que le canal, la newsletter, la tranche d'âge, l'ancienneté et la catégorie principale. On peut utiliser la récence ici, car elle est mesurée avant la période à prédire. On ne prend pas la marge ni le chiffre d'affaires, qui sont très corrélés à la fréquence et au panier moyen.
 
 ```{r}
-#| label: attrition-formule
 formule_attrition <- attrition ~ recence + frequence + panier_moyen + part_promo +
   canal_acquisition + newsletter + tranche_age + anciennete + categorie_principale
 ```
 
-### Modèles de référence
-
-Comme prévu en section « Contexte et question », on compare les modèles à deux références :
-
-- la classe majoritaire : tous les clients sont prédits « Non ». Elle a raison pour `r round(100 * mean(train_attrition$attrition == "Non"))` % des clients du jeu d'entraînement, mais ne repère aucun client qui part ;
-- la règle métier : un client sans achat depuis plus de 90 jours au 30 septembre est considéré comme perdu.
+Comme prévu dans la partie 1, on compare les modèles à deux références. La première prédit que personne ne part : elle a raison pour 74 % des clients du jeu d'entraînement, mais ne repère aucun départ. La seconde est une règle simple : un client sans achat depuis plus de 90 jours au 30 septembre est considéré comme perdu.
 
 ```{r}
-#| label: attrition-regle
 regle_test <- factor(test_attrition$recence > 90, levels = c(FALSE, TRUE),
                      labels = c("Non", "Oui"))
 ```
 
-### Régression logistique
+Le premier modèle est une régression logistique.
 
 ```{r}
-#| label: attrition-logistique
 logistique <- glm(formule_attrition, data = train_attrition, family = binomial)
 summary(logistique)
 round(exp(coef(logistique)), 3)
-
-rc <- exp(coef(logistique))
 ```
 
-Les rapports de cotes se lisent par rapport à la modalité de référence, toutes choses égales par ailleurs. Les variables significatives au seuil de 5 % sont la fréquence, la récence, la newsletter, le canal « moteur de recherche » et certaines tranches d'âge. Nous en interprétons trois :
+Les variables significatives au seuil de 5 % sont la fréquence, la récence, la newsletter, le canal moteur de recherche et certaines tranches d'âge. On interprète les rapports de cotes de trois d'entre elles. Chaque commande en plus entre janvier et septembre multiplie la cote de partir par 0,66 : plus un client commande, moins il part. Un abonné à la newsletter a une cote de partir multipliée par 0,60, soit environ 40 % de moins qu'un non-abonné. Un client arrivé par un moteur de recherche a une cote de partir multipliée par 1,78 par rapport à un client arrivé par affiliation.
 
-- **Fréquence** : chaque commande supplémentaire entre janvier et septembre multiplie la cote de partir par `r fr(rc["frequence"])`. Un client qui commande souvent part beaucoup moins.
-- **Newsletter** : à profil égal, un abonné a une cote de partir multipliée par `r fr(rc["newsletterOui"])` par rapport à un non-abonné, soit environ `r round(100 * (1 - rc["newsletterOui"]))` % de moins.
-- **Canal moteur de recherche** : un client arrivé par un moteur de recherche a une cote de partir multipliée par `r fr(rc["canal_acquisitionMoteur de recherche"])` par rapport à un client arrivé par affiliation.
+La récence va dans le sens attendu : 30 jours de plus sans achat multiplient la cote de partir par 1,11. Il faut rester prudent : ce sont des liens et pas forcément des causes. Par exemple, la newsletter attire peut-être des clients qui étaient déjà fidèles.
 
-La récence joue dans le sens attendu : 30 jours de plus sans achat au 30 septembre multiplient la cote de partir par `r fr(rc["recence"]^30)`. Les clients de 36 à 55 ans partent aussi plus que les 18-25 ans. Ces effets sont des associations : par exemple, la newsletter attire peut-être des clients déjà fidèles.
-
-### Arbre de décision
-
-On construit un arbre avec `rpart`. On impose au moins 50 clients pour couper un nœud et 20 clients par feuille, pour éviter un arbre trop détaillé qui apprendrait le bruit du jeu d'entraînement.
+Le deuxième modèle est un arbre de décision. On impose au moins 50 clients pour couper un nœud et 20 clients par feuille, pour éviter un arbre trop grand.
 
 ```{r}
-#| label: fig-arbre
-#| fig-cap: "Arbre de décision de l'attrition"
-#| fig-height: 6
-#| fig-width: 9
 params <- rpart.control(minsplit = 50, minbucket = 20)
 arbre <- rpart(formule_attrition, data = train_attrition, method = "class", control = params)
 print(arbre)
 plot(arbre, uniform = TRUE, margin = 0.05)
 text(arbre, xpd = TRUE, cex = 0.6, pretty = 0)
+title("Arbre de décision de l'attrition")
 ```
 
-La première coupure de l'arbre (@fig-arbre) porte sur la fréquence : les clients d'au moins 3 commandes entre janvier et septembre partent peu (13 %). Parmi les clients d'une ou deux commandes, ceux qui ont un panier moyen supérieur à 41,5 € et qui sont inscrits depuis plus de huit mois environ sont les plus à risque : plus d'un sur deux part. Ce sont des clients qui ont fait un ou deux achats importants, sans revenir ensuite.
+La première coupure de l'arbre se fait sur la fréquence : les clients qui ont passé au moins 3 commandes partent peu (13 %). Parmi les clients qui ont passé une ou deux commandes, ceux qui ont un panier moyen de plus de 41,5 € et qui sont inscrits depuis plus de huit mois environ sont les plus à risque, avec plus d'un client sur deux qui part. Ce sont des clients qui ont fait un ou deux gros achats et qui ne sont pas revenus.
 
-### Forêt aléatoire
+Le troisième modèle est une forêt aléatoire.
 
 ```{r}
-#| label: attrition-foret
 foret <- randomForest(formule_attrition, data = train_attrition, importance = TRUE)
 foret
 ```
 
 ```{r}
-#| label: fig-foret-attrition
-#| fig-cap: "Importance des variables dans la forêt aléatoire de l'attrition"
 varImpPlot(foret, type = 1, scale = FALSE, main = "Importance des variables (attrition)")
 ```
 
-L'erreur out-of-bag de la forêt est de `r fr(100 * foret$err.rate[foret$ntree, "OOB"], 1)` %. La @fig-foret-attrition montre que la fréquence est la variable la plus importante, devant le panier moyen et la récence. Les trois modèles mettent donc en avant le même comportement : un client qui achète peu souvent est le plus à risque.
+L'erreur out-of-bag de la forêt est de 21,5 %. La variable la plus importante est la fréquence, devant le panier moyen et la récence. Les trois modèles vont donc dans le même sens : un client qui achète peu souvent est le plus à risque.
 
-## Test A/B d'emailing
+## Test A/B
 
-On compare les deux versions à chaque étape de l'entonnoir avec un test du χ² d'indépendance. $H_0$ : « le taux est le même pour les versions A et B ».
+On compare les versions A et B à chaque étape avec un test du khi-deux. L'hypothèse H0 est que le taux est le même pour les deux versions.
 
 ```{r}
-#| label: ab-chi2
 tab_achat <- table(campagne$version, campagne$achat)
 tab_achat
 round(100 * prop.table(tab_achat, 1), 1)
@@ -763,56 +713,49 @@ chisq.test(tab_achat)$expected
 ```
 
 ```{r}
-#| label: tbl-ab-tests
-#| tbl-cap: "Test du χ² entre les versions A et B à chaque étape"
-tibble(
-  Étape = c("Ouverture", "Clic", "Achat"),
-  `Version A (%)` = c(mean(campagne$ouvert[campagne$version == "A"]),
-                      mean(campagne$clic[campagne$version == "A"]),
-                      mean(campagne$achat[campagne$version == "A"])) * 100,
-  `Version B (%)` = c(mean(campagne$ouvert[campagne$version == "B"]),
-                      mean(campagne$clic[campagne$version == "B"]),
-                      mean(campagne$achat[campagne$version == "B"])) * 100,
-  `p-value` = c(chisq.test(table(campagne$version, campagne$ouvert))$p.value,
-                chisq.test(table(campagne$version, campagne$clic))$p.value,
-                chisq.test(tab_achat)$p.value)
-) |>
-  kable(digits = 3)
-
-p_ab <- chisq.test(table(campagne$version, campagne$ouvert))$p.value
-p_achat <- chisq.test(tab_achat)$p.value
+tests_ab <- data.frame(
+  etape = c("Ouverture", "Clic", "Achat"),
+  version_a = c(mean(campagne$ouvert[campagne$version == "A"]),
+                mean(campagne$clic[campagne$version == "A"]),
+                mean(campagne$achat[campagne$version == "A"])) * 100,
+  version_b = c(mean(campagne$ouvert[campagne$version == "B"]),
+                mean(campagne$clic[campagne$version == "B"]),
+                mean(campagne$achat[campagne$version == "B"])) * 100,
+  p_value = c(chisq.test(table(campagne$version, campagne$ouvert))$p.value,
+              chisq.test(table(campagne$version, campagne$clic))$p.value,
+              chisq.test(tab_achat)$p.value)
+)
+kable(tests_ab, digits = 3,
+      col.names = c("Étape", "Version A (%)", "Version B (%)", "p-value"),
+      caption = "Test du khi-deux entre les versions A et B à chaque étape")
 ```
 
-Les effectifs attendus sont tous supérieurs à 5, le test du χ² est donc applicable. La version B est significativement plus ouverte que la version A (p-value de `r fr(p_ab, 3)`). En revanche, l'écart sur le taux d'achat n'est pas significatif (p-value de `r fr(p_achat, 2)`) : avec `r sum(campagne$achat)` achats au total, on ne peut pas conclure que B fait plus acheter. On peut seulement dire que la version B fait mieux ouvrir le mail.
+Les effectifs attendus sont tous supérieurs à 5, donc le test est applicable. La version B est plus ouverte que la version A, et la différence est significative (p-value de 0,013). Par contre, la différence sur le taux d'achat n'est pas significative (p-value de 0,29). Avec seulement 20 achats au total, on ne peut pas dire que la version B fait plus acheter. On peut seulement dire qu'elle fait plus ouvrir le mail.
 
 # Évaluation
 
-## Prédictibilité
-
-### Valeur client
+## Valeur client
 
 On compare les modèles sur le jeu de test avec la RMSE, calculée sur le logarithme de la marge.
 
 ```{r}
-#| label: tbl-perf-valeur
-#| tbl-cap: "Performances des modèles de valeur sur le jeu de test (RMSE sur le logarithme de la marge)"
-tibble(
-  Modèle = c("Référence (moyenne)", "Régression linéaire", "Forêt aléatoire"),
-  RMSE = c(rmse(log(test$marge), reference_valeur),
+perf_valeur <- data.frame(
+  modele = c("Référence (moyenne)", "Régression linéaire", "Forêt aléatoire"),
+  rmse = c(rmse(log(test$marge), reference_valeur),
            rmse(log(test$marge), predict(reg_valeur, test)),
            rmse(log(test$marge), predict(foret_valeur, test)))
-) |>
-  kable(digits = 3)
+)
+kable(perf_valeur, digits = 3, col.names = c("Modèle", "RMSE"),
+      caption = "RMSE des modèles de valeur sur le jeu de test")
 ```
 
-La régression et la forêt font mieux que la référence, avec des erreurs proches. La forêt n'apporte presque rien par rapport à la régression : on garde la régression linéaire, plus simple à interpréter. Le gain reste modeste, ce qui confirme que les caractéristiques du client expliquent seulement une partie de sa valeur.
+La régression et la forêt font mieux que la référence, avec des erreurs proches. La forêt n'apporte presque rien de plus, donc on garde la régression linéaire, qui est plus simple à interpréter. Le gain par rapport à la référence reste limité : les caractéristiques du client ne suffisent pas à prédire précisément sa valeur.
 
-### Attrition
+## Attrition
 
-Pour chaque modèle, on prédit « Oui » quand la probabilité de partir dépasse 0,5. On calcule le taux de bonne classification, la sensibilité (part des clients partis bien repérés) et la spécificité (part des clients restés bien repérés). L'AUC est calculée à partir des probabilités, avec le package `ROCR`.
+Pour chaque modèle, on prédit qu'un client part quand sa probabilité de partir dépasse 0,5. On calcule le taux de bonne classification, la sensibilité (part des clients partis qui sont bien repérés), la spécificité (part des clients restés qui sont bien repérés) et l'AUC avec le package ROCR.
 
 ```{r}
-#| label: attrition-predictions
 proba_logistique <- predict(logistique, newdata = test_attrition, type = "response")
 proba_arbre      <- predict(arbre, newdata = test_attrition)[, "Oui"]
 proba_foret      <- predict(foret, newdata = test_attrition, type = "prob")[, "Oui"]
@@ -830,22 +773,20 @@ indicateurs <- function(observe, predit) {
 
 calcul_auc <- function(proba, observe) {
   pred <- prediction(as.numeric(proba), observe)
-  performance(pred, measure = "auc")@y.values[[1]]
+  slot(performance(pred, measure = "auc"), "y.values")[[1]]
 }
 
 table(test_attrition$attrition, en_classe(proba_logistique))
 ```
 
 ```{r}
-#| label: tbl-perf-attrition
-#| tbl-cap: "Performances des modèles d'attrition sur le jeu de test (seuil de 0,5)"
 observe <- test_attrition$attrition
 majoritaire <- factor(rep("Non", nrow(test_attrition)), levels = c("Non", "Oui"))
 
 perf_attrition <- rbind(
-  "Classe majoritaire" = c(indicateurs(observe, majoritaire), auc = 0.5),
-  "Règle : plus de 90 jours sans achat" = c(indicateurs(observe, regle_test),
-                                            auc = calcul_auc(regle_test == "Oui", observe)),
+  "Personne ne part" = c(indicateurs(observe, majoritaire), auc = 0.5),
+  "Règle des 90 jours" = c(indicateurs(observe, regle_test),
+                           auc = calcul_auc(regle_test == "Oui", observe)),
   "Régression logistique" = c(indicateurs(observe, en_classe(proba_logistique)),
                               auc = calcul_auc(proba_logistique, observe)),
   "Arbre de décision" = c(indicateurs(observe, en_classe(proba_arbre)),
@@ -854,12 +795,11 @@ perf_attrition <- rbind(
                         auc = calcul_auc(proba_foret, observe))
 )
 kable(perf_attrition, digits = 3,
-      col.names = c("Bonne classification", "Sensibilité", "Spécificité", "AUC"))
+      col.names = c("Bonne classification", "Sensibilité", "Spécificité", "AUC"),
+      caption = "Performances des modèles d'attrition sur le jeu de test (seuil de 0,5)")
 ```
 
 ```{r}
-#| label: fig-roc
-#| fig-cap: "Courbes ROC des trois modèles d'attrition sur le jeu de test"
 roc_logistique <- performance(prediction(proba_logistique, observe), "tpr", "fpr")
 roc_arbre      <- performance(prediction(proba_arbre, observe), "tpr", "fpr")
 roc_foret      <- performance(prediction(proba_foret, observe), "tpr", "fpr")
@@ -873,60 +813,48 @@ legend("bottomright", legend = c("Régression logistique", "Arbre de décision",
        col = c("steelblue", "darkorange", "darkgreen"), lwd = 2)
 ```
 
-La classe majoritaire a un taux de bonne classification correct mais une sensibilité nulle : elle ne sert à rien pour une campagne de rétention. La règle des 90 jours repère `r round(100 * perf_attrition["Règle : plus de 90 jours sans achat", "sensibilite"])` % des clients partis, mais son AUC n'est que de `r fr(perf_attrition["Règle : plus de 90 jours sans achat", "auc"], 3)`. Les trois modèles font nettement mieux (@tbl-perf-attrition et @fig-roc). La régression logistique obtient la meilleure AUC (`r fr(perf_attrition["Régression logistique", "auc"], 3)`), proche de celle de la forêt (`r fr(perf_attrition["Forêt aléatoire", "auc"], 3)`) et au-dessus de celle de l'arbre (`r fr(perf_attrition["Arbre de décision", "auc"], 3)`). Nous retenons la régression logistique : ses performances sont proches de celles de la forêt, et ses rapports de cotes sont faciles à expliquer à l'équipe marketing. Le critère de succès de la section « Contexte et question » est donc atteint.
+Le modèle qui prédit que personne ne part a un taux de bonne classification correct, mais il ne repère aucun départ, donc il ne sert à rien pour une campagne de fidélisation. La règle des 90 jours repère 58 % des départs, mais son AUC n'est que de 0,664. Les trois modèles font nettement mieux. La régression logistique a la meilleure AUC (0,838), juste devant la forêt (0,829) et l'arbre (0,774). On garde la régression logistique, car ses résultats sont proches de ceux de la forêt et elle est plus facile à expliquer à l'équipe marketing. Le critère de succès de la partie 1 est donc atteint.
 
-Avec un seuil de 0,5, la régression logistique ne repère que `r round(100 * perf_attrition["Régression logistique", "sensibilite"])` % des clients partis. Pour une campagne de rétention, rater un client qui part coûte plus cher qu'envoyer une offre à un client qui serait resté. On regarde donc des seuils plus bas :
+Avec un seuil de 0,5, la régression logistique ne repère que 40 % des clients qui partent. Pour une campagne de fidélisation, rater un client qui part coûte plus cher que d'envoyer une offre à un client qui serait resté. On teste donc des seuils plus bas.
 
 ```{r}
-#| label: tbl-seuils
-#| tbl-cap: "Régression logistique : indicateurs selon le seuil de probabilité (jeu de test)"
 perf_seuils <- rbind(
   "Seuil 0,5" = indicateurs(observe, en_classe(proba_logistique, 0.5)),
   "Seuil 0,3" = indicateurs(observe, en_classe(proba_logistique, 0.3)),
   "Seuil 0,2" = indicateurs(observe, en_classe(proba_logistique, 0.2))
 )
-kable(perf_seuils, digits = 3, col.names = c("Bonne classification", "Sensibilité", "Spécificité"))
+kable(perf_seuils, digits = 3, col.names = c("Bonne classification", "Sensibilité", "Spécificité"),
+      caption = "Régression logistique selon le seuil de probabilité (jeu de test)")
 ```
 
-Avec un seuil de 0,3, la sensibilité monte à `r round(100 * perf_seuils["Seuil 0,3", "sensibilite"])` %, avec une spécificité de `r round(100 * perf_seuils["Seuil 0,3", "specificite"])` % (@tbl-seuils). À ce seuil, la régression logistique fait mieux que la règle des 90 jours à la fois sur la sensibilité et sur la spécificité. Le choix final du seuil dépend du coût d'une offre et de la marge des clients ciblés.
+Avec un seuil de 0,3, la sensibilité passe à 75 % et la spécificité reste à 76 %. À ce seuil, la régression logistique fait mieux que la règle des 90 jours sur les deux indicateurs.
 
-### Clients à forte valeur et à fort risque
-
-La section « Contexte et question » demande aussi quels clients combinent une forte marge et un fort risque de départ. Sur le jeu de test, on croise la probabilité prédite par la régression logistique (seuil de 0,3) et la marge générée de janvier à septembre (au-dessus ou en dessous de la médiane du jeu d'entraînement).
+La partie 1 demande aussi quels clients ont à la fois une forte marge et un fort risque de partir. Sur le jeu de test, on croise la probabilité de partir (au-dessus ou en dessous de 0,3) avec la marge de janvier à septembre (au-dessus ou en dessous de la médiane).
 
 ```{r}
-#| label: tbl-risque-valeur
-#| tbl-cap: "Clients du jeu de test selon le risque prédit et la valeur"
 mediane_marge <- median(train_attrition$marge)
 
 croisement <- test_attrition |>
   mutate(Risque = ifelse(proba_logistique > 0.3, "Risque élevé", "Risque faible"),
          Valeur = ifelse(marge >= mediane_marge, "Forte valeur", "Faible valeur")) |>
   group_by(Valeur, Risque) |>
-  summarise(Clients = n(),
-            `Partis au 4e trimestre (%)` = round(100 * mean(attrition == "Oui")),
-            `Marge janvier-septembre (€)` = round(sum(marge)),
+  summarise(clients = n(),
+            partis = round(100 * mean(attrition == "Oui")),
+            marge_totale = round(sum(marge)),
             .groups = "drop")
-kable(croisement)
+kable(croisement,
+      col.names = c("Valeur", "Risque", "Clients", "Partis au 4e trimestre (%)", "Marge janvier-septembre (€)"),
+      caption = "Clients du jeu de test selon le risque de partir et la valeur")
 
-prioritaires <- croisement |> filter(Valeur == "Forte valeur", Risque == "Risque élevé")
-peu_risque   <- croisement |> filter(Valeur == "Forte valeur", Risque == "Risque faible")
 ```
 
-Le groupe « forte valeur et risque élevé » compte `r prioritaires$Clients` clients du jeu de test, et `r prioritaires[["Partis au 4e trimestre (%)"]]` % d'entre eux sont effectivement partis au dernier trimestre, contre `r peu_risque[["Partis au 4e trimestre (%)"]]` % pour les clients à forte valeur et risque faible (@tbl-risque-valeur). C'est ce groupe qu'il faut cibler en priorité par une campagne de rétention. Les clients à risque élevé mais à faible valeur partent aussi beaucoup, mais ils rapportent peu : une offre coûteuse n'y serait pas rentable.
+Dans le jeu de test, 35 clients ont une forte valeur et un risque élevé. 49 % d'entre eux sont vraiment partis, contre 8 % pour les clients à forte valeur et à risque faible. Ce sont eux qu'il faut cibler en priorité. Les clients à risque élevé et à faible valeur partent aussi beaucoup, mais ils rapportent peu, donc une offre coûteuse ne serait pas rentable pour eux.
 
 ## Stabilité
 
-On vérifie si les conclusions changent quand on modifie les choix faits pendant la préparation et la modélisation :
-
-- la graine du découpage entraînement / test ;
-- la date de coupure : observation de janvier à août et attrition de septembre à décembre, au lieu du 30 septembre ;
-- le traitement de l'âge manquant : âge imputé par la médiane au lieu de la tranche « Non renseigné ».
-
-Pour chaque cas, on refait un découpage 70 / 30, on ajuste la régression logistique et la forêt aléatoire, puis on calcule l'AUC sur le jeu de test.
+On vérifie si les résultats changent quand on modifie certains choix : la graine du découpage entre entraînement et test, la date de coupure (observation jusqu'au 31 août au lieu du 30 septembre) et le traitement de l'âge manquant (remplacé par la médiane au lieu de la tranche Non renseigné). Pour chaque cas, on refait un découpage 70/30, on ajuste la régression logistique et la forêt, puis on calcule l'AUC sur le jeu de test.
 
 ```{r}
-#| label: stabilite-fonction
 evaluer_attrition <- function(donnees_eval, graine, formule) {
   set.seed(graine)
   ind <- sample(nrow(donnees_eval), size = round(0.7 * nrow(donnees_eval)))
@@ -941,8 +869,6 @@ evaluer_attrition <- function(donnees_eval, graine, formule) {
 ```
 
 ```{r}
-#| label: tbl-stabilite-graines
-#| tbl-cap: "AUC sur le jeu de test pour cinq graines différentes (coupure au 30 septembre)"
 graines <- c(2026, 1, 42, 123, 2025)
 res_graines <- matrix(NA, nrow = length(graines), ncol = 3,
                       dimnames = list(paste("Graine", graines),
@@ -951,12 +877,11 @@ for (i in seq_along(graines)) {
   res_graines[i, ] <- evaluer_attrition(table_attrition, graines[i], formule_attrition)
 }
 kable(res_graines, digits = 3,
-      col.names = c("Part d'attrition (test)", "AUC logistique", "AUC forêt"))
+      col.names = c("Part d'attrition (test)", "AUC logistique", "AUC forêt"),
+      caption = "AUC sur le jeu de test pour cinq graines différentes")
 ```
 
 ```{r}
-#| label: tbl-stabilite-choix
-#| tbl-cap: "AUC sur le jeu de test selon les choix de préparation (graine 2026)"
 table_aout <- construire_table_attrition(as.Date("2025-08-31"))
 
 table_age_imp <- table_attrition |>
@@ -967,25 +892,18 @@ formule_age_imp <- attrition ~ recence + frequence + panier_moyen + part_promo +
 res_choix <- rbind(
   "Coupure au 30 septembre" = evaluer_attrition(table_attrition, 2026, formule_attrition),
   "Coupure au 31 août" = evaluer_attrition(table_aout, 2026, formule_attrition),
-  "Âge imputé par la médiane" = evaluer_attrition(table_age_imp, 2026, formule_age_imp)
+  "Âge remplacé par la médiane" = evaluer_attrition(table_age_imp, 2026, formule_age_imp)
 )
 kable(res_choix, digits = 3,
-      col.names = c("Part d'attrition (test)", "AUC logistique", "AUC forêt"))
+      col.names = c("Part d'attrition (test)", "AUC logistique", "AUC forêt"),
+      caption = "AUC sur le jeu de test selon les choix de préparation (graine 2026)")
 ```
 
-Les résultats sont stables avec la graine (@tbl-stabilite-graines) : l'AUC de la régression logistique varie entre `r fr(min(res_graines[, "auc_logistique"]), 3)` et `r fr(max(res_graines[, "auc_logistique"]), 3)`, et celle de la forêt entre `r fr(min(res_graines[, "auc_foret"]), 3)` et `r fr(max(res_graines[, "auc_foret"]), 3)`. Changer la date de coupure ou le traitement de l'âge modifie peu l'AUC (@tbl-stabilite-choix). Nos conclusions ne dépendent donc pas de ces choix.
+Avec les cinq graines, l'AUC de la régression logistique va de 0,785 à 0,817, et celle de la forêt de 0,779 à 0,827. Changer la date de coupure ou le traitement de l'âge change peu l'AUC. Les résultats sont donc stables.
 
-Deux remarques. D'abord, l'AUC obtenue avec le découpage de la section « Préparation des données » (`r fr(perf_attrition["Régression logistique", "auc"], 3)`) est un peu au-dessus des autres découpages : il vaut mieux retenir une AUC autour de 0,8. Ensuite, selon la graine, c'est parfois la forêt et parfois la régression logistique qui est devant, avec des écarts faibles. Le choix de la régression logistique se justifie donc surtout par sa simplicité d'interprétation.
+On remarque quand même que l'AUC obtenue avec le découpage de la partie 3 (0,838) est un peu au-dessus des autres découpages : il vaut mieux retenir une AUC autour de 0,8. Selon la graine, c'est parfois la forêt et parfois la régression logistique qui est devant, avec de petits écarts. On garde la régression logistique surtout parce qu'elle est plus simple à interpréter.
 
-Une limite reste importante : toutes les données viennent de la seule année 2025. Le dernier trimestre contient les achats de fin d'année, et on ne sait pas si le modèle marcherait aussi bien sur une autre période.
-
-## Récapitulatif
-
-| Question | Modèle retenu | Résultat sur le jeu de test |
-|:---------|:--------------|:----------------------------|
-| Valeur client | Régression linéaire sur le log de la marge | RMSE de `r fr(rmse(log(test$marge), predict(reg_valeur, test)), 3)` contre `r fr(rmse(log(test$marge), reference_valeur), 3)` pour la référence |
-| Attrition | Régression logistique | AUC de `r fr(perf_attrition["Régression logistique", "auc"], 3)` contre `r fr(perf_attrition["Règle : plus de 90 jours sans achat", "auc"], 3)` pour la règle des 90 jours ; autour de 0,8 avec d'autres graines |
-| Test A/B | Test du χ² | B plus ouvert (p = `r fr(p_ab, 3)`), pas de différence significative sur l'achat |
+Enfin, toutes les données viennent de l'année 2025. Le dernier trimestre contient les achats de fin d'année, donc on ne sait pas si le modèle marcherait aussi bien sur une autre période.
 
 # Résultats et recommandations
 
