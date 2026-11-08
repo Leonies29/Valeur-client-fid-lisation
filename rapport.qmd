@@ -34,17 +34,11 @@ bibliography: references.bib
 ::: {.callout-important collapse="true"}
 ## Mode d'emploi du modèle (à supprimer avant le rendu final)
 
-- Ce document est le **rapport technique** du projet. Le résumé exécutif
-  (2 pages, pour un public non technique) est un document séparé : modèle
-  LaTeX `resume-executif.tex`, dans ce même dossier.
+- Ce document est le **rapport technique** du projet. Le résumé exécutif (2 pages, pour un public non technique) est un document séparé : modèle LaTeX `resume-executif.tex`, dans ce même dossier.
 - Remplacez le titre, le numéro du projet et les noms ci-dessus.
-- Indiquez le numéro de votre projet dans le bloc `configuration`
-  ci-dessous : les données correspondantes sont chargées automatiquement.
-- Les encadrés « Consigne » expliquent ce qui est attendu dans chaque
-  section : **supprimez-les** une fois la section rédigée.
-- Le rapport doit se produire **de bout en bout** avec le bouton *Render* de
-  RStudio (ou `quarto render rapport.qmd`), sans erreur, à partir des données
-  d'origine.
+- Indiquez le numéro de votre projet dans le bloc `configuration` ci-dessous : les données correspondantes sont chargées automatiquement.
+- Les encadrés « Consigne » expliquent ce qui est attendu dans chaque section : **supprimez-les** une fois la section rédigée.
+- Le rapport doit se produire **de bout en bout** avec le bouton *Render* de RStudio (ou `quarto render rapport.qmd`), sans erreur, à partir des données d'origine.
 - Rangez les fonctions réutilisables dans `R/fonctions.R`.
 :::
 
@@ -65,59 +59,30 @@ theme_set(theme_minimal())
 
 # Résumé {.unnumbered}
 
-::: {.callout-note}
+::: callout-note
 ## Consigne
 
-Trois à cinq phrases : la question, les données, la méthode, le **résultat
-principal** (chiffré) et la **recommandation**, puis la principale limite.
-Rédigez cette partie en dernier.
+Trois à cinq phrases : la question, les données, la méthode, le **résultat principal** (chiffré) et la **recommandation**, puis la principale limite. Rédigez cette partie en dernier.
 :::
 
 # Contexte et question
 
-Une boutique en ligne généraliste vend des produits de six catégories : mode,
-maison, beauté, high-tech, sport et jardin. Comme beaucoup d'acteurs du commerce
-en ligne, elle fait face à deux difficultés. D'une part, une partie de ses
-clients cesse d'acheter sans prévenir : l'attrition n'est jamais déclarée, on
-la constate seulement par l'absence de nouvelles commandes. D'autre part, ses
-actions de fidélisation (remises, relances par e-mail, offres promotionnelles)
-sont envoyées largement, alors qu'elles ont un coût et que tous les clients ne
-rapportent pas autant. Les taux de marge vont en effet de 18 % pour le
-high-tech à 60 % pour la beauté : à chiffre d'affaires égal, deux clients
-peuvent avoir une valeur très différente pour l'entreprise.
+Une boutique en ligne généraliste vend des produits de six catégories : mode, maison, beauté, high-tech, sport et jardin. Comme beaucoup d'acteurs du commerce en ligne, elle fait face à deux difficultés. D'une part, une partie de ses clients cesse d'acheter sans prévenir : l'attrition n'est jamais déclarée, on la constate seulement par l'absence de nouvelles commandes. D'autre part, ses actions de fidélisation (remises, relances par e-mail, offres promotionnelles) sont envoyées largement, alors qu'elles ont un coût et que tous les clients ne rapportent pas autant. Les taux de marge vont en effet de 18 % pour le high-tech à 60 % pour la beauté : à chiffre d'affaires égal, deux clients peuvent avoir une valeur très différente pour l'entreprise.
 
-L'équipe marketing souhaite donc mieux cibler ses efforts de rétention : agir
-en priorité sur les clients qui risquent de partir et qui ont une forte
-valeur, plutôt que sur l'ensemble de la base.
+L'équipe marketing souhaite donc mieux cibler ses efforts de rétention : agir en priorité sur les clients qui risquent de partir et qui ont une forte valeur, plutôt que sur l'ensemble de la base.
 
-**Question.** À partir du comportement d'achat observé de janvier à septembre
-2025, peut-on prédire quels clients ne repasseront pas commande au dernier
-trimestre 2025 ? Et parmi eux, quels clients combinent une forte marge et un
-fort risque de départ ?
+**Question.** À partir du comportement d'achat observé de janvier à septembre 2025, peut-on prédire quels clients ne repasseront pas commande au dernier trimestre 2025 ? Et parmi eux, quels clients combinent une forte marge et un fort risque de départ ?
 
-**Décision éclairée.** Choisir les clients à cibler en priorité par une
-campagne de rétention et, grâce au test A/B mené par la boutique, la version de
-message à leur adresser.
+**Décision éclairée.** Choisir les clients à cibler en priorité par une campagne de rétention et, grâce au test A/B mené par la boutique, la version de message à leur adresser.
 
-**Critère de succès.** Le modèle retenu doit prédire l'attrition mieux que
-deux références : la prédiction de la classe majoritaire, et une règle métier
-simple (« client sans achat depuis plus de 90 jours »). La performance est
-mesurée par l'AUC et la sensibilité sur un jeu de test non utilisé pour
-l'apprentissage.
+**Critère de succès.** Le modèle retenu doit prédire l'attrition mieux que deux références : la prédiction de la classe majoritaire, et une règle métier simple (« client sans achat depuis plus de 90 jours »). La performance est mesurée par l'AUC et la sensibilité sur un jeu de test non utilisé pour l'apprentissage.
 
-**Définition de l'attrition.** Les données ne contiennent pas de variable
-d'attrition : nous la construisons. L'année 2025 est découpée en deux périodes.
+**Définition de l'attrition.** Les données ne contiennent pas de variable d'attrition : nous la construisons. L'année 2025 est découpée en deux périodes.
 
-- *Période d'observation* (1^er^ janvier – 30 septembre 2025) : on y calcule
-  les indicateurs de comportement de chaque client (récence, fréquence,
-  montant, marge, usage des promotions...).
-- *Période cible* (1^er^ octobre – 31 décembre 2025) : un client actif sur la
-  période d'observation est dit en attrition s'il n'y passe aucune
-  commande.
+- *Période d'observation* (1^er^ janvier – 30 septembre 2025) : on y calcule les indicateurs de comportement de chaque client (récence, fréquence, montant, marge, usage des promotions...).
+- *Période cible* (1^er^ octobre – 31 décembre 2025) : un client actif sur la période d'observation est dit en attrition s'il n'y passe aucune commande.
 
-Ce découpage garantit que les variables explicatives sont toutes antérieures à
-la période où l'on mesure le résultat, comme ce serait le cas en situation
-réelle de prévision.
+Ce découpage garantit que les variables explicatives sont toutes antérieures à la période où l'on mesure le résultat, comme ce serait le cas en situation réelle de prévision.
 
 # Données
 
@@ -147,33 +112,16 @@ ca_total       <- round(sum(donnees$montant))
 panier_median  <- round(median(donnees$montant), 2)
 ```
 
-Les données décrivent la base clients et l'historique de commandes d'une
-boutique en ligne fictive. Elles sont simulées et ont été fournies dans le
-cadre du cours, au chapitre 3 (« Manipulation des données avec R »), sous la
-forme de quatre fichiers CSV (dossier `donnees/`). Nos conclusions illustrent
-donc une démarche d'analyse plutôt qu'elles ne décrivent une entreprise réelle.
+Les données décrivent la base clients et l'historique de commandes d'une boutique en ligne fictive. Elles sont simulées et ont été fournies dans le cadre du cours, au chapitre 3 (« Manipulation des données avec R »), sous la forme de quatre fichiers CSV (dossier `donnees/`). Nos conclusions illustrent donc une démarche d'analyse plutôt qu'elles ne décrivent une entreprise réelle.
 
-Les quatre tables sont reliées par l'identifiant client (`client_id`) et par
-la catégorie de produits :
+Les quatre tables sont reliées par l'identifiant client (`client_id`) et par la catégorie de produits :
 
-- **clients** : `r n_clients` clients, une ligne par client, avec leurs
-  caractéristiques (âge, région, canal d'acquisition, date d'inscription entre
-  `r inscr_min` et `r inscr_max`, abonnement à la newsletter) ;
-- **commandes** : `r n_commandes` commandes passées entre le `r date_min` et le
-  `r date_max`, une ligne par commande (date, catégorie, nombre d'articles,
-  usage d'une promotion, montant). Elles ont été passées par `r n_acheteurs`
-  clients différents, pour un chiffre d'affaires total de `r ca_total` € et un
-  panier médian de `r panier_median` € ;
-- **categories** : les six catégories de produits, avec leur taux de marge et
-  leur univers (Personne, Habitat, Technologie, Loisirs) ;
-- **campagne** : `r n_campagne` clients ayant reçu une campagne d'e-mailing
-  testée en deux versions (test A/B), avec les étapes de l'entonnoir :
-  ouverture, clic, achat.
+- **clients** : `r n_clients` clients, une ligne par client, avec leurs caractéristiques (âge, région, canal d'acquisition, date d'inscription entre `r inscr_min` et `r inscr_max`, abonnement à la newsletter) ;
+- **commandes** : `r n_commandes` commandes passées entre le `r date_min` et le `r date_max`, une ligne par commande (date, catégorie, nombre d'articles, usage d'une promotion, montant). Elles ont été passées par `r n_acheteurs` clients différents, pour un chiffre d'affaires total de `r ca_total` € et un panier médian de `r panier_median` € ;
+- **categories** : les six catégories de produits, avec leur taux de marge et leur univers (Personne, Habitat, Technologie, Loisirs) ;
+- **campagne** : `r n_campagne` clients ayant reçu une campagne d'e-mailing testée en deux versions (test A/B), avec les étapes de l'entonnoir : ouverture, clic, achat.
 
-La table de travail fournie par `charger_donnees()` réunit commandes et
-clients : une ligne y représente une commande. Pour répondre à la
-question, nous construirons ensuite une table où une ligne représente un
-client (section « Préparation des données »).
+La table de travail fournie par `charger_donnees()` réunit commandes et clients : une ligne y représente une commande. Pour répondre à la question, nous construirons ensuite une table où une ligne représente un client (section « Préparation des données »).
 
 ```{r}
 #| label: tbl-tables
@@ -260,70 +208,32 @@ ggplot(donnees, aes(x = reorder(categorie, montant, median), y = montant)) +
 
 Les contrôles du @tbl-controles appellent les traitements suivants.
 
-- **Âges manquants** (`r controles$Nombre[1]` clients). Supprimer ces clients
-  réduirait l'échantillon pour une seule variable. Nous les conservons :
-  l'âge manquant est remplacé par la médiane et un indicateur `age_manquant`
-  est ajouté, pour que le modèle puisse détecter un éventuel comportement
-  propre à ces clients. L'effet de ce choix est testé en section
-  « Évaluation ».
-- **Accumulation à 18 ans** (`r controles$Nombre[2]` clients). Elle suggère un
-  plancher de saisie (âge minimum requis à l'inscription) plutôt que des
-  clients ayant tous exactement 18 ans. Nous gardons la variable, mais
-  l'interprétons avec prudence pour les plus jeunes.
-- **Clients sans commande en 2025** (`r controles$Nombre[6]` clients). Ils
-  n'ont aucun comportement d'achat à analyser ; une partie s'est d'ailleurs
-  inscrite en fin d'année. Ils sont exclus de l'étude de l'attrition, qui
-  porte par définition sur les clients actifs pendant la période
-  d'observation.
-- **Montants élevés** (@fig-montants). Les commandes les plus chères restent
-  plausibles pour un panier de plusieurs articles en maison ou high-tech. Il
-  s'agit de valeurs extrêmes, pas d'erreurs : nous les conservons, car ce sont
-  justement elles qui distinguent les clients à forte valeur.
-- [À COMPLÉTER selon le résultat : doublons, commandes sans client, commandes
-  antérieures à l'inscription et incohérences de l'entonnoir. Si un nombre est
-  nul, l'indiquer en une phrase ; sinon, décrire le traitement retenu.]
+- **Âges manquants** (`r controles$Nombre[1]` clients). Supprimer ces clients réduirait l'échantillon pour une seule variable. Nous les conservons : l'âge manquant est remplacé par la médiane et un indicateur `age_manquant` est ajouté, pour que le modèle puisse détecter un éventuel comportement propre à ces clients. L'effet de ce choix est testé en section « Évaluation ».
+- **Accumulation à 18 ans** (`r controles$Nombre[2]` clients). Elle suggère un plancher de saisie (âge minimum requis à l'inscription) plutôt que des clients ayant tous exactement 18 ans. Nous gardons la variable, mais l'interprétons avec prudence pour les plus jeunes.
+- **Clients sans commande en 2025** (`r controles$Nombre[6]` clients). Ils n'ont aucun comportement d'achat à analyser ; une partie s'est d'ailleurs inscrite en fin d'année. Ils sont exclus de l'étude de l'attrition, qui porte par définition sur les clients actifs pendant la période d'observation.
+- **Montants élevés** (@fig-montants). Les commandes les plus chères restent plausibles pour un panier de plusieurs articles en maison ou high-tech. Il s'agit de valeurs extrêmes, pas d'erreurs : nous les conservons, car ce sont justement elles qui distinguent les clients à forte valeur.
+- **Cohérence des tables.** Les contrôles de doublons, de commandes sans client connu, de commandes antérieures à l’inscription et d’incohérences de l’entonnoir ne relèvent aucun cas (Table 4) : aucun traitement n’est nécessaire.
 
-**Représentativité.** Les commandes couvrent une seule année (2025). Une
-saisonnalité forte, par exemple les achats de fin d'année, peut influencer la
-période cible (octobre à décembre). La table `campagne` ne porte que sur une
-partie des clients et n'est pas datée : on ne peut pas la situer par rapport
-aux périodes d'observation et cible. Enfin, la campagne compte peu d'achats,
-ce qui limite la précision de la comparaison entre les versions A et B.
+**Représentativité.** Les commandes couvrent une seule année (2025). Une saisonnalité forte, par exemple les achats de fin d'année, peut influencer la période cible (octobre à décembre). La table `campagne` ne porte que sur une partie des clients et n'est pas datée : on ne peut pas la situer par rapport aux périodes d'observation et cible. Enfin, la campagne compte peu d'achats, ce qui limite la précision de la comparaison entre les versions A et B.
 
 ## Éthique et cadre légal
 
-Les données décrivent des personnes physiques : ce sont des données
-personnelles au sens du RGPD. Elles sont pseudonymisées (un identifiant
-remplace le nom et l'adresse), mais pas anonymes : l'âge, la région et la date
-d'inscription, combinés à l'historique d'achats, pourraient permettre de
-réidentifier un client si la table était croisée avec d'autres sources.
+Les données décrivent des personnes physiques : ce sont des données personnelles au sens du RGPD. Elles sont pseudonymisées (un identifiant remplace le nom et l'adresse), mais pas anonymes : l'âge, la région et la date d'inscription, combinés à l'historique d'achats, pourraient permettre de réidentifier un client si la table était croisée avec d'autres sources.
 
 Les usages possibles de nos résultats posent plusieurs questions.
 
-- **Ciblage et traitement différencié.** Réserver des remises aux clients
-  jugés « précieux » revient à proposer des prix différents selon le profil.
-  C'est légal en France si les critères sont commerciaux (historique d'achat),
-  mais l'âge ou la région ne doivent pas devenir des critères d'exclusion.
-- **Prospection par e-mail.** Une campagne de rétention par e-mail suppose le
-  consentement des clients (variable `newsletter`) ou un lien commercial
-  existant, avec une possibilité simple de désinscription.
-- **Profilage automatisé.** Un score d'attrition est un profilage. Il doit
-  servir à orienter des offres, pas à fonder seul une décision défavorable
-  pour un client.
+- **Ciblage et traitement différencié.** Réserver des remises aux clients jugés « précieux » revient à proposer des prix différents selon le profil. C'est légal en France si les critères sont commerciaux (historique d'achat), mais l'âge ou la région ne doivent pas devenir des critères d'exclusion.
+- **Prospection par e-mail.** Une campagne de rétention par e-mail suppose le consentement des clients (variable `newsletter`) ou un lien commercial existant, avec une possibilité simple de désinscription.
+- **Profilage automatisé.** Un score d'attrition est un profilage. Il doit servir à orienter des offres, pas à fonder seul une décision défavorable pour un client.
 
-Précautions retenues : nous n'utilisons que des variables nécessaires à la
-question (minimisation) ; nous vérifions que les recommandations ne reposent
-pas principalement sur l'âge ou la région ; les résultats sont présentés de
-façon agrégée, par segments, et jamais par client nominatif.
+Précautions retenues : nous n'utilisons que des variables nécessaires à la question (minimisation) ; nous vérifions que les recommandations ne reposent pas principalement sur l'âge ou la région ; les résultats sont présentés de façon agrégée, par segments, et jamais par client nominatif.
 
 # Préparation des données
 
-::: {.callout-note}
+::: callout-note
 ## Consigne
 
-Décrivez et justifiez chaque transformation : recodages, variables créées,
-traitement des valeurs manquantes, filtres. Ces choix peuvent influencer les
-résultats : notez-les pour en tester l'effet (section « Évaluation »).
+Décrivez et justifiez chaque transformation : recodages, variables créées, traitement des valeurs manquantes, filtres. Ces choix peuvent influencer les résultats : notez-les pour en tester l'effet (section « Évaluation »).
 :::
 
 ```{r}
@@ -332,9 +242,7 @@ donnees_propres <- donnees
 # Exemple : donnees_propres <- donnees |> mutate(...) |> filter(...)
 ```
 
-**Découpage entraînement / test.** Pour un objectif de prédiction, réservez
-un jeu de test **avant** toute exploration, avec un découpage adapté
-(aléatoire, temporel ou par groupes).
+**Découpage entraînement / test.** Pour un objectif de prédiction, réservez un jeu de test **avant** toute exploration, avec un découpage adapté (aléatoire, temporel ou par groupes).
 
 ```{r}
 #| label: decoupage
@@ -346,14 +254,10 @@ c(entrainement = nrow(train), test = nrow(test))
 
 # Exploration
 
-::: {.callout-note}
+::: callout-note
 ## Consigne
 
-Analyses univariées puis bivariées, **sur le jeu d'entraînement**, orientées
-vers la question. Chaque graphique a un titre qui énonce son message, des axes
-avec unités, et il est **commenté** dans le texte (par exemple « la
-@fig-distributions montre que... »). Gardez les graphiques utiles, pas tous
-ceux que vous avez produits.
+Analyses univariées puis bivariées, **sur le jeu d'entraînement**, orientées vers la question. Chaque graphique a un titre qui énonce son message, des axes avec unités, et il est **commenté** dans le texte (par exemple « la @fig-distributions montre que... »). Gardez les graphiques utiles, pas tous ceux que vous avez produits.
 :::
 
 ```{r}
@@ -394,18 +298,14 @@ if (ncol(quantitatives) >= 2) {
 
 # Modélisation
 
-::: {.callout-note}
+::: callout-note
 ## Consigne
 
-- Commencez par un **modèle de référence** très simple (prédire la moyenne ou
-  la classe majoritaire).
-- Présentez ensuite les méthodes retenues et **justifiez** leur choix par
-  rapport à la question et au type des variables (régression, ANOVA, ACP,
-  arbres, forêts aléatoires, classification automatique...).
+- Commencez par un **modèle de référence** très simple (prédire la moyenne ou la classe majoritaire).
+- Présentez ensuite les méthodes retenues et **justifiez** leur choix par rapport à la question et au type des variables (régression, ANOVA, ACP, arbres, forêts aléatoires, classification automatique...).
 - Interprétez les résultats dans les termes du problème marketing.
 
-Les blocs ci-dessous sont des **exemples** à adapter (ils ne sont pas
-exécutés : remplacez `#| eval: false` par `#| eval: true`).
+Les blocs ci-dessous sont des **exemples** à adapter (ils ne sont pas exécutés : remplacez `#| eval: false` par `#| eval: true`).
 :::
 
 ```{r}
@@ -446,13 +346,11 @@ segments <- kmeans(scale(quantitatives), centers = 4, nstart = 25)
 
 # Évaluation
 
-::: {.callout-note}
+::: callout-note
 ## Consigne
 
-- **Prédictibilité** : performances sur le jeu de **test**, comparées au modèle
-  de référence (RMSE ; ou matrice de confusion, sensibilité, spécificité, AUC).
-- **Stabilité** : les conclusions changent-elles avec une autre graine, un autre
-  traitement des valeurs manquantes, une autre méthode ?
+- **Prédictibilité** : performances sur le jeu de **test**, comparées au modèle de référence (RMSE ; ou matrice de confusion, sensibilité, spécificité, AUC).
+- **Stabilité** : les conclusions changent-elles avec une autre graine, un autre traitement des valeurs manquantes, une autre méthode ?
 - Résumez les performances dans un tableau.
 :::
 
@@ -471,13 +369,10 @@ tibble(
 
 # Résultats et recommandations
 
-::: {.callout-note}
+::: callout-note
 ## Consigne
 
-Le message principal en une phrase, puis des recommandations **concrètes,
-chiffrées et réalisables** pour l'équipe marketing, avec leur effet attendu.
-Exportez le graphique qui porte le message principal : il sera repris dans
-le résumé exécutif.
+Le message principal en une phrase, puis des recommandations **concrètes, chiffrées et réalisables** pour l'équipe marketing, avec leur effet attendu. Exportez le graphique qui porte le message principal : il sera repris dans le résumé exécutif.
 :::
 
 ```{r}
@@ -489,24 +384,22 @@ ggsave("figures/figure-cle.pdf", plot = graphique_principal, width = 7, height =
 
 # Limites et perspectives
 
-::: {.callout-note}
+::: callout-note
 ## Consigne
 
-Limites des données (représentativité, variables manquantes, données
-simulées), des méthodes (associations et non causalité, hypothèses), et ce
-que vous feriez avec plus de temps ou de données (par exemple : un test A/B).
+Limites des données (représentativité, variables manquantes, données simulées), des méthodes (associations et non causalité, hypothèses), et ce que vous feriez avec plus de temps ou de données (par exemple : un test A/B).
 :::
 
 # Annexes {.unnumbered}
 
 ## Contribution des membres du groupe {.unnumbered}
 
-| Membre | Contributions principales |
-|:-------|:--------------------------|
-| Chris Boupassaia | à compléter |
-| Bertrand De Vertreuil | à compléter |
-| Améziane Haouanoh | à compléter |
-| Léonie Schmit | à compléter |
+| Membre                | Contributions principales     |
+|:----------------------|:------------------------------|
+| Chris Boupassaia      | à compléter                   |
+| Bertrand De Vertreuil | à compléter                   |
+| Améziane Haouanoh     | à compléter                   |
+| Léonie Schmit         | Contexte, Question et Données |
 
 ## Environnement de calcul {.unnumbered}
 

@@ -2282,7 +2282,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Date de publication</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">29 octobre 2026</p>
+      <p class="date">8 novembre 2026</p>
     </div>
   </div>
   
@@ -2369,7 +2369,7 @@ vertical-align: -.125em;
 <li><strong>categories</strong> : les six catégories de produits, avec leur taux de marge et leur univers (Personne, Habitat, Technologie, Loisirs) ;</li>
 <li><strong>campagne</strong> : 944 clients ayant reçu une campagne d’e-mailing testée en deux versions (test A/B), avec les étapes de l’entonnoir : ouverture, clic, achat.</li>
 </ul>
-<p>La table de travail fournie par <code>charger_donnees()</code> réunit commandes et clients : une ligne y représente une commande. Pour répondre à la question, nous construirons ensuite une table où une ligne représente <strong>un client</strong> (section « Préparation des données »).</p>
+<p>La table de travail fournie par <code>charger_donnees()</code> réunit commandes et clients : une ligne y représente une commande. Pour répondre à la question, nous construirons ensuite une table où une ligne représente un client (section « Préparation des données »).</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -2770,7 +2770,7 @@ Figure 1: Les montants sont asymétriques, avec quelques commandes élevées, s
 </section>
 <section id="éthique-et-cadre-légal" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="éthique-et-cadre-légal"><span class="header-section-number">2.4</span> Éthique et cadre légal</h2>
-<p>Les données décrivent des <strong>personnes physiques</strong> : ce sont des données personnelles au sens du RGPD. Elles sont pseudonymisées (un identifiant remplace le nom et l’adresse), mais pas anonymes : l’âge, la région et la date d’inscription, combinés à l’historique d’achats, pourraient permettre de réidentifier un client si la table était croisée avec d’autres sources.</p>
+<p>Les données décrivent des personnes physiques : ce sont des données personnelles au sens du RGPD. Elles sont pseudonymisées (un identifiant remplace le nom et l’adresse), mais pas anonymes : l’âge, la région et la date d’inscription, combinés à l’historique d’achats, pourraient permettre de réidentifier un client si la table était croisée avec d’autres sources.</p>
 <p>Les usages possibles de nos résultats posent plusieurs questions.</p>
 <ul>
 <li><strong>Ciblage et traitement différencié.</strong> Réserver des remises aux clients jugés « précieux » revient à proposer des prix différents selon le profil. C’est légal en France si les critères sont commerciaux (historique d’achat), mais l’âge ou la région ne doivent pas devenir des critères d’exclusion.</li>
@@ -3052,7 +3052,7 @@ Table 5: Performances des modèles sur le jeu de test
 </tr>
 <tr class="even">
 <td style="text-align: left;">Léonie Schmit</td>
-<td style="text-align: left;">à compléter</td>
+<td style="text-align: left;">Contexte, Question et Données</td>
 </tr>
 </tbody>
 </table>
@@ -3600,491 +3600,384 @@ loaded via a namespace (and not attached):
 <span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>::: {.callout-important collapse=&quot;true&quot;}</span>
 <span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a><span class="fu">## Mode d&#39;emploi du modèle (à supprimer avant le rendu final)</span></span>
 <span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Ce document est le **rapport technique** du projet. Le résumé exécutif</span>
-<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>  (2 pages, pour un public non technique) est un document séparé : modèle</span>
-<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>  LaTeX <span class="in">`resume-executif.tex`</span>, dans ce même dossier.</span>
-<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Remplacez le titre, le numéro du projet et les noms ci-dessus.</span>
-<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Indiquez le numéro de votre projet dans le bloc <span class="in">`configuration`</span></span>
-<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>  ci-dessous : les données correspondantes sont chargées automatiquement.</span>
-<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Les encadrés « Consigne » expliquent ce qui est attendu dans chaque</span>
-<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>  section : **supprimez-les** une fois la section rédigée.</span>
-<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Le rapport doit se produire **de bout en bout** avec le bouton *Render* de</span>
-<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>  RStudio (ou <span class="in">`quarto render rapport.qmd`</span>), sans erreur, à partir des données</span>
-<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>  d&#39;origine.</span>
-<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Rangez les fonctions réutilisables dans <span class="in">`R/fonctions.R`</span>.</span>
-<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Ce document est le **rapport technique** du projet. Le résumé exécutif (2 pages, pour un public non technique) est un document séparé : modèle LaTeX <span class="in">`resume-executif.tex`</span>, dans ce même dossier.</span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Remplacez le titre, le numéro du projet et les noms ci-dessus.</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Indiquez le numéro de votre projet dans le bloc <span class="in">`configuration`</span> ci-dessous : les données correspondantes sont chargées automatiquement.</span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Les encadrés « Consigne » expliquent ce qui est attendu dans chaque section : **supprimez-les** une fois la section rédigée.</span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Le rapport doit se produire **de bout en bout** avec le bouton *Render* de RStudio (ou <span class="in">`quarto render rapport.qmd`</span>), sans erreur, à partir des données d&#39;origine.</span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Rangez les fonctions réutilisables dans <span class="in">`R/fonctions.R`</span>.</span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: configuration</span></span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
 <span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: configuration</span></span>
-<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Numéro du projet (1 à 7, voir le document des projets)</span></span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a>numero_projet <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
 <span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Numéro du projet (1 à 7, voir le document des projets)</span></span>
-<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a>numero_projet <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;R/fonctions.R&quot;</span>)</span>
-<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)        <span class="co"># tirages aléatoires reproductibles (découpage, forêts...)</span></span>
-<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>())</span>
-<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a><span class="fu"># Résumé {.unnumbered}</span></span>
+<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;R/fonctions.R&quot;</span>)</span>
+<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)        <span class="co"># tirages aléatoires reproductibles (découpage, forêts...)</span></span>
+<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>())</span>
+<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a><span class="fu"># Résumé {.unnumbered}</span></span>
+<span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a>::: callout-note</span>
+<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a><span class="fu">## Consigne</span></span>
+<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a>Trois à cinq phrases : la question, les données, la méthode, le **résultat principal** (chiffré) et la **recommandation**, puis la principale limite. Rédigez cette partie en dernier.</span>
+<span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb19-69"><a href="#cb19-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-70"><a href="#cb19-70" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb19-71"><a href="#cb19-71" aria-hidden="true" tabindex="-1"></a><span class="fu">## Consigne</span></span>
-<span id="cb19-72"><a href="#cb19-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-73"><a href="#cb19-73" aria-hidden="true" tabindex="-1"></a>Trois à cinq phrases : la question, les données, la méthode, le **résultat</span>
-<span id="cb19-74"><a href="#cb19-74" aria-hidden="true" tabindex="-1"></a>principal** (chiffré) et la **recommandation**, puis la principale limite.</span>
-<span id="cb19-75"><a href="#cb19-75" aria-hidden="true" tabindex="-1"></a>Rédigez cette partie en dernier.</span>
-<span id="cb19-76"><a href="#cb19-76" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-70"><a href="#cb19-70" aria-hidden="true" tabindex="-1"></a><span class="fu"># Contexte et question</span></span>
+<span id="cb19-71"><a href="#cb19-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-72"><a href="#cb19-72" aria-hidden="true" tabindex="-1"></a>Une boutique en ligne généraliste vend des produits de six catégories : mode, maison, beauté, high-tech, sport et jardin. Comme beaucoup d&#39;acteurs du commerce en ligne, elle fait face à deux difficultés. D&#39;une part, une partie de ses clients cesse d&#39;acheter sans prévenir : l&#39;attrition n&#39;est jamais déclarée, on la constate seulement par l&#39;absence de nouvelles commandes. D&#39;autre part, ses actions de fidélisation (remises, relances par e-mail, offres promotionnelles) sont envoyées largement, alors qu&#39;elles ont un coût et que tous les clients ne rapportent pas autant. Les taux de marge vont en effet de 18 % pour le high-tech à 60 % pour la beauté : à chiffre d&#39;affaires égal, deux clients peuvent avoir une valeur très différente pour l&#39;entreprise.</span>
+<span id="cb19-73"><a href="#cb19-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-74"><a href="#cb19-74" aria-hidden="true" tabindex="-1"></a>L&#39;équipe marketing souhaite donc mieux cibler ses efforts de rétention : agir en priorité sur les clients qui risquent de partir et qui ont une forte valeur, plutôt que sur l&#39;ensemble de la base.</span>
+<span id="cb19-75"><a href="#cb19-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-76"><a href="#cb19-76" aria-hidden="true" tabindex="-1"></a>**Question.** À partir du comportement d&#39;achat observé de janvier à septembre 2025, peut-on prédire quels clients ne repasseront pas commande au dernier trimestre 2025 ? Et parmi eux, quels clients combinent une forte marge et un fort risque de départ ?</span>
 <span id="cb19-77"><a href="#cb19-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-78"><a href="#cb19-78" aria-hidden="true" tabindex="-1"></a><span class="fu"># Contexte et question</span></span>
+<span id="cb19-78"><a href="#cb19-78" aria-hidden="true" tabindex="-1"></a>**Décision éclairée.** Choisir les clients à cibler en priorité par une campagne de rétention et, grâce au test A/B mené par la boutique, la version de message à leur adresser.</span>
 <span id="cb19-79"><a href="#cb19-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-80"><a href="#cb19-80" aria-hidden="true" tabindex="-1"></a>Une boutique en ligne généraliste vend des produits de six catégories : mode,</span>
-<span id="cb19-81"><a href="#cb19-81" aria-hidden="true" tabindex="-1"></a>maison, beauté, high-tech, sport et jardin. Comme beaucoup d&#39;acteurs du commerce</span>
-<span id="cb19-82"><a href="#cb19-82" aria-hidden="true" tabindex="-1"></a>en ligne, elle fait face à deux difficultés. D&#39;une part, une partie de ses</span>
-<span id="cb19-83"><a href="#cb19-83" aria-hidden="true" tabindex="-1"></a>clients cesse d&#39;acheter sans prévenir : l&#39;attrition n&#39;est jamais déclarée, on</span>
-<span id="cb19-84"><a href="#cb19-84" aria-hidden="true" tabindex="-1"></a>la constate seulement par l&#39;absence de nouvelles commandes. D&#39;autre part, ses</span>
-<span id="cb19-85"><a href="#cb19-85" aria-hidden="true" tabindex="-1"></a>actions de fidélisation (remises, relances par e-mail, offres promotionnelles)</span>
-<span id="cb19-86"><a href="#cb19-86" aria-hidden="true" tabindex="-1"></a>sont envoyées largement, alors qu&#39;elles ont un coût et que tous les clients ne</span>
-<span id="cb19-87"><a href="#cb19-87" aria-hidden="true" tabindex="-1"></a>rapportent pas autant. Les taux de marge vont en effet de 18 % pour le</span>
-<span id="cb19-88"><a href="#cb19-88" aria-hidden="true" tabindex="-1"></a>high-tech à 60 % pour la beauté : à chiffre d&#39;affaires égal, deux clients</span>
-<span id="cb19-89"><a href="#cb19-89" aria-hidden="true" tabindex="-1"></a>peuvent avoir une valeur très différente pour l&#39;entreprise.</span>
+<span id="cb19-80"><a href="#cb19-80" aria-hidden="true" tabindex="-1"></a>**Critère de succès.** Le modèle retenu doit prédire l&#39;attrition mieux que deux références : la prédiction de la classe majoritaire, et une règle métier simple (« client sans achat depuis plus de 90 jours »). La performance est mesurée par l&#39;AUC et la sensibilité sur un jeu de test non utilisé pour l&#39;apprentissage.</span>
+<span id="cb19-81"><a href="#cb19-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-82"><a href="#cb19-82" aria-hidden="true" tabindex="-1"></a>**Définition de l&#39;attrition.** Les données ne contiennent pas de variable d&#39;attrition : nous la construisons. L&#39;année 2025 est découpée en deux périodes.</span>
+<span id="cb19-83"><a href="#cb19-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-84"><a href="#cb19-84" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>*Période d&#39;observation* (1^er^ janvier – 30 septembre 2025) : on y calcule les indicateurs de comportement de chaque client (récence, fréquence, montant, marge, usage des promotions...).</span>
+<span id="cb19-85"><a href="#cb19-85" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>*Période cible* (1^er^ octobre – 31 décembre 2025) : un client actif sur la période d&#39;observation est dit en attrition s&#39;il n&#39;y passe aucune commande.</span>
+<span id="cb19-86"><a href="#cb19-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-87"><a href="#cb19-87" aria-hidden="true" tabindex="-1"></a>Ce découpage garantit que les variables explicatives sont toutes antérieures à la période où l&#39;on mesure le résultat, comme ce serait le cas en situation réelle de prévision.</span>
+<span id="cb19-88"><a href="#cb19-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-89"><a href="#cb19-89" aria-hidden="true" tabindex="-1"></a><span class="fu"># Données</span></span>
 <span id="cb19-90"><a href="#cb19-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-91"><a href="#cb19-91" aria-hidden="true" tabindex="-1"></a>L&#39;équipe marketing souhaite donc mieux cibler ses efforts de rétention : agir</span>
-<span id="cb19-92"><a href="#cb19-92" aria-hidden="true" tabindex="-1"></a>en priorité sur les clients qui risquent de partir et qui ont une forte</span>
-<span id="cb19-93"><a href="#cb19-93" aria-hidden="true" tabindex="-1"></a>valeur, plutôt que sur l&#39;ensemble de la base.</span>
-<span id="cb19-94"><a href="#cb19-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-95"><a href="#cb19-95" aria-hidden="true" tabindex="-1"></a>**Question.** À partir du comportement d&#39;achat observé de janvier à septembre</span>
-<span id="cb19-96"><a href="#cb19-96" aria-hidden="true" tabindex="-1"></a>2025, peut-on prédire quels clients ne repasseront pas commande au dernier</span>
-<span id="cb19-97"><a href="#cb19-97" aria-hidden="true" tabindex="-1"></a>trimestre 2025 ? Et parmi eux, quels clients combinent une forte marge et un</span>
-<span id="cb19-98"><a href="#cb19-98" aria-hidden="true" tabindex="-1"></a>fort risque de départ ?</span>
-<span id="cb19-99"><a href="#cb19-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-100"><a href="#cb19-100" aria-hidden="true" tabindex="-1"></a>**Décision éclairée.** Choisir les clients à cibler en priorité par une</span>
-<span id="cb19-101"><a href="#cb19-101" aria-hidden="true" tabindex="-1"></a>campagne de rétention et, grâce au test A/B mené par la boutique, la version de</span>
-<span id="cb19-102"><a href="#cb19-102" aria-hidden="true" tabindex="-1"></a>message à leur adresser.</span>
+<span id="cb19-91"><a href="#cb19-91" aria-hidden="true" tabindex="-1"></a><span class="fu">## Origine et contenu</span></span>
+<span id="cb19-92"><a href="#cb19-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-95"><a href="#cb19-95" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-96"><a href="#cb19-96" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: chargement</span></span>
+<span id="cb19-97"><a href="#cb19-97" aria-hidden="true" tabindex="-1"></a>donnees    <span class="ot">&lt;-</span> <span class="fu">charger_donnees</span>(<span class="dv">5</span>)</span>
+<span id="cb19-98"><a href="#cb19-98" aria-hidden="true" tabindex="-1"></a>clients    <span class="ot">&lt;-</span> <span class="fu">lire_boutique</span>(<span class="st">&quot;clients&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-99"><a href="#cb19-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date_inscription =</span> <span class="fu">as.Date</span>(date_inscription))</span>
+<span id="cb19-100"><a href="#cb19-100" aria-hidden="true" tabindex="-1"></a>categories <span class="ot">&lt;-</span> <span class="fu">lire_boutique</span>(<span class="st">&quot;categories&quot;</span>)</span>
+<span id="cb19-101"><a href="#cb19-101" aria-hidden="true" tabindex="-1"></a>campagne   <span class="ot">&lt;-</span> <span class="fu">lire_boutique</span>(<span class="st">&quot;campagne&quot;</span>)</span>
+<span id="cb19-102"><a href="#cb19-102" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb19-103"><a href="#cb19-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-104"><a href="#cb19-104" aria-hidden="true" tabindex="-1"></a>**Critère de succès.** Le modèle retenu doit prédire l&#39;attrition mieux que</span>
-<span id="cb19-105"><a href="#cb19-105" aria-hidden="true" tabindex="-1"></a>deux références : la prédiction de la classe majoritaire, et une règle métier</span>
-<span id="cb19-106"><a href="#cb19-106" aria-hidden="true" tabindex="-1"></a>simple (« client sans achat depuis plus de 90 jours »). La performance est</span>
-<span id="cb19-107"><a href="#cb19-107" aria-hidden="true" tabindex="-1"></a>mesurée par l&#39;AUC et la sensibilité sur un jeu de test non utilisé pour</span>
-<span id="cb19-108"><a href="#cb19-108" aria-hidden="true" tabindex="-1"></a>l&#39;apprentissage.</span>
-<span id="cb19-109"><a href="#cb19-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-110"><a href="#cb19-110" aria-hidden="true" tabindex="-1"></a>**Définition de l&#39;attrition.** Les données ne contiennent pas de variable</span>
-<span id="cb19-111"><a href="#cb19-111" aria-hidden="true" tabindex="-1"></a>d&#39;attrition : nous la construisons. L&#39;année 2025 est découpée en deux périodes.</span>
-<span id="cb19-112"><a href="#cb19-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-113"><a href="#cb19-113" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>*Période d&#39;observation* (1^er^ janvier – 30 septembre 2025) : on y calcule</span>
-<span id="cb19-114"><a href="#cb19-114" aria-hidden="true" tabindex="-1"></a>  les indicateurs de comportement de chaque client (récence, fréquence,</span>
-<span id="cb19-115"><a href="#cb19-115" aria-hidden="true" tabindex="-1"></a>  montant, marge, usage des promotions...).</span>
-<span id="cb19-116"><a href="#cb19-116" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>*Période cible* (1^er^ octobre – 31 décembre 2025) : un client actif sur la</span>
-<span id="cb19-117"><a href="#cb19-117" aria-hidden="true" tabindex="-1"></a>  période d&#39;observation est dit en attrition s&#39;il n&#39;y passe aucune</span>
-<span id="cb19-118"><a href="#cb19-118" aria-hidden="true" tabindex="-1"></a>  commande.</span>
-<span id="cb19-119"><a href="#cb19-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-120"><a href="#cb19-120" aria-hidden="true" tabindex="-1"></a>Ce découpage garantit que les variables explicatives sont toutes antérieures à</span>
-<span id="cb19-121"><a href="#cb19-121" aria-hidden="true" tabindex="-1"></a>la période où l&#39;on mesure le résultat, comme ce serait le cas en situation</span>
-<span id="cb19-122"><a href="#cb19-122" aria-hidden="true" tabindex="-1"></a>réelle de prévision.</span>
-<span id="cb19-123"><a href="#cb19-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-124"><a href="#cb19-124" aria-hidden="true" tabindex="-1"></a><span class="fu"># Données</span></span>
-<span id="cb19-125"><a href="#cb19-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-126"><a href="#cb19-126" aria-hidden="true" tabindex="-1"></a><span class="fu">## Origine et contenu</span></span>
-<span id="cb19-127"><a href="#cb19-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-130"><a href="#cb19-130" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-131"><a href="#cb19-131" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: chargement</span></span>
-<span id="cb19-132"><a href="#cb19-132" aria-hidden="true" tabindex="-1"></a>donnees    <span class="ot">&lt;-</span> <span class="fu">charger_donnees</span>(<span class="dv">5</span>)</span>
-<span id="cb19-133"><a href="#cb19-133" aria-hidden="true" tabindex="-1"></a>clients    <span class="ot">&lt;-</span> <span class="fu">lire_boutique</span>(<span class="st">&quot;clients&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb19-134"><a href="#cb19-134" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date_inscription =</span> <span class="fu">as.Date</span>(date_inscription))</span>
-<span id="cb19-135"><a href="#cb19-135" aria-hidden="true" tabindex="-1"></a>categories <span class="ot">&lt;-</span> <span class="fu">lire_boutique</span>(<span class="st">&quot;categories&quot;</span>)</span>
-<span id="cb19-136"><a href="#cb19-136" aria-hidden="true" tabindex="-1"></a>campagne   <span class="ot">&lt;-</span> <span class="fu">lire_boutique</span>(<span class="st">&quot;campagne&quot;</span>)</span>
-<span id="cb19-137"><a href="#cb19-137" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-138"><a href="#cb19-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-141"><a href="#cb19-141" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-142"><a href="#cb19-142" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: chiffres-donnees</span></span>
-<span id="cb19-143"><a href="#cb19-143" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb19-144"><a href="#cb19-144" aria-hidden="true" tabindex="-1"></a>n_clients      <span class="ot">&lt;-</span> <span class="fu">nrow</span>(clients)</span>
-<span id="cb19-145"><a href="#cb19-145" aria-hidden="true" tabindex="-1"></a>n_commandes    <span class="ot">&lt;-</span> <span class="fu">nrow</span>(donnees)</span>
-<span id="cb19-146"><a href="#cb19-146" aria-hidden="true" tabindex="-1"></a>n_acheteurs    <span class="ot">&lt;-</span> <span class="fu">n_distinct</span>(donnees<span class="sc">$</span>client_id)</span>
-<span id="cb19-147"><a href="#cb19-147" aria-hidden="true" tabindex="-1"></a>n_campagne     <span class="ot">&lt;-</span> <span class="fu">nrow</span>(campagne)</span>
-<span id="cb19-148"><a href="#cb19-148" aria-hidden="true" tabindex="-1"></a>date_min       <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">min</span>(donnees<span class="sc">$</span>date), <span class="st">&quot;%d/%m/%Y&quot;</span>)</span>
-<span id="cb19-149"><a href="#cb19-149" aria-hidden="true" tabindex="-1"></a>date_max       <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">max</span>(donnees<span class="sc">$</span>date), <span class="st">&quot;%d/%m/%Y&quot;</span>)</span>
-<span id="cb19-150"><a href="#cb19-150" aria-hidden="true" tabindex="-1"></a>inscr_min      <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">min</span>(clients<span class="sc">$</span>date_inscription), <span class="st">&quot;%Y&quot;</span>)</span>
-<span id="cb19-151"><a href="#cb19-151" aria-hidden="true" tabindex="-1"></a>inscr_max      <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">max</span>(clients<span class="sc">$</span>date_inscription), <span class="st">&quot;%Y&quot;</span>)</span>
-<span id="cb19-152"><a href="#cb19-152" aria-hidden="true" tabindex="-1"></a>ca_total       <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">sum</span>(donnees<span class="sc">$</span>montant))</span>
-<span id="cb19-153"><a href="#cb19-153" aria-hidden="true" tabindex="-1"></a>panier_median  <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">median</span>(donnees<span class="sc">$</span>montant), <span class="dv">2</span>)</span>
-<span id="cb19-154"><a href="#cb19-154" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-155"><a href="#cb19-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-156"><a href="#cb19-156" aria-hidden="true" tabindex="-1"></a>Les données décrivent la base clients et l&#39;historique de commandes d&#39;une</span>
-<span id="cb19-157"><a href="#cb19-157" aria-hidden="true" tabindex="-1"></a>boutique en ligne fictive. Elles sont simulées et ont été fournies dans le</span>
-<span id="cb19-158"><a href="#cb19-158" aria-hidden="true" tabindex="-1"></a>cadre du cours, au chapitre 3 (« Manipulation des données avec R »), sous la</span>
-<span id="cb19-159"><a href="#cb19-159" aria-hidden="true" tabindex="-1"></a>forme de quatre fichiers CSV (dossier <span class="in">`donnees/`</span>). Nos conclusions illustrent</span>
-<span id="cb19-160"><a href="#cb19-160" aria-hidden="true" tabindex="-1"></a>donc une démarche d&#39;analyse plutôt qu&#39;elles ne décrivent une entreprise réelle.</span>
-<span id="cb19-161"><a href="#cb19-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-162"><a href="#cb19-162" aria-hidden="true" tabindex="-1"></a>Les quatre tables sont reliées par l&#39;identifiant client (<span class="in">`client_id`</span>) et par</span>
-<span id="cb19-163"><a href="#cb19-163" aria-hidden="true" tabindex="-1"></a>la catégorie de produits :</span>
-<span id="cb19-164"><a href="#cb19-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-165"><a href="#cb19-165" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**clients** : <span class="in">`r n_clients`</span> clients, une ligne par client, avec leurs</span>
-<span id="cb19-166"><a href="#cb19-166" aria-hidden="true" tabindex="-1"></a>  caractéristiques (âge, région, canal d&#39;acquisition, date d&#39;inscription entre</span>
-<span id="cb19-167"><a href="#cb19-167" aria-hidden="true" tabindex="-1"></a>  <span class="in">`r inscr_min`</span> et <span class="in">`r inscr_max`</span>, abonnement à la newsletter) ;</span>
-<span id="cb19-168"><a href="#cb19-168" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**commandes** : <span class="in">`r n_commandes`</span> commandes passées entre le <span class="in">`r date_min`</span> et le</span>
-<span id="cb19-169"><a href="#cb19-169" aria-hidden="true" tabindex="-1"></a>  <span class="in">`r date_max`</span>, une ligne par commande (date, catégorie, nombre d&#39;articles,</span>
-<span id="cb19-170"><a href="#cb19-170" aria-hidden="true" tabindex="-1"></a>  usage d&#39;une promotion, montant). Elles ont été passées par <span class="in">`r n_acheteurs`</span></span>
-<span id="cb19-171"><a href="#cb19-171" aria-hidden="true" tabindex="-1"></a>  clients différents, pour un chiffre d&#39;affaires total de <span class="in">`r ca_total`</span> € et un</span>
-<span id="cb19-172"><a href="#cb19-172" aria-hidden="true" tabindex="-1"></a>  panier médian de <span class="in">`r panier_median`</span> € ;</span>
-<span id="cb19-173"><a href="#cb19-173" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**categories** : les six catégories de produits, avec leur taux de marge et</span>
-<span id="cb19-174"><a href="#cb19-174" aria-hidden="true" tabindex="-1"></a>  leur univers (Personne, Habitat, Technologie, Loisirs) ;</span>
-<span id="cb19-175"><a href="#cb19-175" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**campagne** : <span class="in">`r n_campagne`</span> clients ayant reçu une campagne d&#39;e-mailing</span>
-<span id="cb19-176"><a href="#cb19-176" aria-hidden="true" tabindex="-1"></a>  testée en deux versions (test A/B), avec les étapes de l&#39;entonnoir :</span>
-<span id="cb19-177"><a href="#cb19-177" aria-hidden="true" tabindex="-1"></a>  ouverture, clic, achat.</span>
-<span id="cb19-178"><a href="#cb19-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-179"><a href="#cb19-179" aria-hidden="true" tabindex="-1"></a>La table de travail fournie par <span class="in">`charger_donnees()`</span> réunit commandes et</span>
-<span id="cb19-180"><a href="#cb19-180" aria-hidden="true" tabindex="-1"></a>clients : une ligne y représente une commande. Pour répondre à la</span>
-<span id="cb19-181"><a href="#cb19-181" aria-hidden="true" tabindex="-1"></a>question, nous construirons ensuite une table où une ligne représente **un</span>
-<span id="cb19-182"><a href="#cb19-182" aria-hidden="true" tabindex="-1"></a>client** (section « Préparation des données »).</span>
-<span id="cb19-183"><a href="#cb19-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-186"><a href="#cb19-186" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-187"><a href="#cb19-187" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-tables</span></span>
-<span id="cb19-188"><a href="#cb19-188" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Dimensions des tables&quot;</span></span>
-<span id="cb19-189"><a href="#cb19-189" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
-<span id="cb19-190"><a href="#cb19-190" aria-hidden="true" tabindex="-1"></a>  <span class="at">Table =</span> <span class="fu">c</span>(<span class="st">&quot;commandes + clients (charger_donnees)&quot;</span>, <span class="st">&quot;clients&quot;</span>,</span>
-<span id="cb19-191"><a href="#cb19-191" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;categories&quot;</span>, <span class="st">&quot;campagne&quot;</span>),</span>
-<span id="cb19-192"><a href="#cb19-192" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Une ligne =</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;une commande&quot;</span>, <span class="st">&quot;un client&quot;</span>, <span class="st">&quot;une catégorie&quot;</span>,</span>
-<span id="cb19-193"><a href="#cb19-193" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;un client ciblé par la campagne&quot;</span>),</span>
-<span id="cb19-194"><a href="#cb19-194" aria-hidden="true" tabindex="-1"></a>  <span class="at">Lignes =</span> <span class="fu">c</span>(<span class="fu">nrow</span>(donnees), <span class="fu">nrow</span>(clients), <span class="fu">nrow</span>(categories), <span class="fu">nrow</span>(campagne)),</span>
-<span id="cb19-195"><a href="#cb19-195" aria-hidden="true" tabindex="-1"></a>  <span class="at">Colonnes =</span> <span class="fu">c</span>(<span class="fu">ncol</span>(donnees), <span class="fu">ncol</span>(clients), <span class="fu">ncol</span>(categories), <span class="fu">ncol</span>(campagne))</span>
-<span id="cb19-196"><a href="#cb19-196" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span>
-<span id="cb19-197"><a href="#cb19-197" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-198"><a href="#cb19-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-199"><a href="#cb19-199" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dictionnaire des variables</span></span>
-<span id="cb19-200"><a href="#cb19-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-203"><a href="#cb19-203" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-204"><a href="#cb19-204" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-dictionnaire</span></span>
-<span id="cb19-205"><a href="#cb19-205" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Variables des quatre tables&quot;</span></span>
-<span id="cb19-206"><a href="#cb19-206" aria-hidden="true" tabindex="-1"></a><span class="fu">tribble</span>(</span>
-<span id="cb19-207"><a href="#cb19-207" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>Table, <span class="sc">~</span>Variable, <span class="sc">~</span>Type, <span class="sc">~</span>Description,</span>
-<span id="cb19-208"><a href="#cb19-208" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;clients&quot;</span>, <span class="st">&quot;client_id&quot;</span>, <span class="st">&quot;texte&quot;</span>, <span class="st">&quot;Identifiant du client (C0001 à C2000), clé de jointure&quot;</span>,</span>
-<span id="cb19-209"><a href="#cb19-209" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;clients&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;entier&quot;</span>, <span class="st">&quot;Âge en années ; valeurs manquantes ; minimum à 18 ans&quot;</span>,</span>
-<span id="cb19-210"><a href="#cb19-210" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;clients&quot;</span>, <span class="st">&quot;region&quot;</span>, <span class="st">&quot;qualitative&quot;</span>, <span class="st">&quot;Région de résidence (7 régions et « Autres régions »)&quot;</span>,</span>
-<span id="cb19-211"><a href="#cb19-211" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;clients&quot;</span>, <span class="st">&quot;canal_acquisition&quot;</span>, <span class="st">&quot;qualitative&quot;</span>, <span class="st">&quot;Canal par lequel le client est arrivé : Direct, Email, Moteur de recherche, Réseaux sociaux, Affiliation&quot;</span>,</span>
-<span id="cb19-212"><a href="#cb19-212" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;clients&quot;</span>, <span class="st">&quot;date_inscription&quot;</span>, <span class="st">&quot;date&quot;</span>, <span class="st">&quot;Date de création du compte&quot;</span>,</span>
-<span id="cb19-213"><a href="#cb19-213" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;clients&quot;</span>, <span class="st">&quot;newsletter&quot;</span>, <span class="st">&quot;qualitative&quot;</span>, <span class="st">&quot;Abonnement à la newsletter (Oui / Non)&quot;</span>,</span>
-<span id="cb19-214"><a href="#cb19-214" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;commandes&quot;</span>, <span class="st">&quot;commande_id&quot;</span>, <span class="st">&quot;texte&quot;</span>, <span class="st">&quot;Identifiant de la commande&quot;</span>,</span>
-<span id="cb19-215"><a href="#cb19-215" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;commandes&quot;</span>, <span class="st">&quot;date&quot;</span>, <span class="st">&quot;date&quot;</span>, <span class="st">&quot;Date de la commande (année 2025)&quot;</span>,</span>
-<span id="cb19-216"><a href="#cb19-216" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;commandes&quot;</span>, <span class="st">&quot;categorie&quot;</span>, <span class="st">&quot;qualitative&quot;</span>, <span class="st">&quot;Catégorie de produits : Mode, Maison, Beauté, High-tech, Sport, Jardin&quot;</span>,</span>
-<span id="cb19-217"><a href="#cb19-217" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;commandes&quot;</span>, <span class="st">&quot;nb_articles&quot;</span>, <span class="st">&quot;entier&quot;</span>, <span class="st">&quot;Nombre d&#39;articles dans la commande&quot;</span>,</span>
-<span id="cb19-218"><a href="#cb19-218" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;commandes&quot;</span>, <span class="st">&quot;promo&quot;</span>, <span class="st">&quot;logique&quot;</span>, <span class="st">&quot;Commande passée avec une promotion&quot;</span>,</span>
-<span id="cb19-219"><a href="#cb19-219" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;commandes&quot;</span>, <span class="st">&quot;montant&quot;</span>, <span class="st">&quot;numérique&quot;</span>, <span class="st">&quot;Montant de la commande, en euros&quot;</span>,</span>
-<span id="cb19-220"><a href="#cb19-220" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;categories&quot;</span>, <span class="st">&quot;taux_marge&quot;</span>, <span class="st">&quot;numérique&quot;</span>, <span class="st">&quot;Part du montant conservée en marge (0,18 à 0,60)&quot;</span>,</span>
-<span id="cb19-221"><a href="#cb19-221" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;categories&quot;</span>, <span class="st">&quot;univers&quot;</span>, <span class="st">&quot;qualitative&quot;</span>, <span class="st">&quot;Regroupement des catégories : Personne, Habitat, Technologie, Loisirs&quot;</span>,</span>
-<span id="cb19-222"><a href="#cb19-222" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;campagne&quot;</span>, <span class="st">&quot;version&quot;</span>, <span class="st">&quot;qualitative&quot;</span>, <span class="st">&quot;Version du message reçue (A ou B)&quot;</span>,</span>
-<span id="cb19-223"><a href="#cb19-223" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;campagne&quot;</span>, <span class="st">&quot;ouvert&quot;</span>, <span class="st">&quot;logique&quot;</span>, <span class="st">&quot;Le client a ouvert l&#39;e-mail&quot;</span>,</span>
-<span id="cb19-224"><a href="#cb19-224" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;campagne&quot;</span>, <span class="st">&quot;clic&quot;</span>, <span class="st">&quot;logique&quot;</span>, <span class="st">&quot;Le client a cliqué sur un lien de l&#39;e-mail&quot;</span>,</span>
-<span id="cb19-225"><a href="#cb19-225" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;campagne&quot;</span>, <span class="st">&quot;achat&quot;</span>, <span class="st">&quot;logique&quot;</span>, <span class="st">&quot;Le client a acheté à la suite de l&#39;e-mail&quot;</span></span>
-<span id="cb19-226"><a href="#cb19-226" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span>
-<span id="cb19-227"><a href="#cb19-227" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-228"><a href="#cb19-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-231"><a href="#cb19-231" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-232"><a href="#cb19-232" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-categories</span></span>
-<span id="cb19-233"><a href="#cb19-233" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Catégories de produits et taux de marge&quot;</span></span>
-<span id="cb19-234"><a href="#cb19-234" aria-hidden="true" tabindex="-1"></a>categories <span class="sc">|&gt;</span></span>
-<span id="cb19-235"><a href="#cb19-235" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(taux_marge)) <span class="sc">|&gt;</span></span>
-<span id="cb19-236"><a href="#cb19-236" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">taux_marge =</span> scales<span class="sc">::</span><span class="fu">percent</span>(taux_marge)) <span class="sc">|&gt;</span></span>
-<span id="cb19-237"><a href="#cb19-237" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Catégorie&quot;</span>, <span class="st">&quot;Taux de marge&quot;</span>, <span class="st">&quot;Univers&quot;</span>))</span>
-<span id="cb19-238"><a href="#cb19-238" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-239"><a href="#cb19-239" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-240"><a href="#cb19-240" aria-hidden="true" tabindex="-1"></a><span class="fu">## Qualité des données</span></span>
-<span id="cb19-241"><a href="#cb19-241" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-244"><a href="#cb19-244" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-245"><a href="#cb19-245" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-controles</span></span>
-<span id="cb19-246"><a href="#cb19-246" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Contrôles de qualité et de cohérence&quot;</span></span>
-<span id="cb19-247"><a href="#cb19-247" aria-hidden="true" tabindex="-1"></a>controles <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb19-248"><a href="#cb19-248" aria-hidden="true" tabindex="-1"></a>  Contrôle <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;Âges manquants (clients)&quot;</span>,</span>
-<span id="cb19-249"><a href="#cb19-249" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;Âges égaux à 18 ans (clients)&quot;</span>,</span>
-<span id="cb19-250"><a href="#cb19-250" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;Commandes en double (identifiant)&quot;</span>,</span>
-<span id="cb19-251"><a href="#cb19-251" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;Commandes sans client connu&quot;</span>,</span>
-<span id="cb19-252"><a href="#cb19-252" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;Commandes antérieures à l&#39;inscription&quot;</span>,</span>
-<span id="cb19-253"><a href="#cb19-253" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;Clients sans aucune commande en 2025&quot;</span>,</span>
-<span id="cb19-254"><a href="#cb19-254" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;Incohérences de l&#39;entonnoir (campagne)&quot;</span>),</span>
-<span id="cb19-255"><a href="#cb19-255" aria-hidden="true" tabindex="-1"></a>  <span class="at">Nombre =</span> <span class="fu">c</span>(<span class="fu">sum</span>(<span class="fu">is.na</span>(clients<span class="sc">$</span>age)),</span>
-<span id="cb19-256"><a href="#cb19-256" aria-hidden="true" tabindex="-1"></a>             <span class="fu">sum</span>(clients<span class="sc">$</span>age <span class="sc">==</span> <span class="dv">18</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb19-257"><a href="#cb19-257" aria-hidden="true" tabindex="-1"></a>             <span class="fu">sum</span>(<span class="fu">duplicated</span>(donnees<span class="sc">$</span>commande_id)),</span>
-<span id="cb19-258"><a href="#cb19-258" aria-hidden="true" tabindex="-1"></a>             <span class="fu">sum</span>(<span class="fu">is.na</span>(donnees<span class="sc">$</span>region)),</span>
-<span id="cb19-259"><a href="#cb19-259" aria-hidden="true" tabindex="-1"></a>             <span class="fu">sum</span>(donnees<span class="sc">$</span>date <span class="sc">&lt;</span> donnees<span class="sc">$</span>date_inscription, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb19-260"><a href="#cb19-260" aria-hidden="true" tabindex="-1"></a>             <span class="fu">sum</span>(<span class="sc">!</span>clients<span class="sc">$</span>client_id <span class="sc">%in%</span> donnees<span class="sc">$</span>client_id),</span>
-<span id="cb19-261"><a href="#cb19-261" aria-hidden="true" tabindex="-1"></a>             <span class="fu">sum</span>((campagne<span class="sc">$</span>clic <span class="sc">&amp;</span> <span class="sc">!</span>campagne<span class="sc">$</span>ouvert) <span class="sc">|</span></span>
-<span id="cb19-262"><a href="#cb19-262" aria-hidden="true" tabindex="-1"></a>                 (campagne<span class="sc">$</span>achat <span class="sc">&amp;</span> <span class="sc">!</span>campagne<span class="sc">$</span>clic)))</span>
-<span id="cb19-263"><a href="#cb19-263" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb19-264"><a href="#cb19-264" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(controles)</span>
-<span id="cb19-265"><a href="#cb19-265" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-266"><a href="#cb19-266" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-269"><a href="#cb19-269" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-270"><a href="#cb19-270" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-montants</span></span>
-<span id="cb19-271"><a href="#cb19-271" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Les montants sont asymétriques, avec quelques commandes élevées, surtout en maison et high-tech&quot;</span></span>
-<span id="cb19-272"><a href="#cb19-272" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(donnees, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(categorie, montant, median), <span class="at">y =</span> montant)) <span class="sc">+</span></span>
-<span id="cb19-273"><a href="#cb19-273" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb19-274"><a href="#cb19-274" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Montant de la commande (€)&quot;</span>)</span>
-<span id="cb19-275"><a href="#cb19-275" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-106"><a href="#cb19-106" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-107"><a href="#cb19-107" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: chiffres-donnees</span></span>
+<span id="cb19-108"><a href="#cb19-108" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb19-109"><a href="#cb19-109" aria-hidden="true" tabindex="-1"></a>n_clients      <span class="ot">&lt;-</span> <span class="fu">nrow</span>(clients)</span>
+<span id="cb19-110"><a href="#cb19-110" aria-hidden="true" tabindex="-1"></a>n_commandes    <span class="ot">&lt;-</span> <span class="fu">nrow</span>(donnees)</span>
+<span id="cb19-111"><a href="#cb19-111" aria-hidden="true" tabindex="-1"></a>n_acheteurs    <span class="ot">&lt;-</span> <span class="fu">n_distinct</span>(donnees<span class="sc">$</span>client_id)</span>
+<span id="cb19-112"><a href="#cb19-112" aria-hidden="true" tabindex="-1"></a>n_campagne     <span class="ot">&lt;-</span> <span class="fu">nrow</span>(campagne)</span>
+<span id="cb19-113"><a href="#cb19-113" aria-hidden="true" tabindex="-1"></a>date_min       <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">min</span>(donnees<span class="sc">$</span>date), <span class="st">&quot;%d/%m/%Y&quot;</span>)</span>
+<span id="cb19-114"><a href="#cb19-114" aria-hidden="true" tabindex="-1"></a>date_max       <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">max</span>(donnees<span class="sc">$</span>date), <span class="st">&quot;%d/%m/%Y&quot;</span>)</span>
+<span id="cb19-115"><a href="#cb19-115" aria-hidden="true" tabindex="-1"></a>inscr_min      <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">min</span>(clients<span class="sc">$</span>date_inscription), <span class="st">&quot;%Y&quot;</span>)</span>
+<span id="cb19-116"><a href="#cb19-116" aria-hidden="true" tabindex="-1"></a>inscr_max      <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">max</span>(clients<span class="sc">$</span>date_inscription), <span class="st">&quot;%Y&quot;</span>)</span>
+<span id="cb19-117"><a href="#cb19-117" aria-hidden="true" tabindex="-1"></a>ca_total       <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">sum</span>(donnees<span class="sc">$</span>montant))</span>
+<span id="cb19-118"><a href="#cb19-118" aria-hidden="true" tabindex="-1"></a>panier_median  <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">median</span>(donnees<span class="sc">$</span>montant), <span class="dv">2</span>)</span>
+<span id="cb19-119"><a href="#cb19-119" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-120"><a href="#cb19-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-121"><a href="#cb19-121" aria-hidden="true" tabindex="-1"></a>Les données décrivent la base clients et l&#39;historique de commandes d&#39;une boutique en ligne fictive. Elles sont simulées et ont été fournies dans le cadre du cours, au chapitre 3 (« Manipulation des données avec R »), sous la forme de quatre fichiers CSV (dossier <span class="in">`donnees/`</span>). Nos conclusions illustrent donc une démarche d&#39;analyse plutôt qu&#39;elles ne décrivent une entreprise réelle.</span>
+<span id="cb19-122"><a href="#cb19-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-123"><a href="#cb19-123" aria-hidden="true" tabindex="-1"></a>Les quatre tables sont reliées par l&#39;identifiant client (<span class="in">`client_id`</span>) et par la catégorie de produits :</span>
+<span id="cb19-124"><a href="#cb19-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-125"><a href="#cb19-125" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**clients** : <span class="in">`r n_clients`</span> clients, une ligne par client, avec leurs caractéristiques (âge, région, canal d&#39;acquisition, date d&#39;inscription entre <span class="in">`r inscr_min`</span> et <span class="in">`r inscr_max`</span>, abonnement à la newsletter) ;</span>
+<span id="cb19-126"><a href="#cb19-126" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**commandes** : <span class="in">`r n_commandes`</span> commandes passées entre le <span class="in">`r date_min`</span> et le <span class="in">`r date_max`</span>, une ligne par commande (date, catégorie, nombre d&#39;articles, usage d&#39;une promotion, montant). Elles ont été passées par <span class="in">`r n_acheteurs`</span> clients différents, pour un chiffre d&#39;affaires total de <span class="in">`r ca_total`</span> € et un panier médian de <span class="in">`r panier_median`</span> € ;</span>
+<span id="cb19-127"><a href="#cb19-127" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**categories** : les six catégories de produits, avec leur taux de marge et leur univers (Personne, Habitat, Technologie, Loisirs) ;</span>
+<span id="cb19-128"><a href="#cb19-128" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**campagne** : <span class="in">`r n_campagne`</span> clients ayant reçu une campagne d&#39;e-mailing testée en deux versions (test A/B), avec les étapes de l&#39;entonnoir : ouverture, clic, achat.</span>
+<span id="cb19-129"><a href="#cb19-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-130"><a href="#cb19-130" aria-hidden="true" tabindex="-1"></a>La table de travail fournie par <span class="in">`charger_donnees()`</span> réunit commandes et clients : une ligne y représente une commande. Pour répondre à la question, nous construirons ensuite une table où une ligne représente un client (section « Préparation des données »).</span>
+<span id="cb19-131"><a href="#cb19-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-134"><a href="#cb19-134" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-135"><a href="#cb19-135" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-tables</span></span>
+<span id="cb19-136"><a href="#cb19-136" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Dimensions des tables&quot;</span></span>
+<span id="cb19-137"><a href="#cb19-137" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb19-138"><a href="#cb19-138" aria-hidden="true" tabindex="-1"></a>  <span class="at">Table =</span> <span class="fu">c</span>(<span class="st">&quot;commandes + clients (charger_donnees)&quot;</span>, <span class="st">&quot;clients&quot;</span>,</span>
+<span id="cb19-139"><a href="#cb19-139" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;categories&quot;</span>, <span class="st">&quot;campagne&quot;</span>),</span>
+<span id="cb19-140"><a href="#cb19-140" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Une ligne =</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;une commande&quot;</span>, <span class="st">&quot;un client&quot;</span>, <span class="st">&quot;une catégorie&quot;</span>,</span>
+<span id="cb19-141"><a href="#cb19-141" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;un client ciblé par la campagne&quot;</span>),</span>
+<span id="cb19-142"><a href="#cb19-142" aria-hidden="true" tabindex="-1"></a>  <span class="at">Lignes =</span> <span class="fu">c</span>(<span class="fu">nrow</span>(donnees), <span class="fu">nrow</span>(clients), <span class="fu">nrow</span>(categories), <span class="fu">nrow</span>(campagne)),</span>
+<span id="cb19-143"><a href="#cb19-143" aria-hidden="true" tabindex="-1"></a>  <span class="at">Colonnes =</span> <span class="fu">c</span>(<span class="fu">ncol</span>(donnees), <span class="fu">ncol</span>(clients), <span class="fu">ncol</span>(categories), <span class="fu">ncol</span>(campagne))</span>
+<span id="cb19-144"><a href="#cb19-144" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span>
+<span id="cb19-145"><a href="#cb19-145" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-146"><a href="#cb19-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-147"><a href="#cb19-147" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dictionnaire des variables</span></span>
+<span id="cb19-148"><a href="#cb19-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-151"><a href="#cb19-151" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-152"><a href="#cb19-152" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-dictionnaire</span></span>
+<span id="cb19-153"><a href="#cb19-153" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Variables des quatre tables&quot;</span></span>
+<span id="cb19-154"><a href="#cb19-154" aria-hidden="true" tabindex="-1"></a><span class="fu">tribble</span>(</span>
+<span id="cb19-155"><a href="#cb19-155" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>Table, <span class="sc">~</span>Variable, <span class="sc">~</span>Type, <span class="sc">~</span>Description,</span>
+<span id="cb19-156"><a href="#cb19-156" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;clients&quot;</span>, <span class="st">&quot;client_id&quot;</span>, <span class="st">&quot;texte&quot;</span>, <span class="st">&quot;Identifiant du client (C0001 à C2000), clé de jointure&quot;</span>,</span>
+<span id="cb19-157"><a href="#cb19-157" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;clients&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;entier&quot;</span>, <span class="st">&quot;Âge en années ; valeurs manquantes ; minimum à 18 ans&quot;</span>,</span>
+<span id="cb19-158"><a href="#cb19-158" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;clients&quot;</span>, <span class="st">&quot;region&quot;</span>, <span class="st">&quot;qualitative&quot;</span>, <span class="st">&quot;Région de résidence (7 régions et « Autres régions »)&quot;</span>,</span>
+<span id="cb19-159"><a href="#cb19-159" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;clients&quot;</span>, <span class="st">&quot;canal_acquisition&quot;</span>, <span class="st">&quot;qualitative&quot;</span>, <span class="st">&quot;Canal par lequel le client est arrivé : Direct, Email, Moteur de recherche, Réseaux sociaux, Affiliation&quot;</span>,</span>
+<span id="cb19-160"><a href="#cb19-160" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;clients&quot;</span>, <span class="st">&quot;date_inscription&quot;</span>, <span class="st">&quot;date&quot;</span>, <span class="st">&quot;Date de création du compte&quot;</span>,</span>
+<span id="cb19-161"><a href="#cb19-161" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;clients&quot;</span>, <span class="st">&quot;newsletter&quot;</span>, <span class="st">&quot;qualitative&quot;</span>, <span class="st">&quot;Abonnement à la newsletter (Oui / Non)&quot;</span>,</span>
+<span id="cb19-162"><a href="#cb19-162" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;commandes&quot;</span>, <span class="st">&quot;commande_id&quot;</span>, <span class="st">&quot;texte&quot;</span>, <span class="st">&quot;Identifiant de la commande&quot;</span>,</span>
+<span id="cb19-163"><a href="#cb19-163" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;commandes&quot;</span>, <span class="st">&quot;date&quot;</span>, <span class="st">&quot;date&quot;</span>, <span class="st">&quot;Date de la commande (année 2025)&quot;</span>,</span>
+<span id="cb19-164"><a href="#cb19-164" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;commandes&quot;</span>, <span class="st">&quot;categorie&quot;</span>, <span class="st">&quot;qualitative&quot;</span>, <span class="st">&quot;Catégorie de produits : Mode, Maison, Beauté, High-tech, Sport, Jardin&quot;</span>,</span>
+<span id="cb19-165"><a href="#cb19-165" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;commandes&quot;</span>, <span class="st">&quot;nb_articles&quot;</span>, <span class="st">&quot;entier&quot;</span>, <span class="st">&quot;Nombre d&#39;articles dans la commande&quot;</span>,</span>
+<span id="cb19-166"><a href="#cb19-166" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;commandes&quot;</span>, <span class="st">&quot;promo&quot;</span>, <span class="st">&quot;logique&quot;</span>, <span class="st">&quot;Commande passée avec une promotion&quot;</span>,</span>
+<span id="cb19-167"><a href="#cb19-167" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;commandes&quot;</span>, <span class="st">&quot;montant&quot;</span>, <span class="st">&quot;numérique&quot;</span>, <span class="st">&quot;Montant de la commande, en euros&quot;</span>,</span>
+<span id="cb19-168"><a href="#cb19-168" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;categories&quot;</span>, <span class="st">&quot;taux_marge&quot;</span>, <span class="st">&quot;numérique&quot;</span>, <span class="st">&quot;Part du montant conservée en marge (0,18 à 0,60)&quot;</span>,</span>
+<span id="cb19-169"><a href="#cb19-169" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;categories&quot;</span>, <span class="st">&quot;univers&quot;</span>, <span class="st">&quot;qualitative&quot;</span>, <span class="st">&quot;Regroupement des catégories : Personne, Habitat, Technologie, Loisirs&quot;</span>,</span>
+<span id="cb19-170"><a href="#cb19-170" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;campagne&quot;</span>, <span class="st">&quot;version&quot;</span>, <span class="st">&quot;qualitative&quot;</span>, <span class="st">&quot;Version du message reçue (A ou B)&quot;</span>,</span>
+<span id="cb19-171"><a href="#cb19-171" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;campagne&quot;</span>, <span class="st">&quot;ouvert&quot;</span>, <span class="st">&quot;logique&quot;</span>, <span class="st">&quot;Le client a ouvert l&#39;e-mail&quot;</span>,</span>
+<span id="cb19-172"><a href="#cb19-172" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;campagne&quot;</span>, <span class="st">&quot;clic&quot;</span>, <span class="st">&quot;logique&quot;</span>, <span class="st">&quot;Le client a cliqué sur un lien de l&#39;e-mail&quot;</span>,</span>
+<span id="cb19-173"><a href="#cb19-173" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;campagne&quot;</span>, <span class="st">&quot;achat&quot;</span>, <span class="st">&quot;logique&quot;</span>, <span class="st">&quot;Le client a acheté à la suite de l&#39;e-mail&quot;</span></span>
+<span id="cb19-174"><a href="#cb19-174" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span>
+<span id="cb19-175"><a href="#cb19-175" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-176"><a href="#cb19-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-179"><a href="#cb19-179" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-180"><a href="#cb19-180" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-categories</span></span>
+<span id="cb19-181"><a href="#cb19-181" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Catégories de produits et taux de marge&quot;</span></span>
+<span id="cb19-182"><a href="#cb19-182" aria-hidden="true" tabindex="-1"></a>categories <span class="sc">|&gt;</span></span>
+<span id="cb19-183"><a href="#cb19-183" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(taux_marge)) <span class="sc">|&gt;</span></span>
+<span id="cb19-184"><a href="#cb19-184" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">taux_marge =</span> scales<span class="sc">::</span><span class="fu">percent</span>(taux_marge)) <span class="sc">|&gt;</span></span>
+<span id="cb19-185"><a href="#cb19-185" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Catégorie&quot;</span>, <span class="st">&quot;Taux de marge&quot;</span>, <span class="st">&quot;Univers&quot;</span>))</span>
+<span id="cb19-186"><a href="#cb19-186" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-187"><a href="#cb19-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-188"><a href="#cb19-188" aria-hidden="true" tabindex="-1"></a><span class="fu">## Qualité des données</span></span>
+<span id="cb19-189"><a href="#cb19-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-192"><a href="#cb19-192" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-193"><a href="#cb19-193" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-controles</span></span>
+<span id="cb19-194"><a href="#cb19-194" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Contrôles de qualité et de cohérence&quot;</span></span>
+<span id="cb19-195"><a href="#cb19-195" aria-hidden="true" tabindex="-1"></a>controles <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb19-196"><a href="#cb19-196" aria-hidden="true" tabindex="-1"></a>  Contrôle <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;Âges manquants (clients)&quot;</span>,</span>
+<span id="cb19-197"><a href="#cb19-197" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;Âges égaux à 18 ans (clients)&quot;</span>,</span>
+<span id="cb19-198"><a href="#cb19-198" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;Commandes en double (identifiant)&quot;</span>,</span>
+<span id="cb19-199"><a href="#cb19-199" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;Commandes sans client connu&quot;</span>,</span>
+<span id="cb19-200"><a href="#cb19-200" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;Commandes antérieures à l&#39;inscription&quot;</span>,</span>
+<span id="cb19-201"><a href="#cb19-201" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;Clients sans aucune commande en 2025&quot;</span>,</span>
+<span id="cb19-202"><a href="#cb19-202" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;Incohérences de l&#39;entonnoir (campagne)&quot;</span>),</span>
+<span id="cb19-203"><a href="#cb19-203" aria-hidden="true" tabindex="-1"></a>  <span class="at">Nombre =</span> <span class="fu">c</span>(<span class="fu">sum</span>(<span class="fu">is.na</span>(clients<span class="sc">$</span>age)),</span>
+<span id="cb19-204"><a href="#cb19-204" aria-hidden="true" tabindex="-1"></a>             <span class="fu">sum</span>(clients<span class="sc">$</span>age <span class="sc">==</span> <span class="dv">18</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb19-205"><a href="#cb19-205" aria-hidden="true" tabindex="-1"></a>             <span class="fu">sum</span>(<span class="fu">duplicated</span>(donnees<span class="sc">$</span>commande_id)),</span>
+<span id="cb19-206"><a href="#cb19-206" aria-hidden="true" tabindex="-1"></a>             <span class="fu">sum</span>(<span class="fu">is.na</span>(donnees<span class="sc">$</span>region)),</span>
+<span id="cb19-207"><a href="#cb19-207" aria-hidden="true" tabindex="-1"></a>             <span class="fu">sum</span>(donnees<span class="sc">$</span>date <span class="sc">&lt;</span> donnees<span class="sc">$</span>date_inscription, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb19-208"><a href="#cb19-208" aria-hidden="true" tabindex="-1"></a>             <span class="fu">sum</span>(<span class="sc">!</span>clients<span class="sc">$</span>client_id <span class="sc">%in%</span> donnees<span class="sc">$</span>client_id),</span>
+<span id="cb19-209"><a href="#cb19-209" aria-hidden="true" tabindex="-1"></a>             <span class="fu">sum</span>((campagne<span class="sc">$</span>clic <span class="sc">&amp;</span> <span class="sc">!</span>campagne<span class="sc">$</span>ouvert) <span class="sc">|</span></span>
+<span id="cb19-210"><a href="#cb19-210" aria-hidden="true" tabindex="-1"></a>                 (campagne<span class="sc">$</span>achat <span class="sc">&amp;</span> <span class="sc">!</span>campagne<span class="sc">$</span>clic)))</span>
+<span id="cb19-211"><a href="#cb19-211" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-212"><a href="#cb19-212" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(controles)</span>
+<span id="cb19-213"><a href="#cb19-213" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-214"><a href="#cb19-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-217"><a href="#cb19-217" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-218"><a href="#cb19-218" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-montants</span></span>
+<span id="cb19-219"><a href="#cb19-219" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Les montants sont asymétriques, avec quelques commandes élevées, surtout en maison et high-tech&quot;</span></span>
+<span id="cb19-220"><a href="#cb19-220" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(donnees, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(categorie, montant, median), <span class="at">y =</span> montant)) <span class="sc">+</span></span>
+<span id="cb19-221"><a href="#cb19-221" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb19-222"><a href="#cb19-222" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Montant de la commande (€)&quot;</span>)</span>
+<span id="cb19-223"><a href="#cb19-223" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-224"><a href="#cb19-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-225"><a href="#cb19-225" aria-hidden="true" tabindex="-1"></a>Les contrôles du @tbl-controles appellent les traitements suivants.</span>
+<span id="cb19-226"><a href="#cb19-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-227"><a href="#cb19-227" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Âges manquants** (<span class="in">`r controles$Nombre[1]`</span> clients). Supprimer ces clients réduirait l&#39;échantillon pour une seule variable. Nous les conservons : l&#39;âge manquant est remplacé par la médiane et un indicateur <span class="in">`age_manquant`</span> est ajouté, pour que le modèle puisse détecter un éventuel comportement propre à ces clients. L&#39;effet de ce choix est testé en section « Évaluation ».</span>
+<span id="cb19-228"><a href="#cb19-228" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Accumulation à 18 ans** (<span class="in">`r controles$Nombre[2]`</span> clients). Elle suggère un plancher de saisie (âge minimum requis à l&#39;inscription) plutôt que des clients ayant tous exactement 18 ans. Nous gardons la variable, mais l&#39;interprétons avec prudence pour les plus jeunes.</span>
+<span id="cb19-229"><a href="#cb19-229" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Clients sans commande en 2025** (<span class="in">`r controles$Nombre[6]`</span> clients). Ils n&#39;ont aucun comportement d&#39;achat à analyser ; une partie s&#39;est d&#39;ailleurs inscrite en fin d&#39;année. Ils sont exclus de l&#39;étude de l&#39;attrition, qui porte par définition sur les clients actifs pendant la période d&#39;observation.</span>
+<span id="cb19-230"><a href="#cb19-230" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Montants élevés** (@fig-montants). Les commandes les plus chères restent plausibles pour un panier de plusieurs articles en maison ou high-tech. Il s&#39;agit de valeurs extrêmes, pas d&#39;erreurs : nous les conservons, car ce sont justement elles qui distinguent les clients à forte valeur.</span>
+<span id="cb19-231"><a href="#cb19-231" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="sc">\[</span>À COMPLÉTER selon le résultat : doublons, commandes sans client, commandes antérieures à l&#39;inscription et incohérences de l&#39;entonnoir. Si un nombre est nul, l&#39;indiquer en une phrase ; sinon, décrire le traitement retenu.<span class="sc">\]</span></span>
+<span id="cb19-232"><a href="#cb19-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-233"><a href="#cb19-233" aria-hidden="true" tabindex="-1"></a>**Représentativité.** Les commandes couvrent une seule année (2025). Une saisonnalité forte, par exemple les achats de fin d&#39;année, peut influencer la période cible (octobre à décembre). La table <span class="in">`campagne`</span> ne porte que sur une partie des clients et n&#39;est pas datée : on ne peut pas la situer par rapport aux périodes d&#39;observation et cible. Enfin, la campagne compte peu d&#39;achats, ce qui limite la précision de la comparaison entre les versions A et B.</span>
+<span id="cb19-234"><a href="#cb19-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-235"><a href="#cb19-235" aria-hidden="true" tabindex="-1"></a><span class="fu">## Éthique et cadre légal</span></span>
+<span id="cb19-236"><a href="#cb19-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-237"><a href="#cb19-237" aria-hidden="true" tabindex="-1"></a>Les données décrivent des personnes physiques : ce sont des données personnelles au sens du RGPD. Elles sont pseudonymisées (un identifiant remplace le nom et l&#39;adresse), mais pas anonymes : l&#39;âge, la région et la date d&#39;inscription, combinés à l&#39;historique d&#39;achats, pourraient permettre de réidentifier un client si la table était croisée avec d&#39;autres sources.</span>
+<span id="cb19-238"><a href="#cb19-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-239"><a href="#cb19-239" aria-hidden="true" tabindex="-1"></a>Les usages possibles de nos résultats posent plusieurs questions.</span>
+<span id="cb19-240"><a href="#cb19-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-241"><a href="#cb19-241" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Ciblage et traitement différencié.** Réserver des remises aux clients jugés « précieux » revient à proposer des prix différents selon le profil. C&#39;est légal en France si les critères sont commerciaux (historique d&#39;achat), mais l&#39;âge ou la région ne doivent pas devenir des critères d&#39;exclusion.</span>
+<span id="cb19-242"><a href="#cb19-242" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Prospection par e-mail.** Une campagne de rétention par e-mail suppose le consentement des clients (variable <span class="in">`newsletter`</span>) ou un lien commercial existant, avec une possibilité simple de désinscription.</span>
+<span id="cb19-243"><a href="#cb19-243" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Profilage automatisé.** Un score d&#39;attrition est un profilage. Il doit servir à orienter des offres, pas à fonder seul une décision défavorable pour un client.</span>
+<span id="cb19-244"><a href="#cb19-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-245"><a href="#cb19-245" aria-hidden="true" tabindex="-1"></a>Précautions retenues : nous n&#39;utilisons que des variables nécessaires à la question (minimisation) ; nous vérifions que les recommandations ne reposent pas principalement sur l&#39;âge ou la région ; les résultats sont présentés de façon agrégée, par segments, et jamais par client nominatif.</span>
+<span id="cb19-246"><a href="#cb19-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-247"><a href="#cb19-247" aria-hidden="true" tabindex="-1"></a><span class="fu"># Préparation des données</span></span>
+<span id="cb19-248"><a href="#cb19-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-249"><a href="#cb19-249" aria-hidden="true" tabindex="-1"></a>::: callout-note</span>
+<span id="cb19-250"><a href="#cb19-250" aria-hidden="true" tabindex="-1"></a><span class="fu">## Consigne</span></span>
+<span id="cb19-251"><a href="#cb19-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-252"><a href="#cb19-252" aria-hidden="true" tabindex="-1"></a>Décrivez et justifiez chaque transformation : recodages, variables créées, traitement des valeurs manquantes, filtres. Ces choix peuvent influencer les résultats : notez-les pour en tester l&#39;effet (section « Évaluation »).</span>
+<span id="cb19-253"><a href="#cb19-253" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-254"><a href="#cb19-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-257"><a href="#cb19-257" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-258"><a href="#cb19-258" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: preparation</span></span>
+<span id="cb19-259"><a href="#cb19-259" aria-hidden="true" tabindex="-1"></a>donnees_propres <span class="ot">&lt;-</span> donnees</span>
+<span id="cb19-260"><a href="#cb19-260" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemple : donnees_propres &lt;- donnees |&gt; mutate(...) |&gt; filter(...)</span></span>
+<span id="cb19-261"><a href="#cb19-261" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-262"><a href="#cb19-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-263"><a href="#cb19-263" aria-hidden="true" tabindex="-1"></a>**Découpage entraînement / test.** Pour un objectif de prédiction, réservez un jeu de test **avant** toute exploration, avec un découpage adapté (aléatoire, temporel ou par groupes).</span>
+<span id="cb19-264"><a href="#cb19-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-267"><a href="#cb19-267" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-268"><a href="#cb19-268" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: decoupage</span></span>
+<span id="cb19-269"><a href="#cb19-269" aria-hidden="true" tabindex="-1"></a>indices_train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(donnees_propres), <span class="at">size =</span> <span class="fu">round</span>(<span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">nrow</span>(donnees_propres)))</span>
+<span id="cb19-270"><a href="#cb19-270" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> donnees_propres[indices_train, ]</span>
+<span id="cb19-271"><a href="#cb19-271" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> donnees_propres[<span class="sc">-</span>indices_train, ]</span>
+<span id="cb19-272"><a href="#cb19-272" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">entrainement =</span> <span class="fu">nrow</span>(train), <span class="at">test =</span> <span class="fu">nrow</span>(test))</span>
+<span id="cb19-273"><a href="#cb19-273" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-274"><a href="#cb19-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-275"><a href="#cb19-275" aria-hidden="true" tabindex="-1"></a><span class="fu"># Exploration</span></span>
 <span id="cb19-276"><a href="#cb19-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-277"><a href="#cb19-277" aria-hidden="true" tabindex="-1"></a>Les contrôles du @tbl-controles appellent les traitements suivants.</span>
-<span id="cb19-278"><a href="#cb19-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-279"><a href="#cb19-279" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Âges manquants** (<span class="in">`r controles$Nombre[1]`</span> clients). Supprimer ces clients</span>
-<span id="cb19-280"><a href="#cb19-280" aria-hidden="true" tabindex="-1"></a>  réduirait l&#39;échantillon pour une seule variable. Nous les conservons :</span>
-<span id="cb19-281"><a href="#cb19-281" aria-hidden="true" tabindex="-1"></a>  l&#39;âge manquant est remplacé par la médiane et un indicateur <span class="in">`age_manquant`</span></span>
-<span id="cb19-282"><a href="#cb19-282" aria-hidden="true" tabindex="-1"></a>  est ajouté, pour que le modèle puisse détecter un éventuel comportement</span>
-<span id="cb19-283"><a href="#cb19-283" aria-hidden="true" tabindex="-1"></a>  propre à ces clients. L&#39;effet de ce choix est testé en section</span>
-<span id="cb19-284"><a href="#cb19-284" aria-hidden="true" tabindex="-1"></a>  « Évaluation ».</span>
-<span id="cb19-285"><a href="#cb19-285" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Accumulation à 18 ans** (<span class="in">`r controles$Nombre[2]`</span> clients). Elle suggère un</span>
-<span id="cb19-286"><a href="#cb19-286" aria-hidden="true" tabindex="-1"></a>  plancher de saisie (âge minimum requis à l&#39;inscription) plutôt que des</span>
-<span id="cb19-287"><a href="#cb19-287" aria-hidden="true" tabindex="-1"></a>  clients ayant tous exactement 18 ans. Nous gardons la variable, mais</span>
-<span id="cb19-288"><a href="#cb19-288" aria-hidden="true" tabindex="-1"></a>  l&#39;interprétons avec prudence pour les plus jeunes.</span>
-<span id="cb19-289"><a href="#cb19-289" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Clients sans commande en 2025** (<span class="in">`r controles$Nombre[6]`</span> clients). Ils</span>
-<span id="cb19-290"><a href="#cb19-290" aria-hidden="true" tabindex="-1"></a>  n&#39;ont aucun comportement d&#39;achat à analyser ; une partie s&#39;est d&#39;ailleurs</span>
-<span id="cb19-291"><a href="#cb19-291" aria-hidden="true" tabindex="-1"></a>  inscrite en fin d&#39;année. Ils sont exclus de l&#39;étude de l&#39;attrition, qui</span>
-<span id="cb19-292"><a href="#cb19-292" aria-hidden="true" tabindex="-1"></a>  porte par définition sur les clients actifs pendant la période</span>
-<span id="cb19-293"><a href="#cb19-293" aria-hidden="true" tabindex="-1"></a>  d&#39;observation.</span>
-<span id="cb19-294"><a href="#cb19-294" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Montants élevés** (@fig-montants). Les commandes les plus chères restent</span>
-<span id="cb19-295"><a href="#cb19-295" aria-hidden="true" tabindex="-1"></a>  plausibles pour un panier de plusieurs articles en maison ou high-tech. Il</span>
-<span id="cb19-296"><a href="#cb19-296" aria-hidden="true" tabindex="-1"></a>  s&#39;agit de valeurs extrêmes, pas d&#39;erreurs : nous les conservons, car ce sont</span>
-<span id="cb19-297"><a href="#cb19-297" aria-hidden="true" tabindex="-1"></a>  justement elles qui distinguent les clients à forte valeur.</span>
-<span id="cb19-298"><a href="#cb19-298" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>[À COMPLÉTER selon le résultat : doublons, commandes sans client, commandes</span>
-<span id="cb19-299"><a href="#cb19-299" aria-hidden="true" tabindex="-1"></a>  antérieures à l&#39;inscription et incohérences de l&#39;entonnoir. Si un nombre est</span>
-<span id="cb19-300"><a href="#cb19-300" aria-hidden="true" tabindex="-1"></a>  nul, l&#39;indiquer en une phrase ; sinon, décrire le traitement retenu.]</span>
-<span id="cb19-301"><a href="#cb19-301" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-302"><a href="#cb19-302" aria-hidden="true" tabindex="-1"></a>**Représentativité.** Les commandes couvrent une seule année (2025). Une</span>
-<span id="cb19-303"><a href="#cb19-303" aria-hidden="true" tabindex="-1"></a>saisonnalité forte, par exemple les achats de fin d&#39;année, peut influencer la</span>
-<span id="cb19-304"><a href="#cb19-304" aria-hidden="true" tabindex="-1"></a>période cible (octobre à décembre). La table <span class="in">`campagne`</span> ne porte que sur une</span>
-<span id="cb19-305"><a href="#cb19-305" aria-hidden="true" tabindex="-1"></a>partie des clients et n&#39;est pas datée : on ne peut pas la situer par rapport</span>
-<span id="cb19-306"><a href="#cb19-306" aria-hidden="true" tabindex="-1"></a>aux périodes d&#39;observation et cible. Enfin, la campagne compte peu d&#39;achats,</span>
-<span id="cb19-307"><a href="#cb19-307" aria-hidden="true" tabindex="-1"></a>ce qui limite la précision de la comparaison entre les versions A et B.</span>
-<span id="cb19-308"><a href="#cb19-308" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-309"><a href="#cb19-309" aria-hidden="true" tabindex="-1"></a><span class="fu">## Éthique et cadre légal</span></span>
-<span id="cb19-310"><a href="#cb19-310" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-311"><a href="#cb19-311" aria-hidden="true" tabindex="-1"></a>Les données décrivent des **personnes physiques** : ce sont des données</span>
-<span id="cb19-312"><a href="#cb19-312" aria-hidden="true" tabindex="-1"></a>personnelles au sens du RGPD. Elles sont pseudonymisées (un identifiant</span>
-<span id="cb19-313"><a href="#cb19-313" aria-hidden="true" tabindex="-1"></a>remplace le nom et l&#39;adresse), mais pas anonymes : l&#39;âge, la région et la date</span>
-<span id="cb19-314"><a href="#cb19-314" aria-hidden="true" tabindex="-1"></a>d&#39;inscription, combinés à l&#39;historique d&#39;achats, pourraient permettre de</span>
-<span id="cb19-315"><a href="#cb19-315" aria-hidden="true" tabindex="-1"></a>réidentifier un client si la table était croisée avec d&#39;autres sources.</span>
-<span id="cb19-316"><a href="#cb19-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-317"><a href="#cb19-317" aria-hidden="true" tabindex="-1"></a>Les usages possibles de nos résultats posent plusieurs questions.</span>
-<span id="cb19-318"><a href="#cb19-318" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-319"><a href="#cb19-319" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Ciblage et traitement différencié.** Réserver des remises aux clients</span>
-<span id="cb19-320"><a href="#cb19-320" aria-hidden="true" tabindex="-1"></a>  jugés « précieux » revient à proposer des prix différents selon le profil.</span>
-<span id="cb19-321"><a href="#cb19-321" aria-hidden="true" tabindex="-1"></a>  C&#39;est légal en France si les critères sont commerciaux (historique d&#39;achat),</span>
-<span id="cb19-322"><a href="#cb19-322" aria-hidden="true" tabindex="-1"></a>  mais l&#39;âge ou la région ne doivent pas devenir des critères d&#39;exclusion.</span>
-<span id="cb19-323"><a href="#cb19-323" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Prospection par e-mail.** Une campagne de rétention par e-mail suppose le</span>
-<span id="cb19-324"><a href="#cb19-324" aria-hidden="true" tabindex="-1"></a>  consentement des clients (variable <span class="in">`newsletter`</span>) ou un lien commercial</span>
-<span id="cb19-325"><a href="#cb19-325" aria-hidden="true" tabindex="-1"></a>  existant, avec une possibilité simple de désinscription.</span>
-<span id="cb19-326"><a href="#cb19-326" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Profilage automatisé.** Un score d&#39;attrition est un profilage. Il doit</span>
-<span id="cb19-327"><a href="#cb19-327" aria-hidden="true" tabindex="-1"></a>  servir à orienter des offres, pas à fonder seul une décision défavorable</span>
-<span id="cb19-328"><a href="#cb19-328" aria-hidden="true" tabindex="-1"></a>  pour un client.</span>
-<span id="cb19-329"><a href="#cb19-329" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-330"><a href="#cb19-330" aria-hidden="true" tabindex="-1"></a>Précautions retenues : nous n&#39;utilisons que des variables nécessaires à la</span>
-<span id="cb19-331"><a href="#cb19-331" aria-hidden="true" tabindex="-1"></a>question (minimisation) ; nous vérifions que les recommandations ne reposent</span>
-<span id="cb19-332"><a href="#cb19-332" aria-hidden="true" tabindex="-1"></a>pas principalement sur l&#39;âge ou la région ; les résultats sont présentés de</span>
-<span id="cb19-333"><a href="#cb19-333" aria-hidden="true" tabindex="-1"></a>façon agrégée, par segments, et jamais par client nominatif.</span>
+<span id="cb19-277"><a href="#cb19-277" aria-hidden="true" tabindex="-1"></a>::: callout-note</span>
+<span id="cb19-278"><a href="#cb19-278" aria-hidden="true" tabindex="-1"></a><span class="fu">## Consigne</span></span>
+<span id="cb19-279"><a href="#cb19-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-280"><a href="#cb19-280" aria-hidden="true" tabindex="-1"></a>Analyses univariées puis bivariées, **sur le jeu d&#39;entraînement**, orientées vers la question. Chaque graphique a un titre qui énonce son message, des axes avec unités, et il est **commenté** dans le texte (par exemple « la @fig-distributions montre que... »). Gardez les graphiques utiles, pas tous ceux que vous avez produits.</span>
+<span id="cb19-281"><a href="#cb19-281" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-282"><a href="#cb19-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-285"><a href="#cb19-285" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-286"><a href="#cb19-286" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-distributions</span></span>
+<span id="cb19-287"><a href="#cb19-287" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Distribution des variables quantitatives (12 premières au plus)&quot;</span></span>
+<span id="cb19-288"><a href="#cb19-288" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 6</span></span>
+<span id="cb19-289"><a href="#cb19-289" aria-hidden="true" tabindex="-1"></a>quantitatives <span class="ot">&lt;-</span> train <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">where</span>(is.numeric))</span>
+<span id="cb19-290"><a href="#cb19-290" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">ncol</span>(quantitatives) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb19-291"><a href="#cb19-291" aria-hidden="true" tabindex="-1"></a>  quantitatives <span class="sc">|&gt;</span></span>
+<span id="cb19-292"><a href="#cb19-292" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">min</span>(<span class="dv">12</span>, <span class="fu">ncol</span>(quantitatives))) <span class="sc">|&gt;</span></span>
+<span id="cb19-293"><a href="#cb19-293" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">&quot;variable&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;valeur&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-294"><a href="#cb19-294" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> valeur)) <span class="sc">+</span></span>
+<span id="cb19-295"><a href="#cb19-295" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb19-296"><a href="#cb19-296" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(variable), <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb19-297"><a href="#cb19-297" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Effectif&quot;</span>)</span>
+<span id="cb19-298"><a href="#cb19-298" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-299"><a href="#cb19-299" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-300"><a href="#cb19-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-303"><a href="#cb19-303" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-304"><a href="#cb19-304" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-correlations</span></span>
+<span id="cb19-305"><a href="#cb19-305" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Corrélations entre les variables quantitatives (12 premières au plus)&quot;</span></span>
+<span id="cb19-306"><a href="#cb19-306" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5.5</span></span>
+<span id="cb19-307"><a href="#cb19-307" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">ncol</span>(quantitatives) <span class="sc">&gt;=</span> <span class="dv">2</span>) {</span>
+<span id="cb19-308"><a href="#cb19-308" aria-hidden="true" tabindex="-1"></a>  quantitatives <span class="sc">|&gt;</span></span>
+<span id="cb19-309"><a href="#cb19-309" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">min</span>(<span class="dv">12</span>, <span class="fu">ncol</span>(quantitatives))) <span class="sc">|&gt;</span></span>
+<span id="cb19-310"><a href="#cb19-310" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cor</span>(<span class="at">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-311"><a href="#cb19-311" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb19-312"><a href="#cb19-312" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rownames_to_column</span>(<span class="st">&quot;variable_1&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-313"><a href="#cb19-313" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="sc">-</span>variable_1, <span class="at">names_to =</span> <span class="st">&quot;variable_2&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;correlation&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-314"><a href="#cb19-314" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(variable_1, variable_2, <span class="at">fill =</span> correlation)) <span class="sc">+</span></span>
+<span id="cb19-315"><a href="#cb19-315" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb19-316"><a href="#cb19-316" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(correlation, <span class="dv">2</span>)), <span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
+<span id="cb19-317"><a href="#cb19-317" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradient2</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb19-318"><a href="#cb19-318" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">fill =</span> <span class="st">&quot;Corrélation&quot;</span>) <span class="sc">+</span></span>
+<span id="cb19-319"><a href="#cb19-319" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
+<span id="cb19-320"><a href="#cb19-320" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-321"><a href="#cb19-321" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-322"><a href="#cb19-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-323"><a href="#cb19-323" aria-hidden="true" tabindex="-1"></a><span class="fu"># Modélisation</span></span>
+<span id="cb19-324"><a href="#cb19-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-325"><a href="#cb19-325" aria-hidden="true" tabindex="-1"></a>::: callout-note</span>
+<span id="cb19-326"><a href="#cb19-326" aria-hidden="true" tabindex="-1"></a><span class="fu">## Consigne</span></span>
+<span id="cb19-327"><a href="#cb19-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-328"><a href="#cb19-328" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Commencez par un **modèle de référence** très simple (prédire la moyenne ou la classe majoritaire).</span>
+<span id="cb19-329"><a href="#cb19-329" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Présentez ensuite les méthodes retenues et **justifiez** leur choix par rapport à la question et au type des variables (régression, ANOVA, ACP, arbres, forêts aléatoires, classification automatique...).</span>
+<span id="cb19-330"><a href="#cb19-330" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Interprétez les résultats dans les termes du problème marketing.</span>
+<span id="cb19-331"><a href="#cb19-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-332"><a href="#cb19-332" aria-hidden="true" tabindex="-1"></a>Les blocs ci-dessous sont des **exemples** à adapter (ils ne sont pas exécutés : remplacez <span class="in">`#| eval: false`</span> par <span class="in">`#| eval: true`</span>).</span>
+<span id="cb19-333"><a href="#cb19-333" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb19-334"><a href="#cb19-334" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-335"><a href="#cb19-335" aria-hidden="true" tabindex="-1"></a><span class="fu"># Préparation des données</span></span>
-<span id="cb19-336"><a href="#cb19-336" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-337"><a href="#cb19-337" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb19-338"><a href="#cb19-338" aria-hidden="true" tabindex="-1"></a><span class="fu">## Consigne</span></span>
-<span id="cb19-339"><a href="#cb19-339" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-340"><a href="#cb19-340" aria-hidden="true" tabindex="-1"></a>Décrivez et justifiez chaque transformation : recodages, variables créées,</span>
-<span id="cb19-341"><a href="#cb19-341" aria-hidden="true" tabindex="-1"></a>traitement des valeurs manquantes, filtres. Ces choix peuvent influencer les</span>
-<span id="cb19-342"><a href="#cb19-342" aria-hidden="true" tabindex="-1"></a>résultats : notez-les pour en tester l&#39;effet (section « Évaluation »).</span>
-<span id="cb19-343"><a href="#cb19-343" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-337"><a href="#cb19-337" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-338"><a href="#cb19-338" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: modele-regression</span></span>
+<span id="cb19-339"><a href="#cb19-339" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb19-340"><a href="#cb19-340" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemple : prédire une variable quantitative `cible`</span></span>
+<span id="cb19-341"><a href="#cb19-341" aria-hidden="true" tabindex="-1"></a>reference <span class="ot">&lt;-</span> <span class="fu">mean</span>(train<span class="sc">$</span>cible)</span>
+<span id="cb19-342"><a href="#cb19-342" aria-hidden="true" tabindex="-1"></a>modele_lineaire <span class="ot">&lt;-</span> <span class="fu">lm</span>(cible <span class="sc">~</span> ., <span class="at">data =</span> train)</span>
+<span id="cb19-343"><a href="#cb19-343" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modele_lineaire)</span>
 <span id="cb19-344"><a href="#cb19-344" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-347"><a href="#cb19-347" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-348"><a href="#cb19-348" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: preparation</span></span>
-<span id="cb19-349"><a href="#cb19-349" aria-hidden="true" tabindex="-1"></a>donnees_propres <span class="ot">&lt;-</span> donnees</span>
-<span id="cb19-350"><a href="#cb19-350" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemple : donnees_propres &lt;- donnees |&gt; mutate(...) |&gt; filter(...)</span></span>
-<span id="cb19-351"><a href="#cb19-351" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-352"><a href="#cb19-352" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-353"><a href="#cb19-353" aria-hidden="true" tabindex="-1"></a>**Découpage entraînement / test.** Pour un objectif de prédiction, réservez</span>
-<span id="cb19-354"><a href="#cb19-354" aria-hidden="true" tabindex="-1"></a>un jeu de test **avant** toute exploration, avec un découpage adapté</span>
-<span id="cb19-355"><a href="#cb19-355" aria-hidden="true" tabindex="-1"></a>(aléatoire, temporel ou par groupes).</span>
-<span id="cb19-356"><a href="#cb19-356" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-359"><a href="#cb19-359" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-360"><a href="#cb19-360" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: decoupage</span></span>
-<span id="cb19-361"><a href="#cb19-361" aria-hidden="true" tabindex="-1"></a>indices_train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(donnees_propres), <span class="at">size =</span> <span class="fu">round</span>(<span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">nrow</span>(donnees_propres)))</span>
-<span id="cb19-362"><a href="#cb19-362" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> donnees_propres[indices_train, ]</span>
-<span id="cb19-363"><a href="#cb19-363" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> donnees_propres[<span class="sc">-</span>indices_train, ]</span>
-<span id="cb19-364"><a href="#cb19-364" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">entrainement =</span> <span class="fu">nrow</span>(train), <span class="at">test =</span> <span class="fu">nrow</span>(test))</span>
-<span id="cb19-365"><a href="#cb19-365" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-366"><a href="#cb19-366" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-367"><a href="#cb19-367" aria-hidden="true" tabindex="-1"></a><span class="fu"># Exploration</span></span>
-<span id="cb19-368"><a href="#cb19-368" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-369"><a href="#cb19-369" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb19-370"><a href="#cb19-370" aria-hidden="true" tabindex="-1"></a><span class="fu">## Consigne</span></span>
-<span id="cb19-371"><a href="#cb19-371" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-372"><a href="#cb19-372" aria-hidden="true" tabindex="-1"></a>Analyses univariées puis bivariées, **sur le jeu d&#39;entraînement**, orientées</span>
-<span id="cb19-373"><a href="#cb19-373" aria-hidden="true" tabindex="-1"></a>vers la question. Chaque graphique a un titre qui énonce son message, des axes</span>
-<span id="cb19-374"><a href="#cb19-374" aria-hidden="true" tabindex="-1"></a>avec unités, et il est **commenté** dans le texte (par exemple « la</span>
-<span id="cb19-375"><a href="#cb19-375" aria-hidden="true" tabindex="-1"></a>@fig-distributions montre que... »). Gardez les graphiques utiles, pas tous</span>
-<span id="cb19-376"><a href="#cb19-376" aria-hidden="true" tabindex="-1"></a>ceux que vous avez produits.</span>
-<span id="cb19-377"><a href="#cb19-377" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-345"><a href="#cb19-345" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb19-346"><a href="#cb19-346" aria-hidden="true" tabindex="-1"></a>foret <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(cible <span class="sc">~</span> ., <span class="at">data =</span> train, <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-347"><a href="#cb19-347" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(foret)</span>
+<span id="cb19-348"><a href="#cb19-348" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-349"><a href="#cb19-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-352"><a href="#cb19-352" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-353"><a href="#cb19-353" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: modele-classification</span></span>
+<span id="cb19-354"><a href="#cb19-354" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb19-355"><a href="#cb19-355" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemple : prédire une variable qualitative à deux modalités `cible`</span></span>
+<span id="cb19-356"><a href="#cb19-356" aria-hidden="true" tabindex="-1"></a>logistique <span class="ot">&lt;-</span> <span class="fu">glm</span>(cible <span class="sc">~</span> ., <span class="at">data =</span> train, <span class="at">family =</span> binomial)</span>
+<span id="cb19-357"><a href="#cb19-357" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logistique)</span>
+<span id="cb19-358"><a href="#cb19-358" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(logistique))              <span class="co"># rapports de cotes</span></span>
+<span id="cb19-359"><a href="#cb19-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-360"><a href="#cb19-360" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb19-361"><a href="#cb19-361" aria-hidden="true" tabindex="-1"></a>arbre <span class="ot">&lt;-</span> <span class="fu">rpart</span>(cible <span class="sc">~</span> ., <span class="at">data =</span> train, <span class="at">method =</span> <span class="st">&quot;class&quot;</span>)</span>
+<span id="cb19-362"><a href="#cb19-362" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-363"><a href="#cb19-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-366"><a href="#cb19-366" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-367"><a href="#cb19-367" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: modele-exploratoire</span></span>
+<span id="cb19-368"><a href="#cb19-368" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb19-369"><a href="#cb19-369" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemple : résumer et segmenter (ACP puis classification)</span></span>
+<span id="cb19-370"><a href="#cb19-370" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FactoMineR)</span>
+<span id="cb19-371"><a href="#cb19-371" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb19-372"><a href="#cb19-372" aria-hidden="true" tabindex="-1"></a>acp <span class="ot">&lt;-</span> <span class="fu">PCA</span>(quantitatives, <span class="at">graph =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb19-373"><a href="#cb19-373" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_var</span>(acp)</span>
+<span id="cb19-374"><a href="#cb19-374" aria-hidden="true" tabindex="-1"></a>segments <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(<span class="fu">scale</span>(quantitatives), <span class="at">centers =</span> <span class="dv">4</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
+<span id="cb19-375"><a href="#cb19-375" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-376"><a href="#cb19-376" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-377"><a href="#cb19-377" aria-hidden="true" tabindex="-1"></a><span class="fu"># Évaluation</span></span>
 <span id="cb19-378"><a href="#cb19-378" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-381"><a href="#cb19-381" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-382"><a href="#cb19-382" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-distributions</span></span>
-<span id="cb19-383"><a href="#cb19-383" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Distribution des variables quantitatives (12 premières au plus)&quot;</span></span>
-<span id="cb19-384"><a href="#cb19-384" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 6</span></span>
-<span id="cb19-385"><a href="#cb19-385" aria-hidden="true" tabindex="-1"></a>quantitatives <span class="ot">&lt;-</span> train <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">where</span>(is.numeric))</span>
-<span id="cb19-386"><a href="#cb19-386" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">ncol</span>(quantitatives) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb19-387"><a href="#cb19-387" aria-hidden="true" tabindex="-1"></a>  quantitatives <span class="sc">|&gt;</span></span>
-<span id="cb19-388"><a href="#cb19-388" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">min</span>(<span class="dv">12</span>, <span class="fu">ncol</span>(quantitatives))) <span class="sc">|&gt;</span></span>
-<span id="cb19-389"><a href="#cb19-389" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">&quot;variable&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;valeur&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb19-390"><a href="#cb19-390" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> valeur)) <span class="sc">+</span></span>
-<span id="cb19-391"><a href="#cb19-391" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
-<span id="cb19-392"><a href="#cb19-392" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(variable), <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
-<span id="cb19-393"><a href="#cb19-393" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Effectif&quot;</span>)</span>
-<span id="cb19-394"><a href="#cb19-394" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-395"><a href="#cb19-395" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-396"><a href="#cb19-396" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-399"><a href="#cb19-399" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-400"><a href="#cb19-400" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-correlations</span></span>
-<span id="cb19-401"><a href="#cb19-401" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Corrélations entre les variables quantitatives (12 premières au plus)&quot;</span></span>
-<span id="cb19-402"><a href="#cb19-402" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5.5</span></span>
-<span id="cb19-403"><a href="#cb19-403" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">ncol</span>(quantitatives) <span class="sc">&gt;=</span> <span class="dv">2</span>) {</span>
-<span id="cb19-404"><a href="#cb19-404" aria-hidden="true" tabindex="-1"></a>  quantitatives <span class="sc">|&gt;</span></span>
-<span id="cb19-405"><a href="#cb19-405" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">min</span>(<span class="dv">12</span>, <span class="fu">ncol</span>(quantitatives))) <span class="sc">|&gt;</span></span>
-<span id="cb19-406"><a href="#cb19-406" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cor</span>(<span class="at">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb19-407"><a href="#cb19-407" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="cb19-408"><a href="#cb19-408" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rownames_to_column</span>(<span class="st">&quot;variable_1&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb19-409"><a href="#cb19-409" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="sc">-</span>variable_1, <span class="at">names_to =</span> <span class="st">&quot;variable_2&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;correlation&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb19-410"><a href="#cb19-410" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(variable_1, variable_2, <span class="at">fill =</span> correlation)) <span class="sc">+</span></span>
-<span id="cb19-411"><a href="#cb19-411" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
-<span id="cb19-412"><a href="#cb19-412" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(correlation, <span class="dv">2</span>)), <span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
-<span id="cb19-413"><a href="#cb19-413" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradient2</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb19-414"><a href="#cb19-414" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">fill =</span> <span class="st">&quot;Corrélation&quot;</span>) <span class="sc">+</span></span>
-<span id="cb19-415"><a href="#cb19-415" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
-<span id="cb19-416"><a href="#cb19-416" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-379"><a href="#cb19-379" aria-hidden="true" tabindex="-1"></a>::: callout-note</span>
+<span id="cb19-380"><a href="#cb19-380" aria-hidden="true" tabindex="-1"></a><span class="fu">## Consigne</span></span>
+<span id="cb19-381"><a href="#cb19-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-382"><a href="#cb19-382" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Prédictibilité** : performances sur le jeu de **test**, comparées au modèle de référence (RMSE ; ou matrice de confusion, sensibilité, spécificité, AUC).</span>
+<span id="cb19-383"><a href="#cb19-383" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stabilité** : les conclusions changent-elles avec une autre graine, un autre traitement des valeurs manquantes, une autre méthode ?</span>
+<span id="cb19-384"><a href="#cb19-384" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Résumez les performances dans un tableau.</span>
+<span id="cb19-385"><a href="#cb19-385" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-386"><a href="#cb19-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-389"><a href="#cb19-389" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-390"><a href="#cb19-390" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-performances</span></span>
+<span id="cb19-391"><a href="#cb19-391" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Performances des modèles sur le jeu de test&quot;</span></span>
+<span id="cb19-392"><a href="#cb19-392" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb19-393"><a href="#cb19-393" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb19-394"><a href="#cb19-394" aria-hidden="true" tabindex="-1"></a>  Modèle <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;Référence (moyenne)&quot;</span>, <span class="st">&quot;Régression linéaire&quot;</span>, <span class="st">&quot;Forêt aléatoire&quot;</span>),</span>
+<span id="cb19-395"><a href="#cb19-395" aria-hidden="true" tabindex="-1"></a>  <span class="at">RMSE =</span> <span class="fu">c</span>(<span class="fu">rmse</span>(test<span class="sc">$</span>cible, reference),</span>
+<span id="cb19-396"><a href="#cb19-396" aria-hidden="true" tabindex="-1"></a>           <span class="fu">rmse</span>(test<span class="sc">$</span>cible, <span class="fu">predict</span>(modele_lineaire, test)),</span>
+<span id="cb19-397"><a href="#cb19-397" aria-hidden="true" tabindex="-1"></a>           <span class="fu">rmse</span>(test<span class="sc">$</span>cible, <span class="fu">predict</span>(foret, test)))</span>
+<span id="cb19-398"><a href="#cb19-398" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb19-399"><a href="#cb19-399" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb19-400"><a href="#cb19-400" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-401"><a href="#cb19-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-402"><a href="#cb19-402" aria-hidden="true" tabindex="-1"></a><span class="fu"># Résultats et recommandations</span></span>
+<span id="cb19-403"><a href="#cb19-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-404"><a href="#cb19-404" aria-hidden="true" tabindex="-1"></a>::: callout-note</span>
+<span id="cb19-405"><a href="#cb19-405" aria-hidden="true" tabindex="-1"></a><span class="fu">## Consigne</span></span>
+<span id="cb19-406"><a href="#cb19-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-407"><a href="#cb19-407" aria-hidden="true" tabindex="-1"></a>Le message principal en une phrase, puis des recommandations **concrètes, chiffrées et réalisables** pour l&#39;équipe marketing, avec leur effet attendu. Exportez le graphique qui porte le message principal : il sera repris dans le résumé exécutif.</span>
+<span id="cb19-408"><a href="#cb19-408" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-409"><a href="#cb19-409" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-412"><a href="#cb19-412" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-413"><a href="#cb19-413" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: figure-cle</span></span>
+<span id="cb19-414"><a href="#cb19-414" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb19-415"><a href="#cb19-415" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemple : enregistrer le graphique principal pour le résumé exécutif</span></span>
+<span id="cb19-416"><a href="#cb19-416" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;figures/figure-cle.pdf&quot;</span>, <span class="at">plot =</span> graphique_principal, <span class="at">width =</span> <span class="dv">7</span>, <span class="at">height =</span> <span class="fl">3.5</span>)</span>
 <span id="cb19-417"><a href="#cb19-417" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb19-418"><a href="#cb19-418" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-419"><a href="#cb19-419" aria-hidden="true" tabindex="-1"></a><span class="fu"># Modélisation</span></span>
+<span id="cb19-419"><a href="#cb19-419" aria-hidden="true" tabindex="-1"></a><span class="fu"># Limites et perspectives</span></span>
 <span id="cb19-420"><a href="#cb19-420" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-421"><a href="#cb19-421" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb19-421"><a href="#cb19-421" aria-hidden="true" tabindex="-1"></a>::: callout-note</span>
 <span id="cb19-422"><a href="#cb19-422" aria-hidden="true" tabindex="-1"></a><span class="fu">## Consigne</span></span>
 <span id="cb19-423"><a href="#cb19-423" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-424"><a href="#cb19-424" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Commencez par un **modèle de référence** très simple (prédire la moyenne ou</span>
-<span id="cb19-425"><a href="#cb19-425" aria-hidden="true" tabindex="-1"></a>  la classe majoritaire).</span>
-<span id="cb19-426"><a href="#cb19-426" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Présentez ensuite les méthodes retenues et **justifiez** leur choix par</span>
-<span id="cb19-427"><a href="#cb19-427" aria-hidden="true" tabindex="-1"></a>  rapport à la question et au type des variables (régression, ANOVA, ACP,</span>
-<span id="cb19-428"><a href="#cb19-428" aria-hidden="true" tabindex="-1"></a>  arbres, forêts aléatoires, classification automatique...).</span>
-<span id="cb19-429"><a href="#cb19-429" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Interprétez les résultats dans les termes du problème marketing.</span>
+<span id="cb19-424"><a href="#cb19-424" aria-hidden="true" tabindex="-1"></a>Limites des données (représentativité, variables manquantes, données simulées), des méthodes (associations et non causalité, hypothèses), et ce que vous feriez avec plus de temps ou de données (par exemple : un test A/B).</span>
+<span id="cb19-425"><a href="#cb19-425" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-426"><a href="#cb19-426" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-427"><a href="#cb19-427" aria-hidden="true" tabindex="-1"></a><span class="fu"># Annexes {.unnumbered}</span></span>
+<span id="cb19-428"><a href="#cb19-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-429"><a href="#cb19-429" aria-hidden="true" tabindex="-1"></a><span class="fu">## Contribution des membres du groupe {.unnumbered}</span></span>
 <span id="cb19-430"><a href="#cb19-430" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-431"><a href="#cb19-431" aria-hidden="true" tabindex="-1"></a>Les blocs ci-dessous sont des **exemples** à adapter (ils ne sont pas</span>
-<span id="cb19-432"><a href="#cb19-432" aria-hidden="true" tabindex="-1"></a>exécutés : remplacez <span class="in">`#| eval: false`</span> par <span class="in">`#| eval: true`</span>).</span>
-<span id="cb19-433"><a href="#cb19-433" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb19-434"><a href="#cb19-434" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-437"><a href="#cb19-437" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-438"><a href="#cb19-438" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: modele-regression</span></span>
-<span id="cb19-439"><a href="#cb19-439" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb19-440"><a href="#cb19-440" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemple : prédire une variable quantitative `cible`</span></span>
-<span id="cb19-441"><a href="#cb19-441" aria-hidden="true" tabindex="-1"></a>reference <span class="ot">&lt;-</span> <span class="fu">mean</span>(train<span class="sc">$</span>cible)</span>
-<span id="cb19-442"><a href="#cb19-442" aria-hidden="true" tabindex="-1"></a>modele_lineaire <span class="ot">&lt;-</span> <span class="fu">lm</span>(cible <span class="sc">~</span> ., <span class="at">data =</span> train)</span>
-<span id="cb19-443"><a href="#cb19-443" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modele_lineaire)</span>
-<span id="cb19-444"><a href="#cb19-444" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-445"><a href="#cb19-445" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
-<span id="cb19-446"><a href="#cb19-446" aria-hidden="true" tabindex="-1"></a>foret <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(cible <span class="sc">~</span> ., <span class="at">data =</span> train, <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb19-447"><a href="#cb19-447" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(foret)</span>
-<span id="cb19-448"><a href="#cb19-448" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-449"><a href="#cb19-449" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-452"><a href="#cb19-452" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-453"><a href="#cb19-453" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: modele-classification</span></span>
-<span id="cb19-454"><a href="#cb19-454" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb19-455"><a href="#cb19-455" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemple : prédire une variable qualitative à deux modalités `cible`</span></span>
-<span id="cb19-456"><a href="#cb19-456" aria-hidden="true" tabindex="-1"></a>logistique <span class="ot">&lt;-</span> <span class="fu">glm</span>(cible <span class="sc">~</span> ., <span class="at">data =</span> train, <span class="at">family =</span> binomial)</span>
-<span id="cb19-457"><a href="#cb19-457" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logistique)</span>
-<span id="cb19-458"><a href="#cb19-458" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(logistique))              <span class="co"># rapports de cotes</span></span>
-<span id="cb19-459"><a href="#cb19-459" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-460"><a href="#cb19-460" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
-<span id="cb19-461"><a href="#cb19-461" aria-hidden="true" tabindex="-1"></a>arbre <span class="ot">&lt;-</span> <span class="fu">rpart</span>(cible <span class="sc">~</span> ., <span class="at">data =</span> train, <span class="at">method =</span> <span class="st">&quot;class&quot;</span>)</span>
-<span id="cb19-462"><a href="#cb19-462" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-463"><a href="#cb19-463" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-466"><a href="#cb19-466" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-467"><a href="#cb19-467" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: modele-exploratoire</span></span>
-<span id="cb19-468"><a href="#cb19-468" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb19-469"><a href="#cb19-469" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemple : résumer et segmenter (ACP puis classification)</span></span>
-<span id="cb19-470"><a href="#cb19-470" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FactoMineR)</span>
-<span id="cb19-471"><a href="#cb19-471" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
-<span id="cb19-472"><a href="#cb19-472" aria-hidden="true" tabindex="-1"></a>acp <span class="ot">&lt;-</span> <span class="fu">PCA</span>(quantitatives, <span class="at">graph =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb19-473"><a href="#cb19-473" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_var</span>(acp)</span>
-<span id="cb19-474"><a href="#cb19-474" aria-hidden="true" tabindex="-1"></a>segments <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(<span class="fu">scale</span>(quantitatives), <span class="at">centers =</span> <span class="dv">4</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
-<span id="cb19-475"><a href="#cb19-475" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-476"><a href="#cb19-476" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-477"><a href="#cb19-477" aria-hidden="true" tabindex="-1"></a><span class="fu"># Évaluation</span></span>
-<span id="cb19-478"><a href="#cb19-478" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-479"><a href="#cb19-479" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb19-480"><a href="#cb19-480" aria-hidden="true" tabindex="-1"></a><span class="fu">## Consigne</span></span>
-<span id="cb19-481"><a href="#cb19-481" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-482"><a href="#cb19-482" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Prédictibilité** : performances sur le jeu de **test**, comparées au modèle</span>
-<span id="cb19-483"><a href="#cb19-483" aria-hidden="true" tabindex="-1"></a>  de référence (RMSE ; ou matrice de confusion, sensibilité, spécificité, AUC).</span>
-<span id="cb19-484"><a href="#cb19-484" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stabilité** : les conclusions changent-elles avec une autre graine, un autre</span>
-<span id="cb19-485"><a href="#cb19-485" aria-hidden="true" tabindex="-1"></a>  traitement des valeurs manquantes, une autre méthode ?</span>
-<span id="cb19-486"><a href="#cb19-486" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Résumez les performances dans un tableau.</span>
-<span id="cb19-487"><a href="#cb19-487" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb19-488"><a href="#cb19-488" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-491"><a href="#cb19-491" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-492"><a href="#cb19-492" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-performances</span></span>
-<span id="cb19-493"><a href="#cb19-493" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Performances des modèles sur le jeu de test&quot;</span></span>
-<span id="cb19-494"><a href="#cb19-494" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb19-495"><a href="#cb19-495" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
-<span id="cb19-496"><a href="#cb19-496" aria-hidden="true" tabindex="-1"></a>  Modèle <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;Référence (moyenne)&quot;</span>, <span class="st">&quot;Régression linéaire&quot;</span>, <span class="st">&quot;Forêt aléatoire&quot;</span>),</span>
-<span id="cb19-497"><a href="#cb19-497" aria-hidden="true" tabindex="-1"></a>  <span class="at">RMSE =</span> <span class="fu">c</span>(<span class="fu">rmse</span>(test<span class="sc">$</span>cible, reference),</span>
-<span id="cb19-498"><a href="#cb19-498" aria-hidden="true" tabindex="-1"></a>           <span class="fu">rmse</span>(test<span class="sc">$</span>cible, <span class="fu">predict</span>(modele_lineaire, test)),</span>
-<span id="cb19-499"><a href="#cb19-499" aria-hidden="true" tabindex="-1"></a>           <span class="fu">rmse</span>(test<span class="sc">$</span>cible, <span class="fu">predict</span>(foret, test)))</span>
-<span id="cb19-500"><a href="#cb19-500" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb19-501"><a href="#cb19-501" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span>
-<span id="cb19-502"><a href="#cb19-502" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-503"><a href="#cb19-503" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-504"><a href="#cb19-504" aria-hidden="true" tabindex="-1"></a><span class="fu"># Résultats et recommandations</span></span>
-<span id="cb19-505"><a href="#cb19-505" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-506"><a href="#cb19-506" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb19-507"><a href="#cb19-507" aria-hidden="true" tabindex="-1"></a><span class="fu">## Consigne</span></span>
-<span id="cb19-508"><a href="#cb19-508" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-509"><a href="#cb19-509" aria-hidden="true" tabindex="-1"></a>Le message principal en une phrase, puis des recommandations **concrètes,</span>
-<span id="cb19-510"><a href="#cb19-510" aria-hidden="true" tabindex="-1"></a>chiffrées et réalisables** pour l&#39;équipe marketing, avec leur effet attendu.</span>
-<span id="cb19-511"><a href="#cb19-511" aria-hidden="true" tabindex="-1"></a>Exportez le graphique qui porte le message principal : il sera repris dans</span>
-<span id="cb19-512"><a href="#cb19-512" aria-hidden="true" tabindex="-1"></a>le résumé exécutif.</span>
-<span id="cb19-513"><a href="#cb19-513" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb19-514"><a href="#cb19-514" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-517"><a href="#cb19-517" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-518"><a href="#cb19-518" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: figure-cle</span></span>
-<span id="cb19-519"><a href="#cb19-519" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb19-520"><a href="#cb19-520" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemple : enregistrer le graphique principal pour le résumé exécutif</span></span>
-<span id="cb19-521"><a href="#cb19-521" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;figures/figure-cle.pdf&quot;</span>, <span class="at">plot =</span> graphique_principal, <span class="at">width =</span> <span class="dv">7</span>, <span class="at">height =</span> <span class="fl">3.5</span>)</span>
-<span id="cb19-522"><a href="#cb19-522" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-523"><a href="#cb19-523" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-524"><a href="#cb19-524" aria-hidden="true" tabindex="-1"></a><span class="fu"># Limites et perspectives</span></span>
-<span id="cb19-525"><a href="#cb19-525" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-526"><a href="#cb19-526" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb19-527"><a href="#cb19-527" aria-hidden="true" tabindex="-1"></a><span class="fu">## Consigne</span></span>
-<span id="cb19-528"><a href="#cb19-528" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-529"><a href="#cb19-529" aria-hidden="true" tabindex="-1"></a>Limites des données (représentativité, variables manquantes, données</span>
-<span id="cb19-530"><a href="#cb19-530" aria-hidden="true" tabindex="-1"></a>simulées), des méthodes (associations et non causalité, hypothèses), et ce</span>
-<span id="cb19-531"><a href="#cb19-531" aria-hidden="true" tabindex="-1"></a>que vous feriez avec plus de temps ou de données (par exemple : un test A/B).</span>
-<span id="cb19-532"><a href="#cb19-532" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb19-533"><a href="#cb19-533" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-534"><a href="#cb19-534" aria-hidden="true" tabindex="-1"></a><span class="fu"># Annexes {.unnumbered}</span></span>
-<span id="cb19-535"><a href="#cb19-535" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-536"><a href="#cb19-536" aria-hidden="true" tabindex="-1"></a><span class="fu">## Contribution des membres du groupe {.unnumbered}</span></span>
-<span id="cb19-537"><a href="#cb19-537" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-538"><a href="#cb19-538" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Membre <span class="pp">|</span> Contributions principales <span class="pp">|</span></span>
-<span id="cb19-539"><a href="#cb19-539" aria-hidden="true" tabindex="-1"></a><span class="pp">|:-------|:--------------------------|</span></span>
-<span id="cb19-540"><a href="#cb19-540" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Chris Boupassaia <span class="pp">|</span> à compléter <span class="pp">|</span></span>
-<span id="cb19-541"><a href="#cb19-541" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Bertrand De Vertreuil <span class="pp">|</span> à compléter <span class="pp">|</span></span>
-<span id="cb19-542"><a href="#cb19-542" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Améziane Haouanoh <span class="pp">|</span> à compléter <span class="pp">|</span></span>
-<span id="cb19-543"><a href="#cb19-543" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Léonie Schmit <span class="pp">|</span> à compléter <span class="pp">|</span></span>
-<span id="cb19-544"><a href="#cb19-544" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-545"><a href="#cb19-545" aria-hidden="true" tabindex="-1"></a><span class="fu">## Environnement de calcul {.unnumbered}</span></span>
-<span id="cb19-546"><a href="#cb19-546" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-549"><a href="#cb19-549" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-550"><a href="#cb19-550" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: session</span></span>
-<span id="cb19-551"><a href="#cb19-551" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
-<span id="cb19-552"><a href="#cb19-552" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-553"><a href="#cb19-553" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-554"><a href="#cb19-554" aria-hidden="true" tabindex="-1"></a><span class="fu">## Références {.unnumbered}</span></span>
-<span id="cb19-555"><a href="#cb19-555" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-556"><a href="#cb19-556" aria-hidden="true" tabindex="-1"></a>::: {#refs}</span>
-<span id="cb19-557"><a href="#cb19-557" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-431"><a href="#cb19-431" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Membre                <span class="pp">|</span> Contributions principales     <span class="pp">|</span></span>
+<span id="cb19-432"><a href="#cb19-432" aria-hidden="true" tabindex="-1"></a><span class="pp">|:----------------------|:------------------------------|</span></span>
+<span id="cb19-433"><a href="#cb19-433" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Chris Boupassaia      <span class="pp">|</span> à compléter                   <span class="pp">|</span></span>
+<span id="cb19-434"><a href="#cb19-434" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Bertrand De Vertreuil <span class="pp">|</span> à compléter                   <span class="pp">|</span></span>
+<span id="cb19-435"><a href="#cb19-435" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Améziane Haouanoh     <span class="pp">|</span> à compléter                   <span class="pp">|</span></span>
+<span id="cb19-436"><a href="#cb19-436" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Léonie Schmit         <span class="pp">|</span> Contexte, Question et Données <span class="pp">|</span></span>
+<span id="cb19-437"><a href="#cb19-437" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-438"><a href="#cb19-438" aria-hidden="true" tabindex="-1"></a><span class="fu">## Environnement de calcul {.unnumbered}</span></span>
+<span id="cb19-439"><a href="#cb19-439" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-442"><a href="#cb19-442" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-443"><a href="#cb19-443" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: session</span></span>
+<span id="cb19-444"><a href="#cb19-444" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb19-445"><a href="#cb19-445" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-446"><a href="#cb19-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-447"><a href="#cb19-447" aria-hidden="true" tabindex="-1"></a><span class="fu">## Références {.unnumbered}</span></span>
+<span id="cb19-448"><a href="#cb19-448" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-449"><a href="#cb19-449" aria-hidden="true" tabindex="-1"></a>::: {#refs}</span>
+<span id="cb19-450"><a href="#cb19-450" aria-hidden="true" tabindex="-1"></a>:::</span>
 </code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
