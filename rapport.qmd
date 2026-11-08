@@ -20,27 +20,13 @@ format:
     fig-width: 7
     fig-height: 4.5
     theme: cosmo
-  # Version PDF facultative (nécessite LaTeX, par exemple tinytex::install_tinytex()) :
-  # supprimer le « # » des deux lignes suivantes, puis produire le document.
-  # pdf:
-  #   toc: true
+
 execute:
   echo: true
   warning: false
   message: false
 bibliography: references.bib
 ---
-
-::: {.callout-important collapse="true"}
-## Mode d'emploi du modèle (à supprimer avant le rendu final)
-
-- Ce document est le **rapport technique** du projet. Le résumé exécutif (2 pages, pour un public non technique) est un document séparé : modèle LaTeX `resume-executif.tex`, dans ce même dossier.
-- Remplacez le titre, le numéro du projet et les noms ci-dessus.
-- Indiquez le numéro de votre projet dans le bloc `configuration` ci-dessous : les données correspondantes sont chargées automatiquement.
-- Les encadrés « Consigne » expliquent ce qui est attendu dans chaque section : **supprimez-les** une fois la section rédigée.
-- Le rapport doit se produire **de bout en bout** avec le bouton *Render* de RStudio (ou `quarto render rapport.qmd`), sans erreur, à partir des données d'origine.
-- Rangez les fonctions réutilisables dans `R/fonctions.R`.
-:::
 
 ```{r}
 #| label: configuration
@@ -57,13 +43,7 @@ set.seed(2026)        # tirages aléatoires reproductibles (découpage, forêts.
 theme_set(theme_minimal())
 ```
 
-# Résumé {.unnumbered}
-
-::: callout-note
-## Consigne
-
-Trois à cinq phrases : la question, les données, la méthode, le **résultat principal** (chiffré) et la **recommandation**, puis la principale limite. Rédigez cette partie en dernier.
-:::
+Notre projet cherche à identifier les clients d'une boutique en ligne qui risquent de ne plus commander, afin de mieux cibler les campagnes de fidélisation. Nous avons étudié les achats de 2025 et comparé plusieurs modèles de prédiction. La régression logistique obtient les meilleurs résultats, avec une AUC de 0,838 sur le jeu de test. Nous recommandons de cibler en priorité les clients qui ont une forte valeur pour la boutique et un risque élevé de départ. Cependant, les données sont simulées et limitées à une seule année, ce qui nécessite de confirmer les résultats sur des données réelles.
 
 # Contexte et question
 
@@ -339,6 +319,7 @@ count(acheteurs, perdu) |> mutate(part = round(100 * n / sum(n), 1))
 ```
 
 La variable `perdu` étant définie à partir de la récence, la récence et le score R ne peuvent pas servir de variables explicatives dans un modèle d'attrition : le modèle retrouverait la définition au lieu de l'expliquer.
+Nous utilisons ici le seuil de 103 jours pour décrire l'inactivité des clients sur l'ensemble de l'année. Pour prédire l'attrition, nous utiliserons ensuite une autre définition : l'absence d'achat entre octobre et décembre 2025, à partir des comportements observés jusqu'au 30 septembre. Cela permet de prédire un événement futur sans utiliser d'informations postérieures à la période d'observation.
 
 **Découpage entraînement / test.** Le découpage se fait au niveau du client, avant toute exploration : 70 % des acheteurs pour l'entraînement et l'exploration, 30 % réservés à l'évaluation des modèles.
 
@@ -921,7 +902,7 @@ Ces résultats montrent qu'il serait plus intéressant pour la boutique de cible
 
 ## Recommandations
 
-La première recommandation serait de contacter en priorité les clients qui ont une forte valeur pour la boutique et un risque élevé de ne plus acheter. Ce sont les clients pour lesquels une action de fidélisation pourrait être la plus intéressante.
+Notre première recommandation serait de contacter en priorité les clients qui ont une forte valeur pour la boutique et un risque élevé de ne plus acheter. Ce sont les clients qu'il semble le plus intéressant de fidéliser, mais il faudra tester une campagne pour vérifier si les offres proposées permettent réellement d'augmenter les achats et la marge.
 
 Nous proposons également d'adapter les messages selon les habitudes d'achat. Par exemple, un client qui commande rarement pourrait recevoir un rappel ou une recommandation de produits correspondant à ses précédents achats. Pour les clients les plus importants, la boutique pourrait envisager une remise personnalisée, à condition que celle-ci reste rentable.
 
@@ -996,8 +977,8 @@ Si ce type de ciblage était utilisé dans une vraie entreprise, il faudrait aus
 
 | Membre                | Contributions principales     |
 |:----------------------|:------------------------------|
-| Chris Boupassaia      | à compléter                   |
-| Bertrand De Vertreuil | à compléter                   |
+| Chris Boupassaia      | Préparation des données et exploration |
+| Bertrand De Vertreuil | Modélisation et évaluation  |
 | Améziane Haouanoh     | Résultats, recommandations, limites et perspectives |
 | Léonie Schmit         | Contexte, Question et Données |
 
@@ -1008,7 +989,3 @@ Si ce type de ciblage était utilisé dans une vraie entreprise, il faudrait aus
 sessionInfo()
 ```
 
-## Références {.unnumbered}
-
-::: {#refs}
-:::
